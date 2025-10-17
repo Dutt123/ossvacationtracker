@@ -1,0 +1,306 @@
+{
+  "admins": [
+    "Sunil Tanuku"
+  ],
+  "members": [
+    "Sunil Tanuku",
+    "Kinsuk Kumar",
+    "Vinod Kumar",
+    "Neha Mishra",
+    "Rachit Tandon",
+    "Kaliprasad",
+    "Yash Gupta",
+    "Rahul Raghava",
+    "Meghana Podapati",
+    "new team member"
+  ],
+  "leaves": [
+    {
+      "id": 1,
+      "member": "Rahul Raghava",
+      "date": "2025-10-02",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 2,
+      "member": "Yash Gupta",
+      "date": "2025-10-15",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 5,
+      "member": "Neha Mishra",
+      "date": "2025-09-06",
+      "category": "ms",
+      "status": "approved"
+    },
+    {
+      "id": 6,
+      "member": "Neha Mishra",
+      "date": "2025-09-07",
+      "category": "ms",
+      "status": "approved"
+    },
+    {
+      "id": 7,
+      "member": "Neha Mishra",
+      "date": "2025-09-09",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 8,
+      "member": "Vinod Kumar",
+      "date": "2025-10-18",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 10,
+      "member": "Rachit",
+      "date": "2025-10-18",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 12,
+      "member": "Kunsuk Kumar",
+      "date": "2025-10-18",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 13,
+      "member": "Kunsuk Kumar",
+      "date": "2025-10-13",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 15,
+      "member": "Vinod Kumar",
+      "date": "2025-10-13",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 16,
+      "member": "Neha Mishra",
+      "date": "2025-10-13",
+      "category": "AL",
+      "status": "approved"
+    },
+    {
+      "id": 20,
+      "member": "Rachit",
+      "date": "2025-10-15",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 21,
+      "member": "Kaliprasad",
+      "date": "2025-10-15",
+      "category": "TFL",
+      "status": "approved"
+    },
+    {
+      "id": 22,
+      "member": "Kaliprasad",
+      "date": "2025-10-16",
+      "category": "TFL",
+      "status": "approved"
+    },
+    {
+      "id": 23,
+      "member": "Kaliprasad",
+      "date": "2025-10-17",
+      "category": "TFL",
+      "status": "approved"
+    },
+    {
+      "id": 24,
+      "member": "Kaliprasad",
+      "date": "2025-10-14",
+      "category": "TFL",
+      "status": "approved"
+    },
+    {
+      "id": 25,
+      "member": "Rachit",
+      "date": "2025-10-16",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 27,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-17",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 28,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-22",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 29,
+      "member": "Rahul Raghava",
+      "date": "2025-10-15",
+      "category": "CO",
+      "status": "approved"
+    },
+    {
+      "id": 32,
+      "member": "Rachit Tandon",
+      "date": "2025-10-07",
+      "category": "TFL",
+      "status": "approved"
+    },
+    {
+      "id": 33,
+      "member": "Sunil Tanuku",
+      "date": "2025-10-07",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 34,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-09",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 35,
+      "member": "Vinod Kumar",
+      "date": "2025-10-09",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 36,
+      "member": "Vinod Kumar",
+      "date": "2025-10-10",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 37,
+      "member": "Vinod Kumar",
+      "date": "2025-10-13",
+      "category": "PL",
+      "status": "pending"
+    },
+    {
+      "id": 38,
+      "member": "Vinod Kumar",
+      "date": "2025-10-14",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 39,
+      "member": "Vinod Kumar",
+      "date": "2025-10-15",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 40,
+      "member": "Vinod Kumar",
+      "date": "2025-10-16",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 41,
+      "member": "Sunil Tanuku",
+      "date": "2025-10-16",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 42,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-16",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 43,
+      "member": "Sunil Tanuku",
+      "date": "2025-10-13",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 44,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-13",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 45,
+      "member": "Sunil Tanuku",
+      "date": "2025-10-21",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 46,
+      "member": "Vinod Kumar",
+      "date": "2025-10-17",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 47,
+      "member": "Rachit Tandon",
+      "date": "2025-10-14",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 48,
+      "member": "Neha Mishra",
+      "date": "2025-10-10",
+      "category": "PL",
+      "status": "approved"
+    },
+    {
+      "id": 49,
+      "member": "Rachit Tandon",
+      "date": "2025-10-10",
+      "category": "SL",
+      "status": "pending"
+    },
+    {
+      "id": 50,
+      "member": "Vinod Kumar",
+      "date": "2025-10-20",
+      "category": "SL",
+      "status": "approved"
+    },
+    {
+      "id": 51,
+      "member": "Vinod Kumar",
+      "date": "2025-10-21",
+      "category": "CGL",
+      "status": "approved"
+    },
+    {
+      "id": 52,
+      "member": "Neha Mishra",
+      "date": "2025-10-21",
+      "category": "TFL",
+      "status": "approved"
+    }
+  ]
+}
