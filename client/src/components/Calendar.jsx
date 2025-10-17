@@ -26,7 +26,7 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
   }
   
   function canDeleteLeave(leave) {
-    return isAdmin; // Only admins can delete leaves in public view
+    return true; // Anyone can delete leaves (users can delete their own, admins can delete any)
   }
   
   function getOnDutyPercentage(day) {

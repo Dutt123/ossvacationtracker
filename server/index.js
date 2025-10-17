@@ -99,7 +99,7 @@ app.get('/api/leaves',(req,res)=>{
   try {
     console.log('GET /api/leaves');
     const d = readData(); 
-    res.json({leaves:d.leaves}); 
+    res.json({leaves: d.leaves}); 
   } catch(err) {
     console.error('Error in /api/leaves:', err.message);
     res.status(500).json({error:'Internal server error'});
