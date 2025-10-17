@@ -113,7 +113,8 @@ app.post('/api/leaves',(req,res)=>{
     if(!member||!date||!category) return res.status(400).json({error:'member,date,category required'}); 
     const d = readData(); 
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
-    const status = isAdmin ? 'approved' : 'pending';
+    // Sick Leave (SL) is auto-approved, others need admin approval or are pending
+    const status = (isAdmin || category === 'SL') ? 'approved' : 'pending';
     const rec={id,member,date,category,status}; 
     d.leaves.push(rec); 
     writeData(d); 

@@ -26,7 +26,9 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
   }
   
   function canDeleteLeave(leave) {
-    return true; // Anyone can delete leaves (users can delete their own, admins can delete any)
+    if (!leave) return false;
+    if (isAdmin) return true; // Admins can delete any leave
+    return leave.status === 'pending'; // Regular users can only delete pending leaves
   }
   
   function getOnDutyPercentage(day) {
