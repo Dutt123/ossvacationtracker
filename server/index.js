@@ -28,24 +28,18 @@ function ensureDataDirectory() {
 ensureDataDirectory();
 
 function readData(){ 
-  const defaultData = { 
-    admins: ["Sunil Tanuku"],
-    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati"], 
-    leaves: [] 
-  };
-  
   try {
     if(fs.existsSync(DATA_FILE)){ 
       const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
-      console.log('Read data. Members:', data.members?.length, 'Leaves:', data.leaves?.length);
+      console.log('Read from data.json - Members:', data.members?.length, 'Leaves:', data.leaves?.length);
       return data;
     }
   } catch(err) {
-    console.error('Error reading data:', err.message);
+    console.error('Error reading data.json:', err.message);
   }
   
-  console.log('Using default data');
-  return defaultData;
+  console.log('Data file not found, returning empty structure');
+  return { admins: [], members: [], leaves: [] };
 }
 
 function writeData(d){ 
@@ -58,28 +52,36 @@ function writeData(d){
   }
 }
 
-// Initialize data on startup
-let data = readData();
-if(!data.members || data.members.length===0){
-  data.admins = ["Sunil Tanuku"];
-  data.members = ["Sunil Tanuku","Kunsuk Kumar","Susan Are","Vinod Kumar","Neha Mishra","Rachit","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati"];
-  data.leaves = [{"id":1,"member":"Rahul Raghava","date":"2025-10-02","category":"AL","status":"approved"},{"id":2,"member":"Yash Gupta","date":"2025-10-15","category":"AL","status":"approved"}];
-  writeData(data);
-}
-if(!data.admins) {
-  data.admins = ["Sunil Tanuku"];
-  writeData(data);
-}
-// Ensure all existing leaves have status
-if(data.leaves) {
+// Initialize data on startup - only if data.json doesn't exist
+if(!fs.existsSync(DATA_FILE)){
+  console.log('No data file found, creating with defaults');
+  const defaultData = {
+    admins: ["Sunil Tanuku"],
+    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati"],
+    leaves: [{"id":1,"member":"Rahul Raghava","date":"2025-10-02","category":"AL","status":"approved"},{"id":2,"member":"Yash Gupta","date":"2025-10-15","category":"AL","status":"approved"}]
+  };
+  writeData(defaultData);
+} else {
+  console.log('Data file exists, using existing data');
+  // Only fix missing status fields in existing data
+  const data = readData();
   let updated = false;
-  data.leaves.forEach(leave => {
-    if(!leave.status) {
-      leave.status = 'approved';
-      updated = true;
-    }
-  });
-  if(updated) writeData(data);
+  if(data.leaves) {
+    data.leaves.forEach(leave => {
+      if(!leave.status) {
+        leave.status = 'approved';
+        updated = true;
+      }
+    });
+  }
+  if(!data.admins) {
+    data.admins = ["Sunil Tanuku"];
+    updated = true;
+  }
+  if(updated) {
+    console.log('Updated existing data with missing fields');
+    writeData(data);
+  }
 }
 
 app.get('/api/members',(req,res)=>{ 
