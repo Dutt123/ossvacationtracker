@@ -4,7 +4,7 @@ Run instructions:
 1. Install dependencies for server and client:
    npm run install:all
 2. Start development servers (server on 3000, client on 5173):
-   npm run dev
+   npx concurrently "npm:start --prefix server" "npm:dev --prefix client"
 3. Open http://localhost:5173 in your browser.
 
 Notes:
