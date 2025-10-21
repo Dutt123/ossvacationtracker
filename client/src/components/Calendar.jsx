@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import LeaveModal from './LeaveModal'
 import LeaveRequestModal from './LeaveRequestModal'
@@ -16,7 +16,16 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedLeave, setSelectedLeave] = useState(null);
+  const [memberList, setMemberList] = useState(members || []);
+  const [sortState, setSortState] = useState({ day: null, asc: true });
   const days = rangeDays(month);
+
+  useEffect(() => {
+    if (Array.isArray(members)) {
+      setMemberList(members);
+    }
+  }, [members]);
+
   function leavesFor(member, day) {
     return leaves.filter(l => l.member === member && l.date === day.format('YYYY-MM-DD'));
   }
@@ -44,6 +53,36 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
     return 'good';
   }
   
+  function getOrderNumberOfLeaveApplied(member, day) {
+    const dayLeaves = leaves.filter(l => l.date === day.format('YYYY-MM-DD'));
+    dayLeaves.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    for (let i = 0; i < dayLeaves.length; i++) {
+      if (dayLeaves[i].member === member) {
+        return i + 1;
+      }
+    }
+    return null;
+  }
+
+  const handleSortByDay = (day) => {
+    setSortState(prev => {
+      const asc = prev.day === day.format('YYYY-MM-DD') ? !prev.asc : true;
+      setMemberList(prev =>
+        [...prev].sort((a, b) => {
+          const noA = getOrderNumberOfLeaveApplied(a, day);
+          const noB = getOrderNumberOfLeaveApplied(b, day);
+
+          if (noA == null && noB == null) return 0;
+          if (noA == null) return 1;
+          if (noB == null) return -1;
+
+          return asc ? noA - noB : noB - noA;
+        })
+      );
+      return { day: day.format('YYYY-MM-DD'), asc };
+    });
+  };
+
   return (
     <div className="calendar">
       <div className="calendar-grid" style={{gridTemplateColumns: `140px repeat(${days.length}, 1fr)`}}>
@@ -57,6 +96,12 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
           const isLowStaffing = percentage < 60;
           return (
             <div key={d.format('D')} className={`date-header ${isWeekend ? 'weekend-header' : ''} ${isLowStaffing ? 'low-staffing-header' : ''}`}>
+              <span
+                className="sort-arrow"
+                style={{ transform: sortState.day === d.format('YYYY-MM-DD') && !sortState.asc ? 'rotate(180deg)' : 'none' }}
+                onClick={() => handleSortByDay(d)}>
+                ▲
+              </span>
               <div>{d.format('D')}</div>
               <div style={{ fontSize: '9px', color: 'var(--muted)' }}>{d.format('ddd')}</div>
               {isLowStaffing && <div className="staffing-warning">⚠️</div>}
@@ -80,7 +125,7 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
         })}
         
         {/* Member Rows */}
-        {members.map(m => (
+        {memberList.map(m => (
           <React.Fragment key={m}>
             <div className="member-name" title={m}>{m}</div>
             {days.map(d => {
@@ -91,6 +136,7 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
               const isSaturday = d.day() === 6;
               const isWeekend = isSunday || isSaturday;
               const isLowStaffing = percentage < 60;
+              const orderNumberOfLeaveApplied = getOrderNumberOfLeaveApplied(m, d);
               
               if (l.length > 0) {
                 const leave = l[0];
@@ -109,6 +155,20 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
                     >
                       {cat}
                     </div>
+                    {orderNumberOfLeaveApplied && (
+                      <div className="number-badge">{orderNumberOfLeaveApplied}</div>
+                    )}
+                    <button
+                      className="delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent opening details modal
+                        const confirmed = window.confirm("Are you sure you want to delete this leave?");
+                        if (confirmed) {
+                          onDel(leave.id); // Call your function
+                        }
+                      }}>
+                      ×
+                    </button>
                     {isPending && isAdmin && (
                       <button 
                         className="approve-btn"

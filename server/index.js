@@ -11,12 +11,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Use /home/data for persistence (limited)
-const DATA_FILE = '/home/data/data.json';
+const DATA_FILE = 'C:/home/data/data.json';
 
 // Ensure data directory exists
 function ensureDataDirectory() {
   try {
-    const dataDir = '/home/data';
+    const dataDir = 'C:/home/data';
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
@@ -115,7 +115,8 @@ app.post('/api/leaves',(req,res)=>{
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
     // Sick Leave (SL) is auto-approved, others need admin approval or are pending
     const status = (isAdmin || category === 'SL') ? 'approved' : 'pending';
-    const rec={id,member,date,category,status}; 
+    const createdAt = new Date().toISOString(); 
+    const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 
     writeData(d); 
     res.json(rec); 
