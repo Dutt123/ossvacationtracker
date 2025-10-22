@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import LeaveModal from './LeaveModal'
 import LeaveRequestModal from './LeaveRequestModal'
 import LeaveDetailsModal from './LeaveDetailsModal'
+import ShiftUpdateModal from './ShiftUpdateModal';
 
 function rangeDays(month){
   const start = month.startOf('month');
@@ -10,7 +11,13 @@ function rangeDays(month){
   return Array.from({length:days},(_,i)=> start.add(i,'day'));
 }
 
-export default function Calendar({members,leaves,month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin}) {
+const shiftColors = {
+  "IST": "#FFA500",   // orange
+  "APAC": "#4CAF50",  // green
+  "EMEA": "#2196F3"   // blue
+};
+
+export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -18,6 +25,8 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [memberList, setMemberList] = useState(members || []);
   const [sortState, setSortState] = useState({ day: null, asc: true });
+  const [shiftModalOpen, setShiftModalOpen] = useState(false);
+  const [selectedMemberForShift, setSelectedMemberForShift] = useState(null);
   const days = rangeDays(month);
 
   useEffect(() => {
@@ -127,7 +136,20 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
         {/* Member Rows */}
         {memberList.map(m => (
           <React.Fragment key={m}>
-            <div className="member-name" title={m}>{m}</div>
+            <div className="member-name" title={m}>
+              <div>{m}</div>
+              {isAdmin && (
+                <button
+                  className="update-shift-btn"
+                  onClick={() => {
+                    setSelectedMemberForShift(m)
+                    setShiftModalOpen(true)
+                  }}
+                >
+                  Update Shift
+                </button>
+              )}
+            </div>
             {days.map(d => {
               const l = leavesFor(m, d);
               const percentage = getOnDutyPercentage(d);
@@ -137,17 +159,20 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
               const isWeekend = isSunday || isSaturday;
               const isLowStaffing = percentage < 60;
               const orderNumberOfLeaveApplied = getOrderNumberOfLeaveApplied(m, d);
-              
+              const shift = shifts?.[m]?.[d.format('YYYY-MM-DD')];
+              const shiftStyle = shift ? { backgroundColor: shiftColors[shift], opacity: 0.3 } : {};
+
               if (l.length > 0) {
                 const leave = l[0];
                 const cat = leave.category;
                 const isPending = leave.status === 'pending';
+
                 return (
                   <div key={d.toString()} className={`day-cell has-leave column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''}`}>
                     <div
                       className={`leave-pill ${isPending ? 'pending' : ''}`}
                       style={{ background: categories[cat] || 'var(--pill-bg)' }}
-                      title={`${cat} ${isPending ? '(Pending)' : ''}${leave.requestedAt ? `\nRequested: ${new Date(leave.requestedAt).toLocaleDateString()} ${new Date(leave.requestedAt).toLocaleTimeString()}` : ''} - Click for details`}
+                      title={`${shift ? `${shift} Shift - ` : ''} ${cat} ${isPending ? '(Pending)' : ''}${leave.requestedAt ? `\nRequested: ${new Date(leave.requestedAt).toLocaleDateString()} ${new Date(leave.requestedAt).toLocaleTimeString()}` : ''} - Click for details`}
                       onClick={() => {
                         setSelectedLeave(leave);
                         setDetailsModalOpen(true);
@@ -185,22 +210,27 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
                 );
               }
               return (
-                <div
-                  key={d.toString()}
-                  className={`day-cell column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''}`}
-                  title={isWeekend ? `${d.format('dddd')} - Weekend` : isLowStaffing ? `Low staffing (${percentage}%) - ${isAdmin ? 'Click to add leave' : 'Admin access required'}` : isAdmin ? "Click to add leave" : "Admin access required"}
-                  onClick={() => {
-                    if (isWeekend) return;
-                    const dateStr = d.format('YYYY-MM-DD');
-                    if (isAdmin) {
-                      setSelectedCell({ member: m, date: dateStr });
-                      setModalOpen(true);
-                    } else {
-                      setSelectedCell({ member: m, date: dateStr });
-                      setRequestModalOpen(true);
+                  <div
+                    key={d.toString()}
+                    className={`day-cell column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''}`}
+                    title={
+                      shift ? `${shift} shift` : isWeekend ? `${d.format('dddd')} - Weekend` :
+                      isLowStaffing ? `Low staffing (${percentage}%) - ${isAdmin ? 'Click to add leave' : 'Admin access required'}` :
+                      isAdmin ? "Click to add leave" : "Admin access required"
                     }
-                  }}
-                />
+                    style={shiftStyle}
+                    onClick={() => {
+                      if (isWeekend) return;
+                      const dateStr = d.format('YYYY-MM-DD');
+                      if (isAdmin) {
+                        setSelectedCell({ member: m, date: dateStr });
+                        setModalOpen(true);
+                      } else {
+                        setSelectedCell({ member: m, date: dateStr });
+                        setRequestModalOpen(true);
+                      }
+                    }}
+                  />
               );
             })}
           </React.Fragment>
@@ -239,6 +269,16 @@ export default function Calendar({members,leaves,month,categories,categoryNames,
         onApprove={onApprove}
         canDelete={canDeleteLeave(selectedLeave)}
         canApprove={isAdmin && selectedLeave?.status === 'pending'}
+      />
+
+      <ShiftUpdateModal
+        isOpen={shiftModalOpen}
+        onClose={() => setShiftModalOpen(false)}
+        selectedMember={selectedMemberForShift}
+        onSubmit={(startDate, endDate, shift) => {
+          onUpdateShift(selectedCell?.member, startDate, endDate, shift);
+          setShiftModalOpen(false);
+        }}
       />
     </div>
   );
