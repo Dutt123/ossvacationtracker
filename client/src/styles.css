@@ -226,7 +226,6 @@ body {
 .weekend-cell {
   background: rgba(239, 68, 68, 0.15) !important;
   border-color: rgba(239, 68, 68, 0.5) !important;
-  cursor: not-allowed !important;
 }
 
 .weekend-cell:hover {

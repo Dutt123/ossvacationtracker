@@ -63,7 +63,7 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
   }
   
   function getOrderNumberOfLeaveApplied(member, day) {
-    const dayLeaves = leaves.filter(l => l.date === day.format('YYYY-MM-DD'));
+    const dayLeaves = leaves.filter(l => l.date === day.format('YYYY-MM-DD') && l.status !== 'approved');
     dayLeaves.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
     for (let i = 0; i < dayLeaves.length; i++) {
       if (dayLeaves[i].member === member) {
@@ -183,17 +183,19 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                     {orderNumberOfLeaveApplied && (
                       <div className="number-badge">{orderNumberOfLeaveApplied}</div>
                     )}
-                    <button
-                      className="delete-btn"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent opening details modal
-                        const confirmed = window.confirm("Are you sure you want to delete this leave?");
-                        if (confirmed) {
-                          onDel(leave.id); // Call your function
-                        }
-                      }}>
-                      ×
-                    </button>
+                    {(isPending || isAdmin) && (
+                      <button
+                        className="delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent opening details modal
+                          const confirmed = window.confirm("Are you sure you want to delete this leave?");
+                          if (confirmed) {
+                            onDel(leave.id); // Call your function
+                          }
+                        }}>
+                        ×
+                      </button>
+                    )}
                     {isPending && isAdmin && (
                       <button 
                         className="approve-btn"
@@ -218,9 +220,17 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                       isLowStaffing ? `Low staffing (${percentage}%) - ${isAdmin ? 'Click to add leave' : 'Admin access required'}` :
                       isAdmin ? "Click to add leave" : "Admin access required"
                     }
-                    style={shiftStyle}
-                    onClick={() => {
-                      if (isWeekend) return;
+                    style={{
+                      ...shiftStyle,
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: shift ? '#000' : 'inherit',
+                    }}                    onClick={() => {
+                      // if (isWeekend) return;
                       const dateStr = d.format('YYYY-MM-DD');
                       if (isAdmin) {
                         setSelectedCell({ member: m, date: dateStr });
@@ -230,7 +240,9 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                         setRequestModalOpen(true);
                       }
                     }}
-                  />
+                  >
+                        {shift && <span style={{ zIndex: 1 }}>{shift}</span>}
+                  </div>
               );
             })}
           </React.Fragment>
