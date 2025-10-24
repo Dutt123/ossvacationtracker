@@ -202,7 +202,7 @@ export default function App(){
         </div>
       </main>
         <footer className="footer">
-          Made with ♥ for your team
+          Made with ♥ for OSS team
         </footer>
         
         <TeamModal 
