@@ -7,6 +7,7 @@ import OndutyBar from './components/OndutyBar'
 import TeamModal from './components/TeamModal'
 import LoginScreen from './components/LoginScreen'
 import PinModal from './components/PinModal'
+import PublicHolidaysModal from './components/PublicHolidaysModal'
 import { GradientBackground } from './components/ui/gradient-background'
 
 const CATEGORIES = {
@@ -18,6 +19,12 @@ const CATEGORIES = {
   CO: '#ec4899'     // Comp Off - Pink
 };
 
+const SHIFT_COLORS = {
+  "IST": "#FFA500",   // orange
+  "APAC": "#4CAF50",  // green
+  "EMEA": "#2196F3"   // blue
+};
+
 const CATEGORY_NAMES = {
   SL: 'Sick Leave',
   PL: 'Planned Leave', 
@@ -27,20 +34,35 @@ const CATEGORY_NAMES = {
   CO: 'Comp Off'
 };
 
+const PUBLIC_HOLIDAYS = [
+  { date: '15 Aug 2025', description: 'Independence Day (Fixed)' },
+  { date: '27 Aug 2025', description: 'Ganesh Chaturthi (Optional)' },
+  { date: '5 Sep 2025', description: 'Id-Milad/Onam (Optional)' },
+  { date: '2 Oct 2025', description: 'Gandhi Jayanti (Fixed)' },
+  { date: '20 Oct 2025', description: 'Diwali (Fixed)' },
+  { date: '21 Oct 2025', description: 'Diwali(Lakshmi Puja) (Optional)' },
+  { date: '28 Oct 2025', description: 'Chath Puja (Optional)' },
+  { date: '5 Nov 2025', description: 'Guru Nanak Jayanti (Optional)' },
+  { date: '25 Dec 2025', description: 'Christmas (Fixed)' },
+];
+
 export default function App(){
   const [members,setMembers] = useState([]);
   const [leaves,setLeaves] = useState([]);
+  const [shifts,setShifts] = useState([]);
   const [admins,setAdmins] = useState([]);
   const [isAdminMode,setIsAdminMode] = useState(false);
   const [month, setMonth] = useState(dayjs());
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
   const [adminTimeout, setAdminTimeout] = useState(null);
+  const [holidaysModalOpen, setHolidaysModalOpen] = useState(false);
   useEffect(()=>{ fetchData(); },[]);
   function fetchData(){
     axios.get('/api/members').then(r=>setMembers(r.data.members));
     axios.get('/api/leaves').then(r=>setLeaves(r.data.leaves));
     axios.get('/api/admins').then(r=>setAdmins(r.data.admins));
+    axios.get('/api/shifts').then(r=>setShifts(r.data.shifts));
   }
   function addLeave(member,date,category){
     axios.post('/api/leaves',{member,date,category,isAdmin:isAdminMode}).then(()=>fetchData());
@@ -70,6 +92,10 @@ export default function App(){
   async function handleApproveLeave(leaveId) {
     await axios.put('/api/leaves/' + leaveId + '/approve');
     fetchData();
+  }
+
+  function updateShift(member, startDate, endDate, shift) {
+    axios.post('/api/shifts', { member, startDate, endDate, shift }).then(()=>fetchData());
   }
   
   function handleAdminLogin() {
@@ -121,14 +147,17 @@ export default function App(){
           {isAdminMode && <button onClick={()=>{ 
             const yyyy = month.format('YYYY-MM'); 
             const link = document.createElement('a');
-            link.href = '/api/report/month/' + yyyy;
-            link.download = `leaves-${yyyy}.csv`;
+            link.href = '/api/data';
+            link.download = `exported-data.json`;
             link.click();
           }}>Export</button>}
           {isAdminMode ? (
             <button onClick={handleAdminLogout}>Admin Logout</button>
           ) : (
-            <button className="admin-login-btn" onClick={handleAdminLogin}>Admin</button>
+            <>
+              <button className="admin-login-btn" onClick={handleAdminLogin}>Admin</button>
+              <button onClick={() => setHolidaysModalOpen(true)}>Public Holidays</button>
+            </>
           )}
         </div>
       </header>
@@ -148,11 +177,18 @@ export default function App(){
                 <span className="legend-text">{code} - {CATEGORY_NAMES[code]}</span>
               </div>
             ))}
+            {Object.entries({ IST: SHIFT_COLORS["IST"], APAC: SHIFT_COLORS["APAC"], EMEA: SHIFT_COLORS["EMEA"] }).map(([shiftName, color]) => (
+              <div key={shiftName} className="legend-item">
+                <div className="legend-color" style={{ backgroundColor: color }}></div>
+                <span className="legend-text">{shiftName}</span>
+              </div>
+            ))}
           </div>
           
           <Calendar 
             members={members} 
             leaves={leaves} 
+            shifts={shifts} 
             month={month} 
             categories={CATEGORIES} 
             categoryNames={CATEGORY_NAMES} 
@@ -161,6 +197,7 @@ export default function App(){
             onApprove={handleApproveLeave}
             currentUser={null}
             isAdmin={isAdminMode}
+            onUpdateShift={updateShift}
           />
         </div>
       </main>
@@ -181,6 +218,12 @@ export default function App(){
           isOpen={showPinModal}
           onClose={() => setShowPinModal(false)}
           onSuccess={handlePinSuccess}
+        />
+        
+        <PublicHolidaysModal 
+          isOpen={holidaysModalOpen}
+          onClose={() => setHolidaysModalOpen(false)}
+          holidays={PUBLIC_HOLIDAYS}
         />
       </div>
     </GradientBackground>

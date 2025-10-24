@@ -20,21 +20,25 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
+    console.log('Submitting leave request');
     if (!selectedMember || !selectedCategory || !startDate || !endDate) return;
-    
+    console.log('All fields valid, proceeding with submission');
     setIsSubmitting(true);
     try {
       // Generate all dates between start and end
       const start = new Date(startDate);
       const end = new Date(endDate);
       const dates = [];
+
+      console.log('Generating dates from', startDate, 'to', endDate);
       
       for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
         // Skip weekends
-        if (d.getDay() !== 0 && d.getDay() !== 6) {
+        // if (d.getDay() !== 0 && d.getDay() !== 6) {
           dates.push(d.toISOString().split('T')[0]);
-        }
+        // }
       }
+      console.log('Dates to submit:', dates);
       
       // Submit each date
       for (const date of dates) {

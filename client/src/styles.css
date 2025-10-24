@@ -226,7 +226,6 @@ body {
 .weekend-cell {
   background: rgba(239, 68, 68, 0.15) !important;
   border-color: rgba(239, 68, 68, 0.5) !important;
-  cursor: not-allowed !important;
 }
 
 .weekend-cell:hover {
@@ -477,7 +476,6 @@ body {
   51%, 100% { opacity: 0.3; }
 }
 
-/* Member Name Column */
 .member-name {
   background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(15px);
@@ -488,13 +486,14 @@ body {
   border: 1px solid rgba(0, 212, 255, 0.4);
   border-radius: 15px;
   display: flex;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex-direction: column; /* stack vertically */
+  align-items: flex-start; /* left-align content */
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
   min-height: 40px;
+  gap: 6px; /* small space between name and button */
   transition: all 0.3s ease;
+  white-space: normal; /* allow wrapping */
+  overflow: visible; /* so button isn't clipped */
 }
 
 .member-name:hover {
@@ -1522,4 +1521,243 @@ body {
     align-items: flex-start;
     gap: 8px;
   }
+}
+
+.number-badge {
+  position: absolute;
+  bottom: .5px;   
+  right: .5px;   
+  background-color: #ffb300;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.date-header {
+  position: relative;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.sort-arrow {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 10px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.sort-arrow:hover {
+  color: var(--accent);
+  transform: scale(1.2);
+}
+
+.day-cell {
+  position: relative;
+}
+
+.delete-btn {
+  display: none;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 16px;
+  text-align: center;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover {
+  background: #d84315;
+}
+
+.day-cell.has-leave:hover .delete-btn {
+  display: block;
+}
+
+.update-shift-btn {
+  margin-left: 8px;
+  font-size: 11px;
+  background: #0078d4;
+  color: white;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-shift-btn:hover {
+  background: #005ea2;
+}
+
+.shift-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.shift-option {
+  padding: 8px 14px;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: rgb(212, 211, 211);
+}
+
+.shift-option.selected {
+  background: #0078d4;
+  color: white;
+  border-color: #0078d4;
+}
+
+.update-shift-btn {
+  margin-top: 4px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.update-shift-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content2 {
+  background: #1e2a4a;
+  color: #e0e0e0;
+  padding: 30px;
+  border-radius: 12px;
+  width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid #3c4c6c;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-content2 h2 {
+  color: #8c9eff;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #3c4c6c;
+  padding-bottom: 10px;
+}
+
+.holiday-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.holiday-table th, .holiday-table td {
+  border: none;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.holiday-table th {
+  background: #253351;
+  color: #a4b3f1;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.holiday-table thead tr th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.holiday-table thead tr th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.holiday-table tbody tr {
+  border-bottom: 1px solid #3c4c6c;
+}
+
+.holiday-table tbody tr:nth-child(even) {
+  background-color: #1a243e;
+}
+
+.holiday-table tbody tr:hover {
+  background-color: #2a3a5e; 
+  cursor: default;
+}
+
+.holiday-table td:last-child {
+  color: #b0c4de; 
+}
+
+.close-btn2 {
+  margin-top: 30px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #4c68ff, #8c9eff);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+  display: block;
+  width: 100%;
+}
+
+.close-btn2:hover {
+  background: linear-gradient(90deg, #5a74ff, #9aa9ff); 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

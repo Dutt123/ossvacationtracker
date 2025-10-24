@@ -11,12 +11,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Use /home/data for persistence (limited)
-const DATA_FILE = '/home/data/data.json';
+const DATA_FILE = 'data.json';
 
 // Ensure data directory exists
 function ensureDataDirectory() {
   try {
-    const dataDir = '/home/data';
+    const dataDir = 'C:/home/data';
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
@@ -115,7 +115,8 @@ app.post('/api/leaves',(req,res)=>{
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
     // Sick Leave (SL) is auto-approved, others need admin approval or are pending
     const status = (isAdmin || category === 'SL') ? 'approved' : 'pending';
-    const rec={id,member,date,category,status}; 
+    const createdAt = new Date().toISOString(); 
+    const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 
     writeData(d); 
     res.json(rec); 
@@ -255,8 +256,75 @@ app.put('/api/leaves/:id/approve',(req,res)=>{
   }
 });
 
+app.get('/api/shifts', (req, res) => {
+  try {
+    console.log('GET /api/shifts');
+    const data = readData();
+
+    if (!data.shifts) data.shifts = {};
+
+    res.json({ shifts: data.shifts });
+  } catch (err) {
+    console.error('Error in GET /api/shifts:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/shifts', (req, res) => {
+  try {
+    console.log('POST /api/shifts:', req.body);
+    const { member, startDate, endDate, shift } = req.body.startDate || req.body;
+
+    if (!member || !startDate || !endDate || !shift) {
+      return res.status(400).json({ error: 'member, startDate, endDate, and shift are required' });
+    }
+
+    const data = readData();
+    if (!data.shifts) data.shifts = {}; 
+    if (!data.shifts[member]) data.shifts[member] = {}; 
+    
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const updatedDates = [];
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+
+      const dateStr = d.toISOString().split('T')[0];
+      data.shifts[member][dateStr] = shift;
+      updatedDates.push(dateStr);
+    }
+
+    writeData(data); 
+
+    console.log(data);
+
+    res.json({
+      member,
+      shift,
+      updatedDates,
+      totalDatesForUser: Object.keys(data.shifts[member]).length,
+    });
+  } catch (err) {
+    console.error('Error in POST /api/shifts:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/data', (req, res) => {
+  try {
+    console.log('GET /api/data');
+    const data = readData();
+    res.json(data);
+  } catch (err) {
+    console.error('Error in /api/data:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Catch-all handler for React Router
 app.get('*', (req, res) => {
+  console.log(req.method, req.url);
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
