@@ -25,27 +25,29 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
     console.log('All fields valid, proceeding with submission');
     setIsSubmitting(true);
     try {
-      // Generate all dates between start and end using UTC to avoid timezone issues
+      // Generate dates by calculating day difference to avoid any date object issues
       const dates = [];
-      const startParts = startDate.split('-').map(Number);
-      const endParts = endDate.split('-').map(Number);
+      const startMs = new Date(startDate).getTime();
+      const endMs = new Date(endDate).getTime();
+      const dayMs = 24 * 60 * 60 * 1000;
       
-      const start = new Date(Date.UTC(startParts[0], startParts[1] - 1, startParts[2]));
-      const end = new Date(Date.UTC(endParts[0], endParts[1] - 1, endParts[2]));
-      
-      const current = new Date(start);
-      while (current <= end) {
-        const year = current.getUTCFullYear();
-        const month = String(current.getUTCMonth() + 1).padStart(2, '0');
-        const day = String(current.getUTCDate()).padStart(2, '0');
+      for (let ms = startMs; ms <= endMs; ms += dayMs) {
+        const date = new Date(ms);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         dates.push(`${year}-${month}-${day}`);
-        current.setUTCDate(current.getUTCDate() + 1);
       }
       console.log('Dates to submit:', dates);
       
-      // Submit each date
+      // Submit each date with error handling
       for (const date of dates) {
-        await onSubmit(selectedMember, date, selectedCategory);
+        try {
+          await onSubmit(selectedMember, date, selectedCategory);
+        } catch (error) {
+          console.error(`Failed to submit leave for ${date}:`, error);
+          // Continue with other dates even if one fails
+        }
       }
       
       setSelectedMember('');

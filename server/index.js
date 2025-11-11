@@ -82,12 +82,18 @@ app.get('/api/leaves',(req,res)=>{
 
 app.post('/api/leaves',(req,res)=>{ 
   try {
-    console.log('POST /api/leaves:', req.body);
     const {member,date,category,isAdmin}=req.body; 
     if(!member||!date||!category) return res.status(400).json({error:'member,date,category required'}); 
+    
     const d = readData(); 
+    
+    // Check if leave already exists for this member and date
+    const existingLeave = d.leaves.find(l => l.member === member && l.date === date);
+    if (existingLeave) {
+      return res.status(409).json({error:'Leave already exists for this date'});
+    }
+    
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
-    // Auto-approved categories: SL, WS, WCO - others need admin approval or are pending
     const autoApprovedCategories = ['SL', 'WS', 'WCO'];
     const status = (isAdmin || autoApprovedCategories.includes(category)) ? 'approved' : 'pending';
     const createdAt = new Date().toISOString(); 
@@ -266,8 +272,6 @@ app.post('/api/shifts', (req, res) => {
     const updatedDates = [];
 
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      if (d.getDay() === 0 || d.getDay() === 6) continue;
-
       const dateStr = d.toISOString().split('T')[0];
       data.shifts[member][dateStr] = shift;
       updatedDates.push(dateStr);
