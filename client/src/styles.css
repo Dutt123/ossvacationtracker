@@ -501,6 +501,15 @@ body {
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
 }
 
+.row-highlighted {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.02);
+  z-index: 10;
+  position: relative;
+}
+
 /* Day Cells */
 .day-cell {
   background: rgba(15, 23, 42, 0.7);

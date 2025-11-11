@@ -88,7 +88,7 @@ app.get('/api/members',(req,res)=>{
   try {
     console.log('GET /api/members');
     const d = readData(); 
-    res.json({members:d.members}); 
+    res.json({members:d.members, excludeFromOnDuty: d.excludeFromOnDuty || []}); 
   } catch(err) {
     console.error('Error in /api/members:', err.message);
     res.status(500).json({error:'Internal server error'});
@@ -113,8 +113,9 @@ app.post('/api/leaves',(req,res)=>{
     if(!member||!date||!category) return res.status(400).json({error:'member,date,category required'}); 
     const d = readData(); 
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
-    // Sick Leave (SL) is auto-approved, others need admin approval or are pending
-    const status = (isAdmin || category === 'SL') ? 'approved' : 'pending';
+    // Auto-approved categories: SL, WS, WCO - others need admin approval or are pending
+    const autoApprovedCategories = ['SL', 'WS', 'WCO'];
+    const status = (isAdmin || autoApprovedCategories.includes(category)) ? 'approved' : 'pending';
     const createdAt = new Date().toISOString(); 
     const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 
@@ -148,10 +149,13 @@ app.get('/api/onduty',(req,res)=>{
     const date=req.query.date; 
     if(!date) return res.status(400).json({error:'date required'}); 
     const d = readData(); 
-    const total=d.members.length; 
-    const onLeave=d.leaves.filter(l=>l.date===date && l.status==='approved').length; 
-    const onDuty=total-onLeave; 
-    const pct=Math.round((onDuty/total)*100); 
+    // Filter out members who are excluded from on-duty calculations
+    const excludeFromOnDuty = d.excludeFromOnDuty || [];
+    const eligibleMembers = d.members.filter(member => !excludeFromOnDuty.includes(member));
+    const total = eligibleMembers.length; 
+    const onLeave = d.leaves.filter(l => l.date === date && l.status === 'approved' && eligibleMembers.includes(l.member)).length; 
+    const onDuty = total - onLeave; 
+    const pct = total > 0 ? Math.round((onDuty/total)*100) : 100; 
     res.json({date,total,onLeave,onDuty,pct}); 
   } catch(err) {
     console.error('Error in /api/onduty:', err.message);

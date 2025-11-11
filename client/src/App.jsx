@@ -16,13 +16,15 @@ const CATEGORIES = {
   CGL: '#f59e0b',   // Caregiver Leave - Orange
   PH: '#8b5cf6',    // Public Holiday - Purple
   TFL: '#06b6d4',   // Time For Learning - Cyan
-  CO: '#ec4899'     // Comp Off - Pink
+  CO: '#ec4899',    // Comp Off - Pink
+  WCO: '#f97316',   // Weekend Comp Off - Orange
+  WS: '#6366f1'     // Weekend Shift - Indigo
 };
 
 const SHIFT_COLORS = {
-  "IST": "#FFA500",   // orange
-  "APAC": "#4CAF50",  // green
-  "EMEA": "#2196F3"   // blue
+  "IST": "#fbbf24",   // vibrant amber
+  "APAC": "#34d399",  // vibrant emerald
+  "EMEA": "#60a5fa"   // vibrant blue
 };
 
 const CATEGORY_NAMES = {
@@ -31,7 +33,9 @@ const CATEGORY_NAMES = {
   CGL: 'Caregiver Leave',
   PH: 'Public Holiday',
   TFL: 'Time For Learning',
-  CO: 'Comp Off'
+  CO: 'Comp Off',
+  WCO: 'Weekend Comp Off',
+  WS: 'Weekend Shift'
 };
 
 const PUBLIC_HOLIDAYS = [
@@ -51,6 +55,7 @@ export default function App(){
   const [leaves,setLeaves] = useState([]);
   const [shifts,setShifts] = useState([]);
   const [admins,setAdmins] = useState([]);
+  const [excludeFromOnDuty,setExcludeFromOnDuty] = useState([]);
   const [isAdminMode,setIsAdminMode] = useState(false);
   const [month, setMonth] = useState(dayjs());
   const [showTeamModal, setShowTeamModal] = useState(false);
@@ -59,7 +64,10 @@ export default function App(){
   const [holidaysModalOpen, setHolidaysModalOpen] = useState(false);
   useEffect(()=>{ fetchData(); },[]);
   function fetchData(){
-    axios.get('/api/members').then(r=>setMembers(r.data.members));
+    axios.get('/api/members').then(r=>{
+      setMembers(r.data.members);
+      setExcludeFromOnDuty(r.data.excludeFromOnDuty || []);
+    });
     axios.get('/api/leaves').then(r=>setLeaves(r.data.leaves));
     axios.get('/api/admins').then(r=>setAdmins(r.data.admins));
     axios.get('/api/shifts').then(r=>setShifts(r.data.shifts));
@@ -177,7 +185,7 @@ export default function App(){
                 <span className="legend-text">{code} - {CATEGORY_NAMES[code]}</span>
               </div>
             ))}
-            {Object.entries({ IST: SHIFT_COLORS["IST"], APAC: SHIFT_COLORS["APAC"], EMEA: SHIFT_COLORS["EMEA"] }).map(([shiftName, color]) => (
+            {Object.entries(SHIFT_COLORS).map(([shiftName, color]) => (
               <div key={shiftName} className="legend-item">
                 <div className="legend-color" style={{ backgroundColor: color }}></div>
                 <span className="legend-text">{shiftName}</span>
@@ -198,6 +206,7 @@ export default function App(){
             currentUser={null}
             isAdmin={isAdminMode}
             onUpdateShift={updateShift}
+            excludeFromOnDuty={excludeFromOnDuty}
           />
         </div>
       </main>

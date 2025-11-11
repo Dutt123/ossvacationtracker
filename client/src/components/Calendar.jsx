@@ -12,12 +12,12 @@ function rangeDays(month){
 }
 
 const shiftColors = {
-  "IST": "#FFA500",   // orange
-  "APAC": "#4CAF50",  // green
-  "EMEA": "#2196F3"   // blue
+  "IST": "#fbbf24",   // vibrant amber
+  "APAC": "#34d399",  // vibrant emerald
+  "EMEA": "#60a5fa"   // vibrant blue
 };
 
-export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift}) {
+export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift, excludeFromOnDuty = []}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -27,11 +27,12 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
   const [sortState, setSortState] = useState({ day: null, asc: true });
   const [shiftModalOpen, setShiftModalOpen] = useState(false);
   const [selectedMemberForShift, setSelectedMemberForShift] = useState(null);
+  const [hoveredMember, setHoveredMember] = useState(null);
   const days = rangeDays(month);
 
   useEffect(() => {
     if (Array.isArray(members)) {
-      setMemberList(members);
+      setMemberList([...members].sort());
     }
   }, [members]);
 
@@ -50,9 +51,10 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
   }
   
   function getOnDutyPercentage(day) {
-    const onLeave = leaves.filter(l => l.date === day.format('YYYY-MM-DD') && l.status === 'approved').length;
-    const onDuty = members.length - onLeave;
-    return Math.round((onDuty / (members.length || 1)) * 100);
+    const eligibleMembers = members.filter(member => !excludeFromOnDuty.includes(member));
+    const onLeave = leaves.filter(l => l.date === day.format('YYYY-MM-DD') && l.status === 'approved' && eligibleMembers.includes(l.member)).length;
+    const onDuty = eligibleMembers.length - onLeave;
+    return Math.round((onDuty / (eligibleMembers.length || 1)) * 100);
   }
   
   function getOnDutyColorClass(percentage) {
@@ -136,7 +138,7 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
         {/* Member Rows */}
         {memberList.map(m => (
           <React.Fragment key={m}>
-            <div className="member-name" title={m}>
+            <div className={`member-name ${hoveredMember === m ? 'row-highlighted' : ''}`} title={m}>
               <div>{m}</div>
               {isAdmin && (
                 <button
@@ -168,7 +170,7 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                 const isPending = leave.status === 'pending';
 
                 return (
-                  <div key={d.toString()} className={`day-cell has-leave column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''}`}>
+                  <div key={d.toString()} className={`day-cell has-leave column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''} ${hoveredMember === m ? 'row-highlighted' : ''}`}>
                     <div
                       className={`leave-pill ${isPending ? 'pending' : ''}`}
                       style={{ background: categories[cat] || 'var(--pill-bg)' }}
@@ -214,9 +216,9 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
               return (
                   <div
                     key={d.toString()}
-                    className={`day-cell column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''}`}
+                    className={`day-cell column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''} ${hoveredMember === m ? 'row-highlighted' : ''}`}
                     title={
-                      shift ? `${shift} shift` : isWeekend ? `${d.format('dddd')} - Weekend` :
+                      shift ? `${shift} shift` : isWeekend ? `${d.format('dddd')} - Weekend (Click to apply Weekend Shift)` :
                       isLowStaffing ? `Low staffing (${percentage}%) - ${isAdmin ? 'Click to add leave' : 'Admin access required'}` :
                       isAdmin ? "Click to add leave" : "Admin access required"
                     }
@@ -228,9 +230,12 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                       justifyContent: 'center',
                       fontSize: '11px',
                       fontWeight: 600,
-                      color: shift ? '#000' : 'inherit',
-                    }}                    onClick={() => {
-                      // if (isWeekend) return;
+                      color: shift ? '#1f2937' : 'inherit',
+                      textShadow: shift ? '0 0 2px rgba(255,255,255,0.8)' : 'none',
+                    }}
+                    onMouseEnter={() => setHoveredMember(m)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                    onClick={() => {
                       const dateStr = d.format('YYYY-MM-DD');
                       if (isAdmin) {
                         setSelectedCell({ member: m, date: dateStr });
