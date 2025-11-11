@@ -10,28 +10,26 @@ app.use(bodyParser.json());
 // Serve static files from client build
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Use /home/data for persistence (limited)
-const DATA_FILE = 'data.json';
+// Use current directory for data file
+const DATA_FILE = path.join(__dirname, 'data.json');
 
-// Ensure data directory exists
-function ensureDataDirectory() {
-  try {
-    const dataDir = 'C:/home/data';
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-  } catch (err) {
-    console.error('Error creating data directory:', err.message);
-  }
-}
-
-ensureDataDirectory();
+// No need to ensure directory - using current directory
 
 function readData(){ 
   try {
+    console.log('Reading data from:', DATA_FILE);
     if(fs.existsSync(DATA_FILE)){ 
-      const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
-      console.log('Read from data.json - Members:', data.members?.length, 'Leaves:', data.leaves?.length);
+      const rawData = fs.readFileSync(DATA_FILE, 'utf8');
+      console.log('Raw data length:', rawData.length);
+      const data = JSON.parse(rawData); 
+      console.log('Parsed data - Members:', data.members?.length, 'Leaves:', data.leaves?.length, 'Shifts keys:', Object.keys(data.shifts || {}).length);
+      
+      // Validate critical data
+      if (!data.members || data.members.length === 0) {
+        console.error('WARNING: No members found in data file! This indicates data corruption.');
+        console.log('Current data structure:', JSON.stringify(data, null, 2));
+      }
+      
       // Ensure all required properties exist
       if (!data.admins) data.admins = [];
       if (!data.members) data.members = [];
@@ -42,6 +40,7 @@ function readData(){
     }
   } catch(err) {
     console.error('Error reading data.json:', err.message);
+    console.error('Stack trace:', err.stack);
   }
   
   console.log('Data file not found, returning empty structure');
@@ -50,8 +49,18 @@ function readData(){
 
 function writeData(d){ 
   try {
+    console.log('Writing data to:', DATA_FILE);
+    console.log('Data to write - Members:', d.members?.length, 'Leaves:', d.leaves?.length, 'Shifts keys:', Object.keys(d.shifts || {}).length);
+    
+    // Validate before writing
+    if (!d.members || d.members.length === 0) {
+      console.error('ERROR: Attempting to write data with no members! Aborting write to prevent data loss.');
+      console.log('Data being written:', JSON.stringify(d, null, 2));
+      throw new Error('Cannot write data with empty members array');
+    }
+    
     fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2)); 
-    console.log('Wrote data. Members:', d.members?.length, 'Leaves:', d.leaves?.length);
+    console.log('Successfully wrote data.');
   } catch(err) {
     console.error('Error writing data:', err.message);
     throw err;
