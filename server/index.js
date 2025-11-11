@@ -11,26 +11,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Use current directory for data file
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = './data.json';
 
 // No need to ensure directory - using current directory
 
 function readData(){ 
   try {
-    console.log('Reading data from:', DATA_FILE);
     if(fs.existsSync(DATA_FILE)){ 
-      const rawData = fs.readFileSync(DATA_FILE, 'utf8');
-      console.log('Raw data length:', rawData.length);
-      const data = JSON.parse(rawData); 
-      console.log('Parsed data - Members:', data.members?.length, 'Leaves:', data.leaves?.length, 'Shifts keys:', Object.keys(data.shifts || {}).length);
-      
-      // Validate critical data
-      if (!data.members || data.members.length === 0) {
-        console.error('WARNING: No members found in data file! This indicates data corruption.');
-        console.log('Current data structure:', JSON.stringify(data, null, 2));
-      }
-      
-      // Ensure all required properties exist
+      const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
       if (!data.admins) data.admins = [];
       if (!data.members) data.members = [];
       if (!data.leaves) data.leaves = [];
@@ -40,63 +28,34 @@ function readData(){
     }
   } catch(err) {
     console.error('Error reading data.json:', err.message);
-    console.error('Stack trace:', err.stack);
   }
-  
-  console.log('Data file not found, returning empty structure');
   return { admins: [], members: [], leaves: [], shifts: {}, excludeFromOnDuty: [] };
 }
 
 function writeData(d){ 
   try {
-    console.log('Writing data to:', DATA_FILE);
-    console.log('Data to write - Members:', d.members?.length, 'Leaves:', d.leaves?.length, 'Shifts keys:', Object.keys(d.shifts || {}).length);
-    
-    // Validate before writing
     if (!d.members || d.members.length === 0) {
-      console.error('ERROR: Attempting to write data with no members! Aborting write to prevent data loss.');
-      console.log('Data being written:', JSON.stringify(d, null, 2));
       throw new Error('Cannot write data with empty members array');
     }
-    
     fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2)); 
-    console.log('Successfully wrote data.');
   } catch(err) {
     console.error('Error writing data:', err.message);
     throw err;
   }
 }
 
-// Initialize data on startup - only if data.json doesn't exist
+// Log the exact file path being used
+
+
 if(!fs.existsSync(DATA_FILE)){
-  console.log('No data file found, creating with defaults');
   const defaultData = {
     admins: ["Sunil Tanuku"],
-    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati"],
-    leaves: [{"id":1,"member":"Rahul Raghava","date":"2025-10-02","category":"AL","status":"approved"},{"id":2,"member":"Yash Gupta","date":"2025-10-15","category":"AL","status":"approved"}]
+    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati","Neelakandan","Susan","Rashmi"],
+    excludeFromOnDuty: ["Neelakandan","Susan","Rashmi"],
+    leaves: [],
+    shifts: {}
   };
   writeData(defaultData);
-} else {
-  console.log('Data file exists, using existing data');
-  // Only fix missing status fields in existing data
-  const data = readData();
-  let updated = false;
-  if(data.leaves) {
-    data.leaves.forEach(leave => {
-      if(!leave.status) {
-        leave.status = 'approved';
-        updated = true;
-      }
-    });
-  }
-  if(!data.admins) {
-    data.admins = ["Sunil Tanuku"];
-    updated = true;
-  }
-  if(updated) {
-    console.log('Updated existing data with missing fields');
-    writeData(data);
-  }
 }
 
 app.get('/api/members',(req,res)=>{ 
