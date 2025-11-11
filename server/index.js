@@ -32,6 +32,12 @@ function readData(){
     if(fs.existsSync(DATA_FILE)){ 
       const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
       console.log('Read from data.json - Members:', data.members?.length, 'Leaves:', data.leaves?.length);
+      // Ensure all required properties exist
+      if (!data.admins) data.admins = [];
+      if (!data.members) data.members = [];
+      if (!data.leaves) data.leaves = [];
+      if (!data.shifts) data.shifts = {};
+      if (!data.excludeFromOnDuty) data.excludeFromOnDuty = [];
       return data;
     }
   } catch(err) {
@@ -39,7 +45,7 @@ function readData(){
   }
   
   console.log('Data file not found, returning empty structure');
-  return { admins: [], members: [], leaves: [] };
+  return { admins: [], members: [], leaves: [], shifts: {}, excludeFromOnDuty: [] };
 }
 
 function writeData(d){ 
