@@ -25,18 +25,21 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
     console.log('All fields valid, proceeding with submission');
     setIsSubmitting(true);
     try {
-      // Generate all dates between start and end
-      const start = new Date(startDate);
-      const end = new Date(endDate);
+      // Generate all dates between start and end using UTC to avoid timezone issues
       const dates = [];
-
-      console.log('Generating dates from', startDate, 'to', endDate);
+      const startParts = startDate.split('-').map(Number);
+      const endParts = endDate.split('-').map(Number);
       
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        // Skip weekends
-        // if (d.getDay() !== 0 && d.getDay() !== 6) {
-          dates.push(d.toISOString().split('T')[0]);
-        // }
+      const start = new Date(Date.UTC(startParts[0], startParts[1] - 1, startParts[2]));
+      const end = new Date(Date.UTC(endParts[0], endParts[1] - 1, endParts[2]));
+      
+      const current = new Date(start);
+      while (current <= end) {
+        const year = current.getUTCFullYear();
+        const month = String(current.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(current.getUTCDate()).padStart(2, '0');
+        dates.push(`${year}-${month}-${day}`);
+        current.setUTCDate(current.getUTCDate() + 1);
       }
       console.log('Dates to submit:', dates);
       
@@ -98,9 +101,7 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
                 placeholder="End Date"
               />
             </div>
-            <div className="date-info">
-              <small>Weekends will be automatically skipped</small>
-            </div>
+
           </div>
 
           <div className="form-section">
