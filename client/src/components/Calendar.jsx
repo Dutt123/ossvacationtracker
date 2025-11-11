@@ -230,8 +230,8 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                       justifyContent: 'center',
                       fontSize: '11px',
                       fontWeight: 600,
-                      color: shift ? '#1f2937' : 'inherit',
-                      textShadow: shift ? '0 0 2px rgba(255,255,255,0.8)' : 'none',
+                      color: shift ? '#000000' : 'inherit',
+                      textShadow: shift ? '0 0 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,0.8)' : 'none',
                     }}
                     onMouseEnter={() => setHoveredMember(m)}
                     onMouseLeave={() => setHoveredMember(null)}

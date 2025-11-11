@@ -22,7 +22,102 @@
     "Rashmi"
   ],
   "leaves": [
-    
+    {
+      "id": 1,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-18",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-11T09:54:42.794Z"
+    },
+    {
+      "id": 2,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-19",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:54:42.851Z"
+    },
+    {
+      "id": 3,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-20",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:54:42.872Z"
+    },
+    {
+      "id": 4,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-21",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:54:42.890Z"
+    },
+    {
+      "id": 5,
+      "member": "Rahul Raghava",
+      "date": "2025-11-18",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-11T09:55:37.822Z"
+    },
+    {
+      "id": 6,
+      "member": "Rahul Raghava",
+      "date": "2025-11-19",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:55:37.852Z"
+    },
+    {
+      "id": 7,
+      "member": "Rahul Raghava",
+      "date": "2025-11-20",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:55:37.874Z"
+    },
+    {
+      "id": 8,
+      "member": "Rahul Raghava",
+      "date": "2025-11-21",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:55:37.895Z"
+    },
+    {
+      "id": 9,
+      "member": "Meghana Podapati",
+      "date": "2025-11-18",
+      "category": "CGL",
+      "status": "pending",
+      "createdAt": "2025-11-11T09:59:13.887Z"
+    },
+    {
+      "id": 10,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-23",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-11T10:00:03.252Z"
+    },
+    {
+      "id": 11,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-24",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-11T10:00:31.244Z"
+    },
+    {
+      "id": 12,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-25",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-11T10:00:48.898Z"
+    }
   ],
   "shifts": {
     "Sunil Tanuku": {
