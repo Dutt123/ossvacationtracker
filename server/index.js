@@ -297,7 +297,59 @@ app.get('/api/data', (req, res) => {
   try {
     console.log('GET /api/data');
     const data = readData();
-    res.json(data);
+    
+    // Optimize shifts: convert individual dates to ranges
+    const optimizedShifts = {};
+    Object.keys(data.shifts || {}).forEach(member => {
+      const memberShifts = data.shifts[member];
+      const ranges = [];
+      const dates = Object.keys(memberShifts).sort();
+      
+      if (dates.length > 0) {
+        let start = dates[0];
+        let currentShift = memberShifts[start];
+        
+        for (let i = 1; i < dates.length; i++) {
+          const date = dates[i];
+          const shift = memberShifts[date];
+          
+          if (shift !== currentShift) {
+            ranges.push({ start, end: dates[i-1], shift: currentShift });
+            start = date;
+            currentShift = shift;
+          }
+        }
+        ranges.push({ start, end: dates[dates.length-1], shift: currentShift });
+      }
+      
+      optimizedShifts[member] = ranges;
+    });
+    
+    // Optimize leaves: group by member, then by category
+    const optimizedLeaves = {};
+    (data.leaves || []).forEach(leave => {
+      if (!optimizedLeaves[leave.member]) {
+        optimizedLeaves[leave.member] = {};
+      }
+      if (!optimizedLeaves[leave.member][leave.category]) {
+        optimizedLeaves[leave.member][leave.category] = [];
+      }
+      optimizedLeaves[leave.member][leave.category].push({
+        date: leave.date,
+        status: leave.status,
+        createdAt: leave.createdAt
+      });
+    });
+    
+    const optimizedData = {
+      admins: data.admins,
+      members: data.members,
+      excludeFromOnDuty: data.excludeFromOnDuty,
+      leaves: optimizedLeaves,
+      shifts: optimizedShifts
+    };
+    
+    res.json(optimizedData);
   } catch (err) {
     console.error('Error in /api/data:', err.message);
     res.status(500).json({ error: 'Internal server error' });

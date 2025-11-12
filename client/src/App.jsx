@@ -152,12 +152,17 @@ export default function App(){
         <div className="actions">
           {isAdminMode && <button onClick={()=>setShowTeamModal(true)}>Manage Team</button>}
           {isAdminMode && <button onClick={()=>{ const name=prompt('Add admin (select from team):'); if(name && members.includes(name)) handleAddAdmin(name); else if(name) alert('Person not in team'); }}>Add Admin</button>}
-          {isAdminMode && <button onClick={()=>{ 
-            const yyyy = month.format('YYYY-MM'); 
+          {isAdminMode && <button onClick={async ()=>{ 
+            const monthName = month.format('MMMM-YYYY'); 
+            const response = await fetch('/api/data');
+            const data = await response.json();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = '/api/data';
-            link.download = `exported-data.json`;
+            link.href = url;
+            link.download = `vacation-data-${monthName}.json`;
             link.click();
+            URL.revokeObjectURL(url);
           }}>Export</button>}
           {isAdminMode ? (
             <button onClick={handleAdminLogout}>Admin Logout</button>

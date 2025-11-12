@@ -31,7 +31,12 @@ export default function PinModal({ isOpen, onClose, onSuccess }) {
     // Check PIN when all 4 digits entered
     if (newPin.every(digit => digit !== '') && index === 3) {
       const enteredPin = newPin.join('');
-      if (enteredPin === '2024') {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1; // getMonth() returns 0-11
+      const expectedPin = (currentYear + currentMonth).toString();
+      
+      if (enteredPin === expectedPin) {
         onSuccess();
         onClose();
       } else {
@@ -87,10 +92,6 @@ export default function PinModal({ isOpen, onClose, onSuccess }) {
         </div>
 
         {error && <div className="pin-error">{error}</div>}
-        
-        <div className="pin-hint">
-          <span>Hint: Year of this app 🗓️</span>
-        </div>
       </div>
     </div>
   );

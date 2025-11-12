@@ -59,7 +59,7 @@
       "member": "Neha Mishra",
       "date": "2025-11-19",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:01:11.747Z"
     },
     {
@@ -67,7 +67,7 @@
       "member": "Neha Mishra",
       "date": "2025-11-20",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:01:11.759Z"
     },
     {
@@ -75,7 +75,7 @@
       "member": "Neha Mishra",
       "date": "2025-11-22",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:01:11.765Z"
     },
     {
@@ -83,7 +83,7 @@
       "member": "Neha Mishra",
       "date": "2025-11-21",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:01:11.772Z"
     },
     {
@@ -91,7 +91,7 @@
       "member": "Rashmi",
       "date": "2025-11-17",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:45:16.848Z"
     },
     {
@@ -99,7 +99,7 @@
       "member": "Rashmi",
       "date": "2025-11-18",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:45:16.855Z"
     },
     {
@@ -107,7 +107,7 @@
       "member": "Rashmi",
       "date": "2025-11-19",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:45:16.861Z"
     },
     {
@@ -115,7 +115,7 @@
       "member": "Rashmi",
       "date": "2025-11-20",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:45:16.867Z"
     },
     {
@@ -123,7 +123,7 @@
       "member": "Rashmi",
       "date": "2025-11-21",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:45:16.873Z"
     },
     {
@@ -131,7 +131,7 @@
       "member": "Sunil Tanuku",
       "date": "2025-11-10",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:48:49.238Z"
     },
     {
@@ -139,7 +139,7 @@
       "member": "Sunil Tanuku",
       "date": "2025-11-11",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:48:49.245Z"
     },
     {
@@ -147,7 +147,7 @@
       "member": "Sunil Tanuku",
       "date": "2025-11-12",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:48:49.250Z"
     },
     {
@@ -155,7 +155,7 @@
       "member": "Sunil Tanuku",
       "date": "2025-11-13",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:48:49.259Z"
     },
     {
@@ -163,8 +163,152 @@
       "member": "Sunil Tanuku",
       "date": "2025-11-14",
       "category": "PL",
-      "status": "pending",
+      "status": "approved",
       "createdAt": "2025-11-11T11:48:49.264Z"
+    },
+    {
+      "id": 19,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-17",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:11:42.800Z"
+    },
+    {
+      "id": 20,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-19",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:11:49.674Z"
+    },
+    {
+      "id": 21,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-20",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:11:53.970Z"
+    },
+    {
+      "id": 22,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-21",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:12:08.490Z"
+    },
+    {
+      "id": 23,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-18",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:12:12.623Z"
+    },
+    {
+      "id": 24,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-23",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:12:16.792Z"
+    },
+    {
+      "id": 25,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-24",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:12:21.915Z"
+    },
+    {
+      "id": 26,
+      "member": "Sunil Tanuku",
+      "date": "2025-11-25",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:12:25.865Z"
+    },
+    {
+      "id": 27,
+      "member": "Rahul Raghava",
+      "date": "2025-11-12",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:31.196Z"
+    },
+    {
+      "id": 28,
+      "member": "Rahul Raghava",
+      "date": "2025-11-13",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.324Z"
+    },
+    {
+      "id": 29,
+      "member": "Rahul Raghava",
+      "date": "2025-11-14",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.329Z"
+    },
+    {
+      "id": 30,
+      "member": "Rahul Raghava",
+      "date": "2025-11-15",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.334Z"
+    },
+    {
+      "id": 31,
+      "member": "Rahul Raghava",
+      "date": "2025-11-16",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.341Z"
+    },
+    {
+      "id": 32,
+      "member": "Rahul Raghava",
+      "date": "2025-11-17",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.348Z"
+    },
+    {
+      "id": 33,
+      "member": "Rahul Raghava",
+      "date": "2025-11-18",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.354Z"
+    },
+    {
+      "id": 34,
+      "member": "Rahul Raghava",
+      "date": "2025-11-19",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.361Z"
+    },
+    {
+      "id": 35,
+      "member": "Rahul Raghava",
+      "date": "2025-11-20",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.366Z"
+    },
+    {
+      "id": 36,
+      "member": "Rahul Raghava",
+      "date": "2025-11-21",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T11:28:40.370Z"
     }
   ],
   "shifts": {
