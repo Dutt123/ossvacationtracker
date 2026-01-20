@@ -9,7 +9,6 @@
     "Neha Mishra",
     "Rachit Tandon",
     "Kaliprasad",
-    "Yash Gupta",
     "Rahul Raghava",
     "Meghana Podapati",
     "Neelakandan",
@@ -24,689 +23,1388 @@
   "leaves": [
     {
       "id": 1,
-      "member": "Kaliprasad",
-      "date": "2025-12-08",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-24",
       "category": "PL",
-      "status": "pending",
-      "createdAt": "2025-11-11T10:46:48.508Z"
+      "status": "approved",
+      "createdAt": "2025-11-11T14:45:56.869Z"
     },
     {
       "id": 2,
-      "member": "Kaliprasad",
-      "date": "2025-12-11",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-26",
       "category": "PL",
-      "status": "pending",
-      "createdAt": "2025-11-11T10:46:48.690Z"
+      "status": "approved",
+      "createdAt": "2025-11-11T14:45:56.914Z"
     },
     {
       "id": 3,
-      "member": "Kaliprasad",
-      "date": "2025-12-06",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-25",
       "category": "PL",
-      "status": "pending",
-      "createdAt": "2025-11-11T10:46:48.717Z"
+      "status": "approved",
+      "createdAt": "2025-11-11T14:45:56.932Z"
     },
     {
       "id": 4,
-      "member": "Kaliprasad",
-      "date": "2025-12-07",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-27",
       "category": "PL",
-      "status": "pending",
-      "createdAt": "2025-11-11T10:46:48.745Z"
+      "status": "approved",
+      "createdAt": "2025-11-11T14:45:56.948Z"
     },
     {
       "id": 5,
-      "member": "Neha Mishra",
-      "date": "2025-11-19",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-28",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:01:11.747Z"
+      "createdAt": "2025-11-11T14:45:56.964Z"
     },
     {
       "id": 6,
-      "member": "Neha Mishra",
-      "date": "2025-11-20",
+      "member": "Sunil Tanuku",
+      "date": "2026-01-12",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:01:11.759Z"
+      "createdAt": "2025-12-30T12:34:12.775Z"
     },
     {
       "id": 7,
-      "member": "Neha Mishra",
-      "date": "2025-11-22",
+      "member": "Sunil Tanuku",
+      "date": "2026-01-13",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:01:11.765Z"
+      "createdAt": "2025-12-30T12:34:12.812Z"
     },
     {
       "id": 8,
-      "member": "Neha Mishra",
-      "date": "2025-11-21",
+      "member": "Sunil Tanuku",
+      "date": "2026-01-14",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:01:11.772Z"
+      "createdAt": "2025-12-30T12:34:12.831Z"
     },
     {
       "id": 9,
-      "member": "Rashmi",
-      "date": "2025-11-17",
+      "member": "Sunil Tanuku",
+      "date": "2026-01-15",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:45:16.848Z"
+      "createdAt": "2025-12-30T12:34:12.848Z"
     },
     {
       "id": 10,
-      "member": "Rashmi",
-      "date": "2025-11-18",
+      "member": "Sunil Tanuku",
+      "date": "2026-01-16",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:45:16.855Z"
+      "createdAt": "2025-12-30T12:34:12.865Z"
     },
     {
       "id": 11,
-      "member": "Rashmi",
-      "date": "2025-11-19",
-      "category": "PL",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-04",
+      "category": "SL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:45:16.861Z"
+      "createdAt": "2025-11-12T10:57:13.163Z"
     },
     {
       "id": 12,
-      "member": "Rashmi",
-      "date": "2025-11-20",
-      "category": "PL",
+      "member": "Sunil Tanuku",
+      "date": "2025-11-22",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-11T11:45:16.867Z"
+      "createdAt": "2025-11-21T06:08:25.872Z"
     },
     {
       "id": 13,
-      "member": "Rashmi",
-      "date": "2025-11-21",
-      "category": "PL",
+      "member": "Sunil Tanuku",
+      "date": "2025-12-06",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-11T11:45:16.873Z"
+      "createdAt": "2025-12-01T11:22:40.280Z"
     },
     {
       "id": 14,
       "member": "Sunil Tanuku",
-      "date": "2025-11-10",
-      "category": "PL",
+      "date": "2025-12-13",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-11T11:48:49.238Z"
+      "createdAt": "2025-12-12T12:46:50.222Z"
     },
     {
       "id": 15,
       "member": "Sunil Tanuku",
-      "date": "2025-11-11",
-      "category": "PL",
+      "date": "2025-12-09",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-11T11:48:49.245Z"
+      "createdAt": "2025-12-08T21:10:56.026Z"
     },
     {
       "id": 16,
       "member": "Sunil Tanuku",
-      "date": "2025-11-12",
-      "category": "PL",
+      "date": "2025-12-15",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-11T11:48:49.250Z"
+      "createdAt": "2025-12-12T12:47:01.442Z"
     },
     {
       "id": 17,
       "member": "Sunil Tanuku",
-      "date": "2025-11-13",
-      "category": "PL",
-      "status": "approved",
-      "createdAt": "2025-11-11T11:48:49.259Z"
+      "date": "2026-01-26",
+      "category": "PH",
+      "status": "pending",
+      "createdAt": "2026-01-20T10:29:34.209Z"
     },
     {
       "id": 18,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-14",
-      "category": "PL",
+      "member": "Rachit Tandon",
+      "date": "2025-12-03",
+      "category": "CGL",
       "status": "approved",
-      "createdAt": "2025-11-11T11:48:49.264Z"
+      "createdAt": "2025-11-12T02:33:09.279Z"
     },
     {
       "id": 19,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-17",
-      "category": "CO",
+      "member": "Rachit Tandon",
+      "date": "2025-12-04",
+      "category": "CGL",
       "status": "approved",
-      "createdAt": "2025-11-12T11:11:42.800Z"
+      "createdAt": "2025-11-12T02:33:09.297Z"
     },
     {
       "id": 20,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-19",
-      "category": "SL",
+      "member": "Rachit Tandon",
+      "date": "2025-12-05",
+      "category": "CGL",
       "status": "approved",
-      "createdAt": "2025-11-12T11:11:49.674Z"
+      "createdAt": "2025-11-12T02:33:09.333Z"
     },
     {
       "id": 21,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-20",
-      "category": "SL",
+      "member": "Rachit Tandon",
+      "date": "2025-11-03",
+      "category": "CGL",
       "status": "approved",
-      "createdAt": "2025-11-12T11:11:53.970Z"
+      "createdAt": "2025-11-18T05:18:09.528Z"
     },
     {
       "id": 22,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-21",
-      "category": "CGL",
+      "member": "Rachit Tandon",
+      "date": "2025-12-01",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-12T11:12:08.490Z"
+      "createdAt": "2025-11-28T05:22:26.085Z"
     },
     {
       "id": 23,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-18",
-      "category": "PH",
+      "member": "Rachit Tandon",
+      "date": "2026-01-19",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-12T11:12:12.623Z"
+      "createdAt": "2026-01-06T04:25:00.438Z"
     },
     {
       "id": 24,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-23",
-      "category": "WS",
+      "member": "Rachit Tandon",
+      "date": "2026-02-02",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-12T11:12:16.792Z"
+      "createdAt": "2026-01-06T04:25:33.281Z"
     },
     {
       "id": 25,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-24",
+      "member": "Rachit Tandon",
+      "date": "2026-02-09",
       "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-12T11:12:21.915Z"
+      "createdAt": "2026-01-06T04:25:44.629Z"
     },
     {
       "id": 26,
-      "member": "Sunil Tanuku",
-      "date": "2025-11-25",
-      "category": "CO",
+      "member": "Rachit Tandon",
+      "date": "2026-01-27",
+      "category": "WCO",
       "status": "approved",
-      "createdAt": "2025-11-12T11:12:25.865Z"
+      "createdAt": "2026-01-12T04:48:50.154Z"
     },
     {
       "id": 27,
-      "member": "Rahul Raghava",
-      "date": "2025-11-12",
-      "category": "SL",
+      "member": "Rachit Tandon",
+      "date": "2025-11-29",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:31.196Z"
+      "createdAt": "2025-11-28T05:22:57.834Z"
     },
     {
       "id": 28,
-      "member": "Rahul Raghava",
-      "date": "2025-11-13",
-      "category": "PL",
+      "member": "Rachit Tandon",
+      "date": "2026-02-07",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.324Z"
+      "createdAt": "2026-01-06T04:27:17.582Z"
     },
     {
       "id": 29,
-      "member": "Rahul Raghava",
-      "date": "2025-11-14",
-      "category": "PL",
+      "member": "Rachit Tandon",
+      "date": "2026-01-31",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.329Z"
+      "createdAt": "2026-01-06T04:27:33.568Z"
     },
     {
       "id": 30,
-      "member": "Rahul Raghava",
-      "date": "2025-11-15",
-      "category": "PL",
+      "member": "Rachit Tandon",
+      "date": "2026-01-24",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.334Z"
+      "createdAt": "2026-01-06T04:27:40.139Z"
     },
     {
       "id": 31,
-      "member": "Rahul Raghava",
-      "date": "2025-11-16",
-      "category": "PL",
+      "member": "Rachit Tandon",
+      "date": "2026-01-17",
+      "category": "WS",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.341Z"
+      "createdAt": "2026-01-06T04:27:46.438Z"
     },
     {
       "id": 32,
-      "member": "Rahul Raghava",
-      "date": "2025-11-17",
+      "member": "Rachit Tandon",
+      "date": "2026-03-06",
       "category": "PL",
-      "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.348Z"
+      "status": "pending",
+      "createdAt": "2025-12-22T05:15:33.724Z"
     },
     {
       "id": 33,
-      "member": "Rahul Raghava",
-      "date": "2025-11-18",
+      "member": "Rachit Tandon",
+      "date": "2026-03-02",
       "category": "PL",
-      "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.354Z"
+      "status": "pending",
+      "createdAt": "2025-12-22T05:15:33.742Z"
     },
     {
       "id": 34,
-      "member": "Rahul Raghava",
-      "date": "2025-11-19",
+      "member": "Rachit Tandon",
+      "date": "2026-03-05",
       "category": "PL",
-      "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.361Z"
+      "status": "pending",
+      "createdAt": "2025-12-22T05:15:33.759Z"
     },
     {
       "id": 35,
-      "member": "Rahul Raghava",
-      "date": "2025-11-20",
+      "member": "Rachit Tandon",
+      "date": "2026-03-03",
       "category": "PL",
-      "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.366Z"
+      "status": "pending",
+      "createdAt": "2025-12-22T05:15:33.792Z"
     },
     {
       "id": 36,
+      "member": "Rachit Tandon",
+      "date": "2026-03-04",
+      "category": "PH",
+      "status": "pending",
+      "createdAt": "2026-01-12T04:51:21.830Z"
+    },
+    {
+      "id": 37,
+      "member": "Rachit Tandon",
+      "date": "2026-01-13",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-13T06:38:07.825Z"
+    },
+    {
+      "id": 38,
+      "member": "Rachit Tandon",
+      "date": "2026-01-15",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-16T03:39:21.910Z"
+    },
+    {
+      "id": 39,
+      "member": "Rachit Tandon",
+      "date": "2026-01-14",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-16T03:39:21.930Z"
+    },
+    {
+      "id": 40,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-14",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.172Z"
+    },
+    {
+      "id": 41,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-15",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.190Z"
+    },
+    {
+      "id": 42,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-16",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.207Z"
+    },
+    {
+      "id": 43,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-13",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.223Z"
+    },
+    {
+      "id": 44,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-12",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.243Z"
+    },
+    {
+      "id": 45,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-19",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.439Z"
+    },
+    {
+      "id": 46,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-20",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.455Z"
+    },
+    {
+      "id": 47,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-21",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.471Z"
+    },
+    {
+      "id": 48,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-22",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.488Z"
+    },
+    {
+      "id": 49,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-23",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T04:21:14.515Z"
+    },
+    {
+      "id": 50,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-11",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:38:57.162Z"
+    },
+    {
+      "id": 51,
+      "member": "Kinsuk Kumar",
+      "date": "2025-10-31",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-18T05:06:10.806Z"
+    },
+    {
+      "id": 52,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-27",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-27T03:39:50.441Z"
+    },
+    {
+      "id": 53,
+      "member": "Kinsuk Kumar",
+      "date": "2025-12-11",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-16T02:41:00.007Z"
+    },
+    {
+      "id": 54,
+      "member": "Kinsuk Kumar",
+      "date": "2025-11-25",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-18T06:05:43.399Z"
+    },
+    {
+      "id": 55,
+      "member": "Kinsuk Kumar",
+      "date": "2026-01-01",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2025-12-24T06:22:39.945Z"
+    },
+    {
+      "id": 56,
+      "member": "Vinod Kumar",
+      "date": "2025-12-31",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:17:24.844Z"
+    },
+    {
+      "id": 57,
+      "member": "Vinod Kumar",
+      "date": "2025-12-29",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:17:24.908Z"
+    },
+    {
+      "id": 58,
+      "member": "Vinod Kumar",
+      "date": "2025-12-30",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:17:24.924Z"
+    },
+    {
+      "id": 59,
+      "member": "Vinod Kumar",
+      "date": "2025-12-27",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-02T06:03:17.055Z"
+    },
+    {
+      "id": 60,
+      "member": "Vinod Kumar",
+      "date": "2025-11-17",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:37:54.571Z"
+    },
+    {
+      "id": 61,
+      "member": "Vinod Kumar",
+      "date": "2025-11-24",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:38:16.108Z"
+    },
+    {
+      "id": 62,
+      "member": "Vinod Kumar",
+      "date": "2025-12-22",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:38:41.859Z"
+    },
+    {
+      "id": 63,
+      "member": "Vinod Kumar",
+      "date": "2025-12-15",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:38:50.155Z"
+    },
+    {
+      "id": 64,
+      "member": "Vinod Kumar",
+      "date": "2026-02-02",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:45:24.833Z"
+    },
+    {
+      "id": 65,
+      "member": "Vinod Kumar",
+      "date": "2026-02-09",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:45:31.571Z"
+    },
+    {
+      "id": 66,
+      "member": "Vinod Kumar",
+      "date": "2026-02-16",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:45:38.638Z"
+    },
+    {
+      "id": 67,
+      "member": "Vinod Kumar",
+      "date": "2026-02-23",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:45:44.561Z"
+    },
+    {
+      "id": 68,
+      "member": "Vinod Kumar",
+      "date": "2025-11-22",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-22T05:56:59.816Z"
+    },
+    {
+      "id": 69,
+      "member": "Vinod Kumar",
+      "date": "2025-11-29",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-22T05:57:48.364Z"
+    },
+    {
+      "id": 70,
+      "member": "Vinod Kumar",
+      "date": "2025-12-06",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-22T05:58:16.991Z"
+    },
+    {
+      "id": 71,
+      "member": "Vinod Kumar",
+      "date": "2025-12-13",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-22T05:59:07.444Z"
+    },
+    {
+      "id": 72,
+      "member": "Vinod Kumar",
+      "date": "2025-12-20",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2025-11-22T05:59:16.316Z"
+    },
+    {
+      "id": 73,
+      "member": "Vinod Kumar",
+      "date": "2026-01-10",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:50:43.770Z"
+    },
+    {
+      "id": 74,
+      "member": "Vinod Kumar",
+      "date": "2026-01-17",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:15.376Z"
+    },
+    {
+      "id": 75,
+      "member": "Vinod Kumar",
+      "date": "2026-01-24",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:31.642Z"
+    },
+    {
+      "id": 76,
+      "member": "Vinod Kumar",
+      "date": "2026-01-31",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:51.875Z"
+    },
+    {
+      "id": 77,
+      "member": "Vinod Kumar",
+      "date": "2025-12-17",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T06:41:55.225Z"
+    },
+    {
+      "id": 78,
+      "member": "Vinod Kumar",
+      "date": "2025-11-03",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:42:41.107Z"
+    },
+    {
+      "id": 79,
+      "member": "Vinod Kumar",
+      "date": "2026-01-12",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:01.596Z"
+    },
+    {
+      "id": 80,
+      "member": "Vinod Kumar",
+      "date": "2026-01-19",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:23.678Z"
+    },
+    {
+      "id": 81,
+      "member": "Vinod Kumar",
+      "date": "2026-01-26",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-01-06T05:51:37.995Z"
+    },
+    {
+      "id": 82,
+      "member": "Neha Mishra",
+      "date": "2025-12-05",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:42.675Z"
+    },
+    {
+      "id": 83,
+      "member": "Neha Mishra",
+      "date": "2025-12-04",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:42.692Z"
+    },
+    {
+      "id": 84,
+      "member": "Neha Mishra",
+      "date": "2025-12-08",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:42.725Z"
+    },
+    {
+      "id": 85,
+      "member": "Neha Mishra",
+      "date": "2025-12-09",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:42.973Z"
+    },
+    {
+      "id": 86,
+      "member": "Neha Mishra",
+      "date": "2025-12-10",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:42.993Z"
+    },
+    {
+      "id": 87,
+      "member": "Neha Mishra",
+      "date": "2025-12-11",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:43.009Z"
+    },
+    {
+      "id": 88,
+      "member": "Neha Mishra",
+      "date": "2025-12-12",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:30:43.026Z"
+    },
+    {
+      "id": 89,
+      "member": "Neha Mishra",
+      "date": "2025-11-03",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:53:30.838Z"
+    },
+    {
+      "id": 90,
+      "member": "Neha Mishra",
+      "date": "2025-12-03",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-27T06:37:47.715Z"
+    },
+    {
+      "id": 91,
+      "member": "Neha Mishra",
+      "date": "2025-11-17",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-18T04:33:17.634Z"
+    },
+    {
+      "id": 92,
+      "member": "Neha Mishra",
+      "date": "2025-11-18",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-18T04:33:25.649Z"
+    },
+    {
+      "id": 93,
+      "member": "Neha Mishra",
+      "date": "2026-01-07",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-07T09:25:33.479Z"
+    },
+    {
+      "id": 94,
+      "member": "Neha Mishra",
+      "date": "2026-01-22",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-01-12T05:38:12.922Z"
+    },
+    {
+      "id": 95,
+      "member": "Neha Mishra",
+      "date": "2026-01-23",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-01-12T05:38:30.154Z"
+    },
+    {
+      "id": 96,
+      "member": "Neha Mishra",
+      "date": "2026-01-11",
+      "category": "WS",
+      "status": "approved",
+      "createdAt": "2026-01-12T05:39:37.588Z"
+    },
+    {
+      "id": 97,
       "member": "Rahul Raghava",
+      "date": "2025-12-22",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:10.128Z"
+    },
+    {
+      "id": 98,
+      "member": "Rahul Raghava",
+      "date": "2025-12-23",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:15.114Z"
+    },
+    {
+      "id": 99,
+      "member": "Rahul Raghava",
+      "date": "2025-12-24",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:19.914Z"
+    },
+    {
+      "id": 100,
+      "member": "Rahul Raghava",
+      "date": "2025-12-26",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:24.017Z"
+    },
+    {
+      "id": 101,
+      "member": "Rahul Raghava",
+      "date": "2025-12-18",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:58.337Z"
+    },
+    {
+      "id": 102,
+      "member": "Rahul Raghava",
+      "date": "2025-12-19",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:56:02.784Z"
+    },
+    {
+      "id": 103,
+      "member": "Rahul Raghava",
+      "date": "2025-12-11",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T04:36:39.532Z"
+    },
+    {
+      "id": 104,
+      "member": "Rahul Raghava",
+      "date": "2026-02-06",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-05T03:53:22.191Z"
+    },
+    {
+      "id": 105,
+      "member": "Rahul Raghava",
+      "date": "2026-02-05",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-05T03:53:30.150Z"
+    },
+    {
+      "id": 106,
+      "member": "Rahul Raghava",
+      "date": "2026-02-04",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-05T03:53:35.953Z"
+    },
+    {
+      "id": 107,
+      "member": "Rahul Raghava",
+      "date": "2026-02-03",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-05T03:53:40.666Z"
+    },
+    {
+      "id": 108,
+      "member": "Rahul Raghava",
+      "date": "2026-02-02",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-05T03:53:44.951Z"
+    },
+    {
+      "id": 109,
+      "member": "Rahul Raghava",
+      "date": "2025-12-25",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2025-11-12T05:55:29.143Z"
+    },
+    {
+      "id": 110,
+      "member": "Rahul Raghava",
+      "date": "2025-11-24",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-24T02:01:24.961Z"
+    },
+    {
+      "id": 111,
+      "member": "Meghana Podapati",
+      "date": "2026-01-13",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:39:21.361Z"
+    },
+    {
+      "id": 112,
+      "member": "Meghana Podapati",
+      "date": "2026-01-14",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:39:21.394Z"
+    },
+    {
+      "id": 113,
+      "member": "Meghana Podapati",
+      "date": "2026-01-15",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:39:35.075Z"
+    },
+    {
+      "id": 114,
+      "member": "Meghana Podapati",
+      "date": "2026-01-16",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:39:35.092Z"
+    },
+    {
+      "id": 115,
+      "member": "Meghana Podapati",
+      "date": "2025-11-21",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-12T12:22:51.040Z"
+    },
+    {
+      "id": 116,
+      "member": "Meghana Podapati",
+      "date": "2025-11-26",
+      "category": "CGL",
+      "status": "pending",
+      "createdAt": "2025-11-26T05:03:26.415Z"
+    },
+    {
+      "id": 117,
+      "member": "Meghana Podapati",
+      "date": "2025-12-15",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-16T02:39:46.048Z"
+    },
+    {
+      "id": 118,
+      "member": "Meghana Podapati",
+      "date": "2025-12-16",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-16T02:39:46.084Z"
+    },
+    {
+      "id": 119,
+      "member": "Meghana Podapati",
+      "date": "2026-01-01",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2025-12-23T09:46:17.328Z"
+    },
+    {
+      "id": 120,
+      "member": "Meghana Podapati",
+      "date": "2026-01-26",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-01-05T05:26:53.813Z"
+    },
+    {
+      "id": 121,
+      "member": "Neelakandan",
+      "date": "2025-11-03",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:40:29.007Z"
+    },
+    {
+      "id": 122,
+      "member": "Neelakandan",
+      "date": "2025-11-25",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-26T08:45:15.933Z"
+    },
+    {
+      "id": 123,
+      "member": "Neelakandan",
+      "date": "2025-11-26",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-26T08:45:27.165Z"
+    },
+    {
+      "id": 124,
+      "member": "Neelakandan",
+      "date": "2025-12-12",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-17T04:41:19.238Z"
+    },
+    {
+      "id": 125,
+      "member": "Neelakandan",
+      "date": "2025-12-15",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-17T04:41:32.335Z"
+    },
+    {
+      "id": 126,
+      "member": "Neelakandan",
+      "date": "2025-12-16",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-17T04:41:40.738Z"
+    },
+    {
+      "id": 127,
+      "member": "Neelakandan",
+      "date": "2025-12-30",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-30T05:37:30.601Z"
+    },
+    {
+      "id": 128,
+      "member": "Neelakandan",
+      "date": "2025-12-31",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-30T05:37:38.616Z"
+    },
+    {
+      "id": 129,
+      "member": "Neelakandan",
+      "date": "2026-01-13",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-12T08:39:45.383Z"
+    },
+    {
+      "id": 130,
+      "member": "Neelakandan",
+      "date": "2025-11-14",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-26T08:47:03.758Z"
+    },
+    {
+      "id": 131,
+      "member": "Neelakandan",
+      "date": "2025-11-17",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2025-11-26T08:47:52.551Z"
+    },
+    {
+      "id": 132,
+      "member": "Neelakandan",
+      "date": "2025-12-29",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-18T08:24:34.448Z"
+    },
+    {
+      "id": 133,
+      "member": "Neelakandan",
+      "date": "2025-12-26",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-12-18T08:24:40.733Z"
+    },
+    {
+      "id": 134,
+      "member": "Neelakandan",
+      "date": "2026-01-15",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2026-01-12T08:39:54.466Z"
+    },
+    {
+      "id": 135,
+      "member": "Neelakandan",
+      "date": "2026-01-27",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2026-01-12T08:40:03.087Z"
+    },
+    {
+      "id": 136,
+      "member": "Neelakandan",
+      "date": "2026-01-26",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-01-12T08:40:11.933Z"
+    },
+    {
+      "id": 137,
+      "member": "Kaliprasad",
+      "date": "2025-11-12",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:50:04.455Z"
+    },
+    {
+      "id": 138,
+      "member": "Kaliprasad",
+      "date": "2025-11-20",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-13T05:26:57.827Z"
+    },
+    {
+      "id": 139,
+      "member": "Kaliprasad",
       "date": "2025-11-21",
       "category": "PL",
       "status": "approved",
-      "createdAt": "2025-11-12T11:28:40.370Z"
+      "createdAt": "2025-11-13T05:26:57.842Z"
+    },
+    {
+      "id": 140,
+      "member": "Kaliprasad",
+      "date": "2025-12-26",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-13T05:31:15.891Z"
+    },
+    {
+      "id": 141,
+      "member": "Kaliprasad",
+      "date": "2026-01-02",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-13T05:31:31.028Z"
+    },
+    {
+      "id": 142,
+      "member": "Kaliprasad",
+      "date": "2026-01-01",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-13T05:31:31.045Z"
+    },
+    {
+      "id": 143,
+      "member": "Kaliprasad",
+      "date": "2025-12-31",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-18T03:59:40.983Z"
+    },
+    {
+      "id": 144,
+      "member": "Kaliprasad",
+      "date": "2025-12-29",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-18T03:59:41.000Z"
+    },
+    {
+      "id": 145,
+      "member": "Kaliprasad",
+      "date": "2025-12-30",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-18T03:59:41.015Z"
+    },
+    {
+      "id": 146,
+      "member": "Kaliprasad",
+      "date": "2025-11-11",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:50:11.582Z"
+    },
+    {
+      "id": 147,
+      "member": "Kaliprasad",
+      "date": "2025-11-04",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:51:24.413Z"
+    },
+    {
+      "id": 148,
+      "member": "Kaliprasad",
+      "date": "2025-12-04",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-04T03:37:20.405Z"
+    },
+    {
+      "id": 149,
+      "member": "Kaliprasad",
+      "date": "2025-12-17",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2025-12-17T03:17:19.079Z"
+    },
+    {
+      "id": 150,
+      "member": "Kaliprasad",
+      "date": "2026-01-09",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-01-09T05:16:44.871Z"
+    },
+    {
+      "id": 151,
+      "member": "Kaliprasad",
+      "date": "2025-11-10",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:50:23.853Z"
+    },
+    {
+      "id": 152,
+      "member": "Kaliprasad",
+      "date": "2025-11-03",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:51:35.480Z"
+    },
+    {
+      "id": 153,
+      "member": "Kaliprasad",
+      "date": "2025-12-12",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2025-12-09T05:25:53.739Z"
+    },
+    {
+      "id": 154,
+      "member": "Kaliprasad",
+      "date": "2025-11-05",
+      "category": "CO",
+      "status": "approved",
+      "createdAt": "2025-11-12T10:52:01.542Z"
+    },
+    {
+      "id": 155,
+      "member": "Kaliprasad",
+      "date": "2025-12-25",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2025-11-13T05:31:11.310Z"
+    },
+    {
+      "id": 156,
+      "member": "Kaliprasad",
+      "date": "2025-12-19",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-12-19T01:26:04.426Z"
+    },
+    {
+      "id": 157,
+      "member": "Kaliprasad",
+      "date": "2025-12-22",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-12-22T05:17:11.937Z"
+    },
+    {
+      "id": 158,
+      "member": "Kaliprasad",
+      "date": "2025-12-24",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-12-22T05:17:11.954Z"
+    },
+    {
+      "id": 159,
+      "member": "Kaliprasad",
+      "date": "2025-12-23",
+      "category": "CGL",
+      "status": "approved",
+      "createdAt": "2025-12-22T05:17:11.974Z"
+    },
+    {
+      "id": 160,
+      "member": "Susan",
+      "date": "2025-12-24",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:38.869Z"
+    },
+    {
+      "id": 161,
+      "member": "Susan",
+      "date": "2025-12-25",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:38.891Z"
+    },
+    {
+      "id": 162,
+      "member": "Susan",
+      "date": "2025-12-31",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:39.385Z"
+    },
+    {
+      "id": 163,
+      "member": "Susan",
+      "date": "2026-01-02",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:39.429Z"
+    },
+    {
+      "id": 164,
+      "member": "Susan",
+      "date": "2026-01-01",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:39.472Z"
+    },
+    {
+      "id": 165,
+      "member": "Susan",
+      "date": "2026-02-01",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2025-11-27T05:48:40.784Z"
     }
   ],
   "shifts": {
-    "Sunil Tanuku": {
-      "2025-11-03": "EMEA",
-      "2025-11-04": "EMEA",
-      "2025-11-05": "EMEA",
-      "2025-11-06": "EMEA",
-      "2025-11-07": "EMEA",
-      "2025-11-10": "EMEA",
-      "2025-11-11": "EMEA",
-      "2025-11-12": "EMEA",
-      "2025-11-13": "EMEA",
-      "2025-11-14": "EMEA",
-      "2025-11-17": "EMEA",
-      "2025-11-18": "EMEA",
-      "2025-11-19": "EMEA",
-      "2025-11-20": "EMEA",
-      "2025-11-21": "EMEA",
-      "2025-11-24": "EMEA",
-      "2025-11-25": "EMEA",
-      "2025-11-26": "EMEA",
-      "2025-11-27": "EMEA",
-      "2025-11-28": "EMEA",
-      "2025-12-01": "EMEA",
-      "2025-12-02": "EMEA",
-      "2025-12-03": "EMEA",
-      "2025-12-04": "EMEA",
-      "2025-12-05": "EMEA",
-      "2025-12-08": "EMEA",
-      "2025-12-09": "EMEA",
-      "2025-12-10": "EMEA",
-      "2025-12-11": "EMEA",
-      "2025-12-12": "EMEA",
-      "2025-12-15": "EMEA",
-      "2025-12-16": "EMEA",
-      "2025-12-17": "EMEA",
-      "2025-12-18": "EMEA",
-      "2025-12-19": "EMEA",
-      "2025-12-22": "EMEA",
-      "2025-12-23": "EMEA",
-      "2025-12-24": "EMEA",
-      "2025-12-26": "EMEA",
-      "2025-12-29": "EMEA",
-      "2025-12-30": "EMEA",
-      "2025-12-31": "EMEA"
-    },
-    "Kinsuk Kumar": {
-      "2025-11-03": "IST",
-      "2025-11-04": "IST",
-      "2025-11-05": "IST",
-      "2025-11-06": "IST",
-      "2025-11-07": "IST",
-      "2025-11-10": "IST",
-      "2025-11-11": "IST",
-      "2025-11-12": "IST",
-      "2025-11-13": "IST",
-      "2025-11-14": "IST",
-      "2025-11-17": "IST",
-      "2025-11-18": "IST",
-      "2025-11-19": "IST",
-      "2025-11-20": "IST",
-      "2025-11-21": "IST",
-      "2025-11-24": "IST",
-      "2025-11-25": "IST",
-      "2025-11-26": "IST",
-      "2025-11-27": "IST",
-      "2025-11-28": "IST",
-      "2025-12-01": "IST",
-      "2025-12-02": "IST",
-      "2025-12-03": "IST",
-      "2025-12-04": "IST",
-      "2025-12-05": "IST",
-      "2025-12-08": "IST",
-      "2025-12-09": "IST",
-      "2025-12-10": "IST",
-      "2025-12-11": "IST",
-      "2025-12-12": "IST",
-      "2025-12-15": "IST",
-      "2025-12-16": "IST",
-      "2025-12-17": "IST",
-      "2025-12-18": "IST",
-      "2025-12-19": "IST",
-      "2025-12-22": "IST",
-      "2025-12-23": "IST",
-      "2025-12-24": "IST",
-      "2025-12-26": "IST",
-      "2025-12-29": "IST",
-      "2025-12-30": "IST",
-      "2025-12-31": "IST"
-    },
-    "Kaliprasad": {
-      "2025-11-03": "IST",
-      "2025-11-04": "IST",
-      "2025-11-05": "IST",
-      "2025-11-06": "IST",
-      "2025-11-07": "IST",
-      "2025-11-10": "IST",
-      "2025-11-11": "IST",
-      "2025-11-12": "IST",
-      "2025-11-13": "IST",
-      "2025-11-14": "IST",
-      "2025-11-17": "IST",
-      "2025-11-18": "IST",
-      "2025-11-19": "IST",
-      "2025-11-20": "IST",
-      "2025-11-21": "IST",
-      "2025-11-24": "IST",
-      "2025-11-25": "IST",
-      "2025-11-26": "IST",
-      "2025-11-27": "IST",
-      "2025-11-28": "IST",
-      "2025-12-01": "IST",
-      "2025-12-02": "IST",
-      "2025-12-03": "IST",
-      "2025-12-04": "IST",
-      "2025-12-05": "IST",
-      "2025-12-08": "IST",
-      "2025-12-09": "IST",
-      "2025-12-10": "IST",
-      "2025-12-11": "IST",
-      "2025-12-12": "IST",
-      "2025-12-15": "IST",
-      "2025-12-16": "IST",
-      "2025-12-17": "IST",
-      "2025-12-18": "IST",
-      "2025-12-19": "IST",
-      "2025-12-22": "IST",
-      "2025-12-23": "IST",
-      "2025-12-24": "IST",
-      "2025-12-26": "IST",
-      "2025-12-29": "IST",
-      "2025-12-30": "IST",
-      "2025-12-31": "IST"
-    },
-    "Neha Mishra": {
-      "2025-11-03": "IST",
-      "2025-11-04": "IST",
-      "2025-11-05": "IST",
-      "2025-11-06": "IST",
-      "2025-11-07": "IST",
-      "2025-11-10": "IST",
-      "2025-11-11": "IST",
-      "2025-11-12": "IST",
-      "2025-11-13": "IST",
-      "2025-11-14": "IST",
-      "2025-11-17": "IST",
-      "2025-11-18": "IST",
-      "2025-11-19": "IST",
-      "2025-11-20": "IST",
-      "2025-11-21": "IST",
-      "2025-11-24": "IST",
-      "2025-11-25": "IST",
-      "2025-11-26": "IST",
-      "2025-11-27": "IST",
-      "2025-11-28": "IST",
-      "2025-12-01": "IST",
-      "2025-12-02": "IST",
-      "2025-12-03": "IST",
-      "2025-12-04": "IST",
-      "2025-12-05": "IST",
-      "2025-12-08": "IST",
-      "2025-12-09": "IST",
-      "2025-12-10": "IST",
-      "2025-12-11": "IST",
-      "2025-12-12": "IST",
-      "2025-12-15": "IST",
-      "2025-12-16": "IST",
-      "2025-12-17": "IST",
-      "2025-12-18": "IST",
-      "2025-12-19": "IST",
-      "2025-12-22": "IST",
-      "2025-12-23": "IST",
-      "2025-12-24": "IST",
-      "2025-12-26": "IST",
-      "2025-12-29": "IST",
-      "2025-12-30": "IST",
-      "2025-12-31": "IST"
-    },
-    "Rahul Raghava": {
-      "2025-11-03": "IST",
-      "2025-11-04": "IST",
-      "2025-11-05": "IST",
-      "2025-11-06": "IST",
-      "2025-11-07": "IST",
-      "2025-11-10": "IST",
-      "2025-11-11": "IST",
-      "2025-11-12": "IST",
-      "2025-11-13": "IST",
-      "2025-11-14": "IST",
-      "2025-11-17": "IST",
-      "2025-11-18": "IST",
-      "2025-11-19": "IST",
-      "2025-11-20": "IST",
-      "2025-11-21": "IST",
-      "2025-11-24": "IST",
-      "2025-11-25": "IST",
-      "2025-11-26": "IST",
-      "2025-11-27": "IST",
-      "2025-11-28": "IST",
-      "2025-12-01": "IST",
-      "2025-12-02": "IST",
-      "2025-12-03": "IST",
-      "2025-12-04": "IST",
-      "2025-12-05": "IST",
-      "2025-12-08": "IST",
-      "2025-12-09": "IST",
-      "2025-12-10": "IST",
-      "2025-12-11": "IST",
-      "2025-12-12": "IST",
-      "2025-12-15": "IST",
-      "2025-12-16": "IST",
-      "2025-12-17": "IST",
-      "2025-12-18": "IST",
-      "2025-12-19": "IST",
-      "2025-12-22": "IST",
-      "2025-12-23": "IST",
-      "2025-12-24": "IST",
-      "2025-12-26": "IST",
-      "2025-12-29": "IST",
-      "2025-12-30": "IST",
-      "2025-12-31": "IST"
-    },
-    "Rachit Tandon": {
-      "2025-11-03": "APAC",
-      "2025-11-04": "APAC",
-      "2025-11-05": "APAC",
-      "2025-11-06": "APAC",
-      "2025-11-07": "APAC",
-      "2025-11-10": "APAC",
-      "2025-11-11": "APAC",
-      "2025-11-12": "APAC",
-      "2025-11-13": "APAC",
-      "2025-11-14": "APAC",
-      "2025-11-17": "APAC",
-      "2025-11-18": "APAC",
-      "2025-11-19": "APAC",
-      "2025-11-20": "APAC",
-      "2025-11-21": "APAC",
-      "2025-11-24": "APAC",
-      "2025-11-25": "APAC",
-      "2025-11-26": "APAC",
-      "2025-11-27": "APAC",
-      "2025-11-28": "APAC",
-      "2025-12-01": "APAC",
-      "2025-12-02": "APAC",
-      "2025-12-03": "APAC",
-      "2025-12-04": "APAC",
-      "2025-12-05": "APAC",
-      "2025-12-08": "APAC",
-      "2025-12-09": "APAC",
-      "2025-12-10": "APAC",
-      "2025-12-11": "APAC",
-      "2025-12-12": "APAC",
-      "2025-12-15": "APAC",
-      "2025-12-16": "APAC",
-      "2025-12-17": "APAC",
-      "2025-12-18": "APAC",
-      "2025-12-19": "APAC",
-      "2025-12-22": "APAC",
-      "2025-12-23": "APAC",
-      "2025-12-24": "APAC",
-      "2025-12-26": "APAC",
-      "2025-12-29": "APAC",
-      "2025-12-30": "APAC",
-      "2025-12-31": "APAC"
-    },
-    "Yash Gupta": {
-      "2025-11-03": "APAC",
-      "2025-11-04": "APAC",
-      "2025-11-05": "APAC",
-      "2025-11-06": "APAC",
-      "2025-11-07": "APAC",
-      "2025-11-10": "APAC",
-      "2025-11-11": "APAC",
-      "2025-11-12": "APAC",
-      "2025-11-13": "APAC",
-      "2025-11-14": "APAC",
-      "2025-11-17": "APAC",
-      "2025-11-18": "APAC",
-      "2025-11-19": "APAC",
-      "2025-11-20": "APAC",
-      "2025-11-21": "APAC",
-      "2025-11-24": "APAC",
-      "2025-11-25": "APAC",
-      "2025-11-26": "APAC",
-      "2025-11-27": "APAC",
-      "2025-11-28": "APAC",
-      "2025-12-01": "APAC",
-      "2025-12-02": "APAC",
-      "2025-12-03": "APAC",
-      "2025-12-04": "APAC",
-      "2025-12-05": "APAC",
-      "2025-12-08": "APAC",
-      "2025-12-09": "APAC",
-      "2025-12-10": "APAC",
-      "2025-12-11": "APAC",
-      "2025-12-12": "APAC",
-      "2025-12-15": "APAC",
-      "2025-12-16": "APAC",
-      "2025-12-17": "APAC",
-      "2025-12-18": "APAC",
-      "2025-12-19": "APAC",
-      "2025-12-22": "APAC",
-      "2025-12-23": "APAC",
-      "2025-12-24": "APAC",
-      "2025-12-26": "APAC",
-      "2025-12-29": "APAC",
-      "2025-12-30": "APAC",
-      "2025-12-31": "APAC"
-    },
-    "Vinod Kumar": {
-      "2025-11-03": "EMEA",
-      "2025-11-04": "EMEA",
-      "2025-11-05": "EMEA",
-      "2025-11-06": "EMEA",
-      "2025-11-07": "EMEA",
-      "2025-11-10": "EMEA",
-      "2025-11-11": "EMEA",
-      "2025-11-12": "EMEA",
-      "2025-11-13": "EMEA",
-      "2025-11-14": "EMEA",
-      "2025-11-17": "EMEA",
-      "2025-11-18": "EMEA",
-      "2025-11-19": "EMEA",
-      "2025-11-20": "EMEA",
-      "2025-11-21": "EMEA",
-      "2025-11-24": "EMEA",
-      "2025-11-25": "EMEA",
-      "2025-11-26": "EMEA",
-      "2025-11-27": "EMEA",
-      "2025-11-28": "EMEA",
-      "2025-12-01": "EMEA",
-      "2025-12-02": "EMEA",
-      "2025-12-03": "EMEA",
-      "2025-12-04": "EMEA",
-      "2025-12-05": "EMEA",
-      "2025-12-08": "EMEA",
-      "2025-12-09": "EMEA",
-      "2025-12-10": "EMEA",
-      "2025-12-11": "EMEA",
-      "2025-12-12": "EMEA",
-      "2025-12-15": "EMEA",
-      "2025-12-16": "EMEA",
-      "2025-12-17": "EMEA",
-      "2025-12-18": "EMEA",
-      "2025-12-19": "EMEA",
-      "2025-12-22": "EMEA",
-      "2025-12-23": "EMEA",
-      "2025-12-24": "EMEA",
-      "2025-12-26": "EMEA",
-      "2025-12-29": "EMEA",
-      "2025-12-30": "EMEA",
-      "2025-12-31": "EMEA"
-    },
-    "Meghana Podapati": {
-      "2025-11-03": "EMEA",
-      "2025-11-04": "EMEA",
-      "2025-11-05": "EMEA",
-      "2025-11-06": "EMEA",
-      "2025-11-07": "EMEA",
-      "2025-11-10": "EMEA",
-      "2025-11-11": "EMEA",
-      "2025-11-12": "EMEA",
-      "2025-11-13": "EMEA",
-      "2025-11-14": "EMEA",
-      "2025-11-17": "EMEA",
-      "2025-11-18": "EMEA",
-      "2025-11-19": "EMEA",
-      "2025-11-20": "EMEA",
-      "2025-11-21": "EMEA",
-      "2025-11-24": "EMEA",
-      "2025-11-25": "EMEA",
-      "2025-11-26": "EMEA",
-      "2025-11-27": "EMEA",
-      "2025-11-28": "EMEA",
-      "2025-12-01": "EMEA",
-      "2025-12-02": "EMEA",
-      "2025-12-03": "EMEA",
-      "2025-12-04": "EMEA",
-      "2025-12-05": "EMEA",
-      "2025-12-08": "EMEA",
-      "2025-12-09": "EMEA",
-      "2025-12-10": "EMEA",
-      "2025-12-11": "EMEA",
-      "2025-12-12": "EMEA",
-      "2025-12-15": "EMEA",
-      "2025-12-16": "EMEA",
-      "2025-12-17": "EMEA",
-      "2025-12-18": "EMEA",
-      "2025-12-19": "EMEA",
-      "2025-12-22": "EMEA",
-      "2025-12-23": "EMEA",
-      "2025-12-24": "EMEA",
-      "2025-12-26": "EMEA",
-      "2025-12-29": "EMEA",
-      "2025-12-30": "EMEA",
-      "2025-12-31": "EMEA"
-    }
+    "Sunil Tanuku": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "EMEA"
+      }
+    ],
+    "Kinsuk Kumar": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "IST"
+      }
+    ],
+    "Kaliprasad": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "IST"
+      }
+    ],
+    "Neha Mishra": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "IST"
+      }
+    ],
+    "Rahul Raghava": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "IST"
+      }
+    ],
+    "Rachit Tandon": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "APAC"
+      }
+    ],
+    "Yash Gupta": [
+      {
+        "start": "2025-11-03",
+        "end": "2025-12-31",
+        "shift": "APAC"
+      }
+    ],
+    "Vinod Kumar": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "EMEA"
+      }
+    ],
+    "Meghana Podapati": [
+      {
+        "start": "2025-11-03",
+        "end": "2026-02-28",
+        "shift": "EMEA"
+      }
+    ]
   }
 }

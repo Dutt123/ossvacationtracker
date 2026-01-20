@@ -19,6 +19,32 @@ function readData(){
   try {
     if(fs.existsSync(DATA_FILE)){ 
       const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
+      
+      // Convert export format to server format if needed
+      if (data.leaves && typeof data.leaves === 'object' && !Array.isArray(data.leaves)) {
+        console.log('Converting export format to server format');
+        const convertedLeaves = [];
+        let id = 1;
+        
+        Object.entries(data.leaves).forEach(([member, categories]) => {
+          Object.entries(categories).forEach(([category, leaves]) => {
+            leaves.forEach(leave => {
+              convertedLeaves.push({
+                id: id++,
+                member: member,
+                date: leave.date,
+                category: category,
+                status: leave.status || 'approved',
+                createdAt: leave.createdAt || new Date().toISOString()
+              });
+            });
+          });
+        });
+        
+        data.leaves = convertedLeaves;
+        writeData(data); // Save converted format
+      }
+      
       if (!data.admins) data.admins = [];
       if (!data.members) data.members = [];
       if (!data.leaves) data.leaves = [];

@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 import Calendar from './components/Calendar'
 import OndutyBar from './components/OndutyBar'
 import TeamModal from './components/TeamModal'
-import LoginScreen from './components/LoginScreen'
 import PinModal from './components/PinModal'
 import PublicHolidaysModal from './components/PublicHolidaysModal'
 import { GradientBackground } from './components/ui/gradient-background'
@@ -39,6 +38,7 @@ const CATEGORY_NAMES = {
 };
 
 const PUBLIC_HOLIDAYS = [
+  // 2025 Holidays
   { date: '15 Aug 2025', description: 'Independence Day (Fixed)' },
   { date: '27 Aug 2025', description: 'Ganesh Chaturthi (Optional)' },
   { date: '5 Sep 2025', description: 'Id-Milad/Onam (Optional)' },
@@ -48,6 +48,19 @@ const PUBLIC_HOLIDAYS = [
   { date: '28 Oct 2025', description: 'Chath Puja (Optional)' },
   { date: '5 Nov 2025', description: 'Guru Nanak Jayanti (Optional)' },
   { date: '25 Dec 2025', description: 'Christmas (Fixed)' },
+  // 2026 Holidays
+  { date: '1 Jan 2026', description: 'New Year\'s Day (Fixed)' },
+  { date: '15 Jan 2026', description: 'Pongal/Sankranti (Optional)' },
+  { date: '26 Jan 2026', description: 'Republic Day (Fixed)' },
+  { date: '4 Mar 2026', description: 'Holi (Fixed)' },
+  { date: '19 Mar 2026', description: 'Ugadi/Gudi Padwa (Optional)' },
+  { date: '26 Mar 2026', description: 'Ram Navami (Optional)' },
+  { date: '31 Mar 2026', description: 'Mahavir Jayanti (Optional)' },
+  { date: '3 Apr 2026', description: 'Good Friday (Optional)' },
+  { date: '14 Apr 2026', description: 'Tamil New Year\'s Day/Ambedkar Jayanti (Optional)' },
+  { date: '1 May 2026', description: 'May Day(Labour Day) (Fixed)' },
+  { date: '28 May 2026', description: 'Bakri-Id (Fixed)' },
+  { date: '2 Jun 2026', description: 'Telangana State Formation Day (Fixed)' },
 ];
 
 export default function App(){
@@ -156,14 +169,40 @@ export default function App(){
             const monthName = month.format('MMMM-YYYY'); 
             const response = await fetch('/api/data');
             const data = await response.json();
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            
+            // Create compressed version
+            const compressed = {
+              admins: data.admins,
+              members: data.members,
+              excludeFromOnDuty: data.excludeFromOnDuty,
+              leaves: [],
+              shifts: data.shifts
+            };
+            
+            // Flatten and compress leaves
+            if (data.leaves) {
+              Object.entries(data.leaves).forEach(([member, categories]) => {
+                Object.entries(categories).forEach(([category, leaves]) => {
+                  leaves.forEach(leave => {
+                    compressed.leaves.push({
+                      m: member,
+                      d: leave.date.slice(2), // Remove '20' from year
+                      c: category,
+                      s: leave.status === 'pending' ? 'p' : undefined // Only store if pending
+                    });
+                  });
+                });
+              });
+            }
+            
+            const blob = new Blob([JSON.stringify(compressed)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `vacation-data-${monthName}.json`;
+            link.download = `vacation-data-${monthName}-compressed.json`;
             link.click();
             URL.revokeObjectURL(url);
-          }}>Export</button>}
+          }}>Export Compressed</button>}
           {isAdminMode ? (
             <button onClick={handleAdminLogout}>Admin Logout</button>
           ) : (
