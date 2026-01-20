@@ -17,7 +17,7 @@ const shiftColors = {
   "EMEA": "#60a5fa"   // vibrant blue
 };
 
-export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift, excludeFromOnDuty = []}) {
+export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift, excludeFromOnDuty = [], onPinValidation}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
   }
   
   function canAddLeave(member) {
-    return true; // Anyone can request leaves
+    return true;
   }
   
   function canDeleteLeave(leave) {
@@ -219,8 +219,8 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                     className={`day-cell column-${columnClass} ${isWeekend ? 'weekend-cell' : ''} ${isLowStaffing ? 'low-staffing-cell' : ''} ${hoveredMember === m ? 'row-highlighted' : ''}`}
                     title={
                       shift ? `${shift} shift` : isWeekend ? `${d.format('dddd')} - Weekend (Click to apply Weekend Shift)` :
-                      isLowStaffing ? `Low staffing (${percentage}%) - ${isAdmin ? 'Click to add leave' : 'Admin access required'}` :
-                      isAdmin ? "Click to add leave" : "Admin access required"
+                      isLowStaffing ? `Low staffing (${percentage}%) - Click to add leave` :
+                      "Click to add leave"
                     }
                     style={{
                       ...shiftStyle,
@@ -237,13 +237,14 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                     onMouseLeave={() => setHoveredMember(null)}
                     onClick={() => {
                       const dateStr = d.format('YYYY-MM-DD');
-                      if (isAdmin) {
-                        setSelectedCell({ member: m, date: dateStr });
-                        setModalOpen(true);
-                      } else {
-                        setSelectedCell({ member: m, date: dateStr });
-                        setRequestModalOpen(true);
-                      }
+                      setSelectedCell({ member: m, date: dateStr });
+                      onPinValidation(m, () => {
+                        if (isAdmin) {
+                          setModalOpen(true);
+                        } else {
+                          setRequestModalOpen(true);
+                        }
+                      });
                     }}
                   >
                         {shift && <span style={{ zIndex: 1 }}>{shift}</span>}

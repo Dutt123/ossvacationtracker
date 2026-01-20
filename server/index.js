@@ -50,6 +50,7 @@ function readData(){
       if (!data.leaves) data.leaves = [];
       if (!data.shifts) data.shifts = {};
       if (!data.excludeFromOnDuty) data.excludeFromOnDuty = [];
+      if (!data.userPins) data.userPins = {};
       return data;
     }
   } catch(err) {
@@ -218,6 +219,29 @@ app.delete('/api/members/:name',(req,res)=>{
     res.json({name}); 
   } catch(err) {
     console.error('Error in DELETE /api/members:', err.message);
+    res.status(500).json({error:'Internal server error'});
+  }
+});
+
+app.post('/api/validate-pin', (req, res) => {
+  try {
+    const { member, pin } = req.body;
+    console.log('PIN validation request:', { member, pin });
+    const data = readData();
+    const userPins = data.userPins || {};
+    console.log('Available userPins:', userPins);
+    console.log('Looking for member:', member, 'with PIN:', pin);
+    console.log('Stored PIN for member:', userPins[member]);
+    
+    if (userPins[member] === pin) {
+      console.log('PIN validation SUCCESS');
+      res.json({ valid: true });
+    } else {
+      console.log('PIN validation FAILED');
+      res.json({ valid: false });
+    }
+  } catch(err) {
+    console.error('Error in POST /api/validate-pin:', err.message);
     res.status(500).json({error:'Internal server error'});
   }
 });

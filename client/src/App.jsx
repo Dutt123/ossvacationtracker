@@ -73,6 +73,8 @@ export default function App(){
   const [month, setMonth] = useState(dayjs());
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
+  const [pinValidationCallback, setPinValidationCallback] = useState(null);
+  const [validatingMember, setValidatingMember] = useState('');
   const [adminTimeout, setAdminTimeout] = useState(null);
   const [holidaysModalOpen, setHolidaysModalOpen] = useState(false);
   useEffect(()=>{ fetchData(); },[]);
@@ -119,20 +121,60 @@ export default function App(){
     axios.post('/api/shifts', { member, startDate, endDate, shift }).then(()=>fetchData());
   }
   
+  function handlePinValidation(member, callback) {
+    setValidatingMember(member);
+    setPinValidationCallback(() => callback);
+    setShowPinModal(true);
+  }
+  
+  async function handlePinSuccess(pin) {
+    if (validatingMember) {
+      try {
+        const response = await fetch('/api/validate-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ member: validatingMember, pin })
+        });
+        
+        const result = await response.json();
+        
+        if (result.valid && pinValidationCallback) {
+          pinValidationCallback();
+          setShowPinModal(false);
+          setValidatingMember('');
+          setPinValidationCallback(null);
+        } else {
+          alert('Invalid PIN for ' + validatingMember);
+        }
+      } catch (err) {
+        alert('Authentication failed');
+      }
+    } else {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      const expectedPin = (currentYear + currentMonth).toString();
+      
+      if (pin === expectedPin) {
+        setIsAdminMode(true);
+        setShowPinModal(false);
+        if (adminTimeout) clearTimeout(adminTimeout);
+        const timeout = setTimeout(() => {
+          setIsAdminMode(false);
+          alert('Admin session expired');
+        }, 30 * 60 * 1000);
+        setAdminTimeout(timeout);
+      } else {
+        alert('Invalid Admin PIN');
+      }
+    }
+  }
+  
   function handleAdminLogin() {
     setShowPinModal(true);
   }
   
-  function handlePinSuccess() {
-    setIsAdminMode(true);
-    // Auto-logout after 30 minutes
-    if (adminTimeout) clearTimeout(adminTimeout);
-    const timeout = setTimeout(() => {
-      setIsAdminMode(false);
-      alert('Admin session expired');
-    }, 30 * 60 * 1000);
-    setAdminTimeout(timeout);
-  }
+
   
   function handleAdminLogout() {
     setIsAdminMode(false);
@@ -249,6 +291,7 @@ export default function App(){
             onApprove={handleApproveLeave}
             currentUser={null}
             isAdmin={isAdminMode}
+            onPinValidation={handlePinValidation}
             onUpdateShift={updateShift}
             excludeFromOnDuty={excludeFromOnDuty}
           />
@@ -269,8 +312,13 @@ export default function App(){
         
         <PinModal 
           isOpen={showPinModal}
-          onClose={() => setShowPinModal(false)}
+          onClose={() => {
+            setShowPinModal(false);
+            setValidatingMember('');
+            setPinValidationCallback(null);
+          }}
           onSuccess={handlePinSuccess}
+          title={validatingMember ? `Enter PIN for ${validatingMember}` : 'Enter Admin PIN'}
         />
         
         <PublicHolidaysModal 

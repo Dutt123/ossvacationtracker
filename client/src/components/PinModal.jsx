@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Lock } from 'lucide-react';
 
-export default function PinModal({ isOpen, onClose, onSuccess }) {
+export default function PinModal({ isOpen, onClose, onSuccess, title }) {
   const [pin, setPin] = useState(['', '', '', '']);
   const [error, setError] = useState('');
   const inputRefs = useRef([]);
@@ -31,22 +31,7 @@ export default function PinModal({ isOpen, onClose, onSuccess }) {
     // Check PIN when all 4 digits entered
     if (newPin.every(digit => digit !== '') && index === 3) {
       const enteredPin = newPin.join('');
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonth = now.getMonth() + 1; // getMonth() returns 0-11
-      const expectedPin = (currentYear + currentMonth).toString();
-      
-      if (enteredPin === expectedPin) {
-        onSuccess();
-        onClose();
-      } else {
-        setError('Invalid PIN');
-        // Clear PIN after error
-        setTimeout(() => {
-          setPin(['', '', '', '']);
-          inputRefs.current[0]?.focus();
-        }, 1000);
-      }
+      onSuccess(enteredPin);
     }
   };
 
@@ -67,7 +52,7 @@ export default function PinModal({ isOpen, onClose, onSuccess }) {
       <div className="pin-modal">
         <div className="pin-header">
           <Lock size={32} />
-          <h2>Admin Access</h2>
+          <h2>{title || 'Admin Access'}</h2>
           <p>Enter 4-digit PIN</p>
           <button className="close-btn" onClick={onClose}>
             <X size={20} />
