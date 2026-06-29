@@ -123,6 +123,14 @@ app.post('/api/leaves',(req,res)=>{
     const id=d.leaves.reduce((m,x)=>Math.max(m,x.id||0),0)+1; 
     const autoApprovedCategories = ['SL', 'WS', 'WCO'];
     const status = (isAdmin || autoApprovedCategories.includes(category)) ? 'approved' : 'pending';
+    
+    // WCO only allowed on Mondays for non-admins
+    if (category === 'WCO' && !isAdmin) {
+      const dayOfWeek = new Date(date).getDay();
+      if (dayOfWeek !== 1) {
+        return res.status(400).json({ error: 'WCO can only be applied on Mondays. Please reach out to Admin.' });
+      }
+    }
     const createdAt = new Date().toISOString(); 
     const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 

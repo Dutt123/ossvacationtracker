@@ -265,6 +265,8 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
         }}
         categories={categories}
         categoryNames={categoryNames}
+        selectedDate={selectedCell?.date}
+        isAdmin={isAdmin}
       />
       
       <LeaveRequestModal 

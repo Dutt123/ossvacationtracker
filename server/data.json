@@ -1340,6 +1340,14 @@
       "category": "PL",
       "status": "approved",
       "createdAt": "2025-11-27T05:48:40.784Z"
+    },
+    {
+      "id": 166,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-15",
+      "category": "WCO",
+      "status": "approved",
+      "createdAt": "2026-06-29T17:34:09.052Z"
     }
   ],
   "shifts": {
@@ -1406,5 +1414,18 @@
         "shift": "EMEA"
       }
     ]
+  },
+  "userPins": {
+    "Neelakandan": "1611",
+    "Kinsuk Kumar": "2605",
+    "Rachit Tandon": "1309",
+    "Rahul Raghava": "2812",
+    "Sunil Tanuku": "2711",
+    "Susan": "2608",
+    "Vinod Kumar": "0202",
+    "Neha Mishra": "0405",
+    "Kaliprasad": "0705",
+    "Meghana Podapati": "2907",
+    "Rashmi": "1911"
   }
 }

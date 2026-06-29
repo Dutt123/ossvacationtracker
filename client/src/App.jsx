@@ -7,6 +7,7 @@ import OndutyBar from './components/OndutyBar'
 import TeamModal from './components/TeamModal'
 import PinModal from './components/PinModal'
 import PublicHolidaysModal from './components/PublicHolidaysModal'
+import PHSummaryModal from './components/PHSummaryModal'
 import { GradientBackground } from './components/ui/gradient-background'
 
 const CATEGORIES = {
@@ -76,7 +77,9 @@ export default function App(){
   const [pinValidationCallback, setPinValidationCallback] = useState(null);
   const [validatingMember, setValidatingMember] = useState('');
   const [adminTimeout, setAdminTimeout] = useState(null);
+  const [pinError, setPinError] = useState('');
   const [holidaysModalOpen, setHolidaysModalOpen] = useState(false);
+  const [phSummaryOpen, setPhSummaryOpen] = useState(false);
   useEffect(()=>{ fetchData(); },[]);
   function fetchData(){
     axios.get('/api/members').then(r=>{
@@ -143,8 +146,9 @@ export default function App(){
           setShowPinModal(false);
           setValidatingMember('');
           setPinValidationCallback(null);
+          setPinError('');
         } else {
-          alert('Invalid PIN for ' + validatingMember);
+          setPinError('Invalid PIN for ' + validatingMember);
         }
       } catch (err) {
         alert('Authentication failed');
@@ -158,14 +162,14 @@ export default function App(){
       if (pin === expectedPin) {
         setIsAdminMode(true);
         setShowPinModal(false);
+        setPinError('');
         if (adminTimeout) clearTimeout(adminTimeout);
         const timeout = setTimeout(() => {
           setIsAdminMode(false);
-          alert('Admin session expired');
         }, 30 * 60 * 1000);
         setAdminTimeout(timeout);
       } else {
-        alert('Invalid Admin PIN');
+        setPinError('Invalid Admin PIN');
       }
     }
   }
@@ -206,6 +210,7 @@ export default function App(){
         </div>
         <div className="actions">
           {isAdminMode && <button onClick={()=>setShowTeamModal(true)}>Manage Team</button>}
+          {isAdminMode && <button onClick={() => setPhSummaryOpen(true)}>PH Summary</button>}
           {isAdminMode && <button onClick={()=>{ const name=prompt('Add admin (select from team):'); if(name && members.includes(name)) handleAddAdmin(name); else if(name) alert('Person not in team'); }}>Add Admin</button>}
           {isAdminMode && <button onClick={async ()=>{ 
             const monthName = month.format('MMMM-YYYY'); 
@@ -316,11 +321,23 @@ export default function App(){
             setShowPinModal(false);
             setValidatingMember('');
             setPinValidationCallback(null);
+            setPinError('');
           }}
           onSuccess={handlePinSuccess}
           title={validatingMember ? `Enter PIN for ${validatingMember}` : 'Enter Admin PIN'}
+          error={pinError}
+          onClearError={() => setPinError('')}
         />
         
+        <PHSummaryModal
+          isOpen={phSummaryOpen}
+          onClose={() => setPhSummaryOpen(false)}
+          members={members}
+          leaves={leaves}
+          holidays={PUBLIC_HOLIDAYS}
+          year={month.format('YYYY')}
+        />
+
         <PublicHolidaysModal 
           isOpen={holidaysModalOpen}
           onClose={() => setHolidaysModalOpen(false)}

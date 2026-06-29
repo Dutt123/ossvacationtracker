@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Lock } from 'lucide-react';
 
-export default function PinModal({ isOpen, onClose, onSuccess, title }) {
+export default function PinModal({ isOpen, onClose, onSuccess, title, error: externalError, onClearError }) {
   const [pin, setPin] = useState(['', '', '', '']);
   const [error, setError] = useState('');
   const inputRefs = useRef([]);
@@ -10,10 +10,17 @@ export default function PinModal({ isOpen, onClose, onSuccess, title }) {
     if (isOpen) {
       setPin(['', '', '', '']);
       setError('');
-      // Focus first input when modal opens
       setTimeout(() => inputRefs.current[0]?.focus(), 100);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (externalError) {
+      setError(externalError);
+      setPin(['', '', '', '']);
+      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+    }
+  }, [externalError]);
 
   const handleInputChange = (index, value) => {
     if (value.length > 1) return; // Only allow single digit
@@ -22,6 +29,7 @@ export default function PinModal({ isOpen, onClose, onSuccess, title }) {
     newPin[index] = value;
     setPin(newPin);
     setError('');
+    onClearError?.();
 
     // Auto-focus next input
     if (value && index < 3) {

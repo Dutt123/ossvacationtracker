@@ -109,20 +109,32 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
           <div className="form-section">
             <label>Leave Type</label>
             <div className="leave-options">
-              {Object.entries(categories).map(([code, color]) => (
-                <button
-                  key={code}
-                  className={`leave-option ${selectedCategory === code ? 'selected' : ''}`}
-                  style={{ 
-                    backgroundColor: selectedCategory === code ? color : 'transparent',
-                    borderColor: color 
-                  }}
-                  onClick={() => setSelectedCategory(code)}
-                >
-                  <div className="leave-code">{code}</div>
-                  <div className="leave-name">{categoryNames[code]}</div>
-                </button>
-              ))}
+              {Object.entries(categories).map(([code, color]) => {
+                const isWcoBlocked = code === 'WCO' && startDate && new Date(startDate).getDay() !== 1;
+                return (
+                  <button
+                    key={code}
+                    className={`leave-option ${selectedCategory === code ? 'selected' : ''}`}
+                    style={{ 
+                      backgroundColor: selectedCategory === code ? color : 'transparent',
+                      borderColor: isWcoBlocked ? '#4b5563' : color,
+                      opacity: isWcoBlocked ? 0.5 : 1,
+                      cursor: isWcoBlocked ? 'not-allowed' : 'pointer'
+                    }}
+                    title={isWcoBlocked ? 'WCO can only be applied on Mondays. Please reach out to Admin.' : ''}
+                    onClick={() => {
+                      if (isWcoBlocked) {
+                        alert('WCO can only be applied on Mondays. Please reach out to Admin.');
+                        return;
+                      }
+                      setSelectedCategory(code);
+                    }}
+                  >
+                    <div className="leave-code">{code}</div>
+                    <div className="leave-name">{categoryNames[code]}</div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
