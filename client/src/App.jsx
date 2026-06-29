@@ -250,6 +250,30 @@ export default function App(){
             link.click();
             URL.revokeObjectURL(url);
           }}>Export Compressed</button>}
+          {isAdminMode && <button onClick={() => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              const text = await file.text();
+              const compressed = JSON.parse(text);
+              const res = await fetch('/api/import', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(compressed)
+              });
+              const result = await res.json();
+              if (result.success) {
+                alert(`Restored ${result.leavesRestored} leave records.`);
+                fetchData();
+              } else {
+                alert('Import failed: ' + result.error);
+              }
+            };
+            input.click();
+          }}>Import Backup</button>}
           {isAdminMode ? (
             <button onClick={handleAdminLogout}>Admin Logout</button>
           ) : (

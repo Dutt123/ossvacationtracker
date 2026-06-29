@@ -414,6 +414,39 @@ app.get('/api/data', (req, res) => {
   }
 });
 
+app.post('/api/import', (req, res) => {
+  try {
+    const imported = req.body;
+    const data = readData();
+
+    // Expand compressed leaves
+    if (Array.isArray(imported.leaves)) {
+      const expanded = imported.leaves.map((l, i) => ({
+        id: i + 1,
+        member: l.m,
+        date: '20' + l.d,
+        category: l.c,
+        status: l.s === 'p' ? 'pending' : 'approved',
+        createdAt: new Date().toISOString()
+      }));
+      data.leaves = expanded;
+    }
+
+    // Restore shifts (already in range format from export)
+    if (imported.shifts) data.shifts = imported.shifts;
+    if (imported.members) data.members = imported.members;
+    if (imported.admins) data.admins = imported.admins;
+    if (imported.excludeFromOnDuty) data.excludeFromOnDuty = imported.excludeFromOnDuty;
+    if (imported.userPins) data.userPins = imported.userPins;
+
+    writeData(data);
+    res.json({ success: true, leavesRestored: data.leaves.length });
+  } catch (err) {
+    console.error('Error in POST /api/import:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Catch-all handler for React Router
 app.get('*', (req, res) => {
   console.log(req.method, req.url);
