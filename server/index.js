@@ -432,8 +432,22 @@ app.post('/api/import', (req, res) => {
       data.leaves = expanded;
     }
 
-    // Restore shifts (already in range format from export)
-    if (imported.shifts) data.shifts = imported.shifts;
+    // Expand shifts from range format back to individual date keys
+    if (imported.shifts) {
+      const expanded = {};
+      Object.entries(imported.shifts).forEach(([member, ranges]) => {
+        expanded[member] = {};
+        (Array.isArray(ranges) ? ranges : []).forEach(({ start, end, shift }) => {
+          const cur = new Date(start);
+          const endDate = new Date(end);
+          while (cur <= endDate) {
+            expanded[member][cur.toISOString().split('T')[0]] = shift;
+            cur.setDate(cur.getDate() + 1);
+          }
+        });
+      });
+      data.shifts = expanded;
+    }
     if (imported.members) data.members = imported.members;
     if (imported.admins) data.admins = imported.admins;
     if (imported.excludeFromOnDuty) data.excludeFromOnDuty = imported.excludeFromOnDuty;
