@@ -58,3 +58,6 @@ temp/
 # Backup files
 *.backup
 *.bak
+
+# Data file - managed separately, not part of codebase
+server/data.json

@@ -216,40 +216,14 @@ export default function App(){
             const monthName = month.format('MMMM-YYYY'); 
             const response = await fetch('/api/data');
             const data = await response.json();
-            
-            // Create compressed version
-            const compressed = {
-              admins: data.admins,
-              members: data.members,
-              excludeFromOnDuty: data.excludeFromOnDuty,
-              leaves: [],
-              shifts: data.shifts
-            };
-            
-            // Flatten and compress leaves
-            if (data.leaves) {
-              Object.entries(data.leaves).forEach(([member, categories]) => {
-                Object.entries(categories).forEach(([category, leaves]) => {
-                  leaves.forEach(leave => {
-                    compressed.leaves.push({
-                      m: member,
-                      d: leave.date.slice(2), // Remove '20' from year
-                      c: category,
-                      s: leave.status === 'pending' ? 'p' : undefined // Only store if pending
-                    });
-                  });
-                });
-              });
-            }
-            
-            const blob = new Blob([JSON.stringify(compressed)], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `vacation-data-${monthName}-compressed.json`;
+            link.download = `vacation-data-${monthName}.json`;
             link.click();
             URL.revokeObjectURL(url);
-          }}>Export Compressed</button>}
+          }}>Export Backup</button>}
           {isAdminMode && <button onClick={() => {
             const input = document.createElement('input');
             input.type = 'file';

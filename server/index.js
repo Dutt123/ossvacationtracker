@@ -424,29 +424,34 @@ app.post('/api/import', (req, res) => {
     const imported = req.body;
     const data = readData();
 
-    // Expand compressed leaves
-    if (Array.isArray(imported.leaves)) {
-      const expanded = imported.leaves.map((l, i) => {
-        // Support both compressed format {m,d,c,s} and full format {member,date,category,status}
-        const member = l.m || l.member;
-        const date = l.d ? ('20' + l.d) : l.date;
-        const category = l.c || l.category;
-        const status = l.s === 'p' ? 'pending' : (l.status || 'approved');
-        return { id: i + 1, member, date, category, status, createdAt: new Date().toISOString() };
-      }).filter(l => l.member && l.date && l.date !== '20undefined' && l.category);
+    // Handle leaves in grouped format { member: { category: [{ date, status }] } }
+    if (imported.leaves && !Array.isArray(imported.leaves)) {
+      const expanded = [];
+      let id = 1;
+      Object.entries(imported.leaves).forEach(([member, categories]) => {
+        Object.entries(categories).forEach(([category, leaves]) => {
+          leaves.forEach(leave => {
+            expanded.push({
+              id: id++,
+              member,
+              date: leave.date,
+              category,
+              status: leave.status || 'approved',
+              createdAt: leave.createdAt || new Date().toISOString()
+            });
+          });
+        });
+      });
       data.leaves = expanded;
     }
 
-    // Expand shifts from range format back to individual date keys
+    // Handle shifts in range format { member: [{ start, end, shift }] }
     if (imported.shifts) {
       const expanded = {};
       Object.entries(imported.shifts).forEach(([member, ranges]) => {
         expanded[member] = {};
-        (Array.isArray(ranges) ? ranges : []).forEach((range) => {
-          // Handle nested shift object: { start: '0', end: '0', shift: { start, end, shift } }
-          const actualRange = (range.shift && typeof range.shift === 'object') ? range.shift : range;
-          const { start, end, shift } = actualRange;
-          if (!start || !end || !shift || start === '0') return;
+        (Array.isArray(ranges) ? ranges : []).forEach(({ start, end, shift }) => {
+          if (!start || !end || !shift) return;
           const cur = new Date(start);
           const endDate = new Date(end);
           while (cur <= endDate) {
@@ -457,6 +462,7 @@ app.post('/api/import', (req, res) => {
       });
       data.shifts = expanded;
     }
+
     if (imported.members) data.members = imported.members;
     if (imported.admins) data.admins = imported.admins;
     if (imported.excludeFromOnDuty) data.excludeFromOnDuty = imported.excludeFromOnDuty;
