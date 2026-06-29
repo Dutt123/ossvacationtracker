@@ -10,10 +10,15 @@ app.use(bodyParser.json());
 // Serve static files from client build
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Use current directory for data file
-const DATA_FILE = './data.json';
+// Use persistent storage on Azure (/home is preserved across deployments)
+// Falls back to local path for development
+const DATA_FILE = process.env.NODE_ENV === 'production'
+  ? '/home/data/data.json'
+  : path.join(__dirname, 'data.json');
 
-// No need to ensure directory - using current directory
+// Ensure directory exists
+const dataDir = path.dirname(DATA_FILE);
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 function readData(){ 
   try {
@@ -315,7 +320,7 @@ app.get('/api/shifts', (req, res) => {
 app.post('/api/shifts', (req, res) => {
   try {
     console.log('POST /api/shifts:', req.body);
-    const { member, startDate, endDate, shift } = req.body.startDate || req.body;
+    const { member, startDate, endDate, shift } = req.body;
 
     if (!member || !startDate || !endDate || !shift) {
       return res.status(400).json({ error: 'member, startDate, endDate, and shift are required' });
@@ -335,9 +340,7 @@ app.post('/api/shifts', (req, res) => {
       updatedDates.push(dateStr);
     }
 
-    writeData(data); 
-
-    console.log(data);
+    writeData(data);
 
     res.json({
       member,
@@ -360,17 +363,19 @@ app.get('/api/data', (req, res) => {
     const optimizedShifts = {};
     Object.keys(data.shifts || {}).forEach(member => {
       const memberShifts = data.shifts[member];
+      // Skip if not flat date→string format
+      if (typeof memberShifts !== 'object') return;
+      const dates = Object.keys(memberShifts).filter(k => memberShifts[k] && typeof memberShifts[k] === 'string').sort();
       const ranges = [];
-      const dates = Object.keys(memberShifts).sort();
-      
+
       if (dates.length > 0) {
         let start = dates[0];
         let currentShift = memberShifts[start];
-        
+
         for (let i = 1; i < dates.length; i++) {
           const date = dates[i];
           const shift = memberShifts[date];
-          
+
           if (shift !== currentShift) {
             ranges.push({ start, end: dates[i-1], shift: currentShift });
             start = date;
@@ -379,7 +384,7 @@ app.get('/api/data', (req, res) => {
         }
         ranges.push({ start, end: dates[dates.length-1], shift: currentShift });
       }
-      
+
       optimizedShifts[member] = ranges;
     });
     
@@ -421,14 +426,14 @@ app.post('/api/import', (req, res) => {
 
     // Expand compressed leaves
     if (Array.isArray(imported.leaves)) {
-      const expanded = imported.leaves.map((l, i) => ({
-        id: i + 1,
-        member: l.m,
-        date: '20' + l.d,
-        category: l.c,
-        status: l.s === 'p' ? 'pending' : 'approved',
-        createdAt: new Date().toISOString()
-      }));
+      const expanded = imported.leaves.map((l, i) => {
+        // Support both compressed format {m,d,c,s} and full format {member,date,category,status}
+        const member = l.m || l.member;
+        const date = l.d ? ('20' + l.d) : l.date;
+        const category = l.c || l.category;
+        const status = l.s === 'p' ? 'pending' : (l.status || 'approved');
+        return { id: i + 1, member, date, category, status, createdAt: new Date().toISOString() };
+      }).filter(l => l.member && l.date && l.date !== '20undefined' && l.category);
       data.leaves = expanded;
     }
 
@@ -437,7 +442,11 @@ app.post('/api/import', (req, res) => {
       const expanded = {};
       Object.entries(imported.shifts).forEach(([member, ranges]) => {
         expanded[member] = {};
-        (Array.isArray(ranges) ? ranges : []).forEach(({ start, end, shift }) => {
+        (Array.isArray(ranges) ? ranges : []).forEach((range) => {
+          // Handle nested shift object: { start: '0', end: '0', shift: { start, end, shift } }
+          const actualRange = (range.shift && typeof range.shift === 'object') ? range.shift : range;
+          const { start, end, shift } = actualRange;
+          if (!start || !end || !shift || start === '0') return;
           const cur = new Date(start);
           const endDate = new Date(end);
           while (cur <= endDate) {
