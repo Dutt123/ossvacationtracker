@@ -12,13 +12,29 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Use persistent storage on Azure (/home is preserved across deployments)
 // Falls back to local path for development
-const DATA_FILE = process.env.NODE_ENV === 'production'
+const IS_AZURE = process.env.NODE_ENV === 'production' || process.env.WEBSITE_SITE_NAME !== undefined;
+const DATA_FILE = IS_AZURE
   ? '/home/data/data.json'
   : path.join(__dirname, 'data.json');
 
 // Ensure directory exists
 const dataDir = path.dirname(DATA_FILE);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+// PINs stored in app code - never in data.json
+const USER_PINS = {
+  "Sunil Tanuku": "2711",
+  "Kinsuk Kumar": "2605",
+  "Vinod Kumar": "0202",
+  "Neha Mishra": "0405",
+  "Rachit Tandon": "1309",
+  "Kaliprasad": "0705",
+  "Rahul Raghava": "2812",
+  "Meghana Podapati": "2907",
+  "Neelakandan": "1611",
+  "Susan": "2608",
+  "Rashmi": "1911"
+};
 
 function readData(){ 
   try {
@@ -55,7 +71,6 @@ function readData(){
       if (!data.leaves) data.leaves = [];
       if (!data.shifts) data.shifts = {};
       if (!data.excludeFromOnDuty) data.excludeFromOnDuty = [];
-      if (!data.userPins) data.userPins = {};
       return data;
     }
   } catch(err) {
@@ -76,13 +91,10 @@ function writeData(d){
   }
 }
 
-// Log the exact file path being used
-
-
 if(!fs.existsSync(DATA_FILE)){
   const defaultData = {
     admins: ["Sunil Tanuku"],
-    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Yash Gupta","Rahul Raghava","Meghana Podapati","Neelakandan","Susan","Rashmi"],
+    members: ["Sunil Tanuku","Kinsuk Kumar","Vinod Kumar","Neha Mishra","Rachit Tandon","Kaliprasad","Rahul Raghava","Meghana Podapati","Neelakandan","Susan","Rashmi"],
     excludeFromOnDuty: ["Neelakandan","Susan","Rashmi"],
     leaves: [],
     shifts: {}
@@ -239,18 +251,9 @@ app.delete('/api/members/:name',(req,res)=>{
 app.post('/api/validate-pin', (req, res) => {
   try {
     const { member, pin } = req.body;
-    console.log('PIN validation request:', { member, pin });
-    const data = readData();
-    const userPins = data.userPins || {};
-    console.log('Available userPins:', userPins);
-    console.log('Looking for member:', member, 'with PIN:', pin);
-    console.log('Stored PIN for member:', userPins[member]);
-    
-    if (userPins[member] === pin) {
-      console.log('PIN validation SUCCESS');
+    if (USER_PINS[member] === pin) {
       res.json({ valid: true });
     } else {
-      console.log('PIN validation FAILED');
       res.json({ valid: false });
     }
   } catch(err) {
@@ -466,7 +469,7 @@ app.post('/api/import', (req, res) => {
     if (imported.members) data.members = imported.members;
     if (imported.admins) data.admins = imported.admins;
     if (imported.excludeFromOnDuty) data.excludeFromOnDuty = imported.excludeFromOnDuty;
-    if (imported.userPins) data.userPins = imported.userPins;
+    // userPins intentionally NOT imported - PINs are managed separately and never exported
 
     writeData(data);
     res.json({ success: true, leavesRestored: data.leaves.length });
@@ -485,4 +488,5 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Data file: ${DATA_FILE}`);
 });
