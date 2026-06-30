@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import Calendar from './components/Calendar'
+import Dashboard from './components/Dashboard'
 import OndutyBar from './components/OndutyBar'
 import TeamModal from './components/TeamModal'
 import PinModal from './components/PinModal'
@@ -71,6 +72,7 @@ export default function App(){
   const [admins,setAdmins] = useState([]);
   const [excludeFromOnDuty,setExcludeFromOnDuty] = useState([]);
   const [isAdminMode,setIsAdminMode] = useState(false);
+  const [view, setView] = useState('calendar');
   const [month, setMonth] = useState(dayjs());
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
@@ -90,7 +92,8 @@ export default function App(){
     axios.get('/api/admins').then(r=>setAdmins(r.data.admins));
     axios.get('/api/shifts').then(r=>setShifts(r.data.shifts));
   }
-  function addLeave(member,date,category){
+  function addLeave(member, date, category, refreshOnly = false){
+    if (refreshOnly) { fetchData(); return; }
     axios.post('/api/leaves',{member,date,category,isAdmin:isAdminMode}).then(()=>fetchData());
   }
   function delLeave(id){ axios.delete('/api/leaves/'+id).then(()=>fetchData()); }
@@ -202,6 +205,16 @@ export default function App(){
         <header className="topbar">
         <div className="topbar-left">
           <h1>Vacation Tracker</h1>
+          <div className="view-toggle">
+            <button
+              className={`view-toggle-btn${view === 'calendar' ? ' active' : ''}`}
+              onClick={() => setView('calendar')}
+            >📅 Calendar</button>
+            <button
+              className={`view-toggle-btn${view === 'dashboard' ? ' active' : ''}`}
+              onClick={() => setView('dashboard')}
+            >📊 Dashboard</button>
+          </div>
           {isAdminMode && (
             <div className="user-info">
               <span className="admin-badge">Admin Mode</span>
@@ -260,44 +273,50 @@ export default function App(){
       </header>
       <main className="container">
         <div className="main">
-          <div className="monthselector">
-            <button onClick={()=>setMonth(month.subtract(1,'month'))}>&lt;</button>
-            <div>{month.format('MMMM YYYY')}</div>
-            <button onClick={()=>setMonth(month.add(1,'month'))}>&gt;</button>
-          </div>
-          
-          {/* Leave Categories Legend */}
-          <div className="leave-legend">
-            {Object.entries(CATEGORIES).map(([code, color]) => (
-              <div key={code} className="legend-item">
-                <div className="legend-color" style={{ backgroundColor: color }}></div>
-                <span className="legend-text">{code} - {CATEGORY_NAMES[code]}</span>
+          {view === 'calendar' ? (
+            <>
+              <div className="monthselector">
+                <button onClick={()=>setMonth(month.subtract(1,'month'))}>&lt;</button>
+                <div>{month.format('MMMM YYYY')}</div>
+                <button onClick={()=>setMonth(month.add(1,'month'))}>&gt;</button>
               </div>
-            ))}
-            {Object.entries(SHIFT_COLORS).map(([shiftName, color]) => (
-              <div key={shiftName} className="legend-item">
-                <div className="legend-color" style={{ backgroundColor: color }}></div>
-                <span className="legend-text">{shiftName}</span>
+              
+              {/* Leave Categories Legend */}
+              <div className="leave-legend">
+                {Object.entries(CATEGORIES).map(([code, color]) => (
+                  <div key={code} className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: color }}></div>
+                    <span className="legend-text">{code} - {CATEGORY_NAMES[code]}</span>
+                  </div>
+                ))}
+                {Object.entries(SHIFT_COLORS).map(([shiftName, color]) => (
+                  <div key={shiftName} className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: color }}></div>
+                    <span className="legend-text">{shiftName}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          
-          <Calendar 
-            members={members} 
-            leaves={leaves} 
-            shifts={shifts} 
-            month={month} 
-            categories={CATEGORIES} 
-            categoryNames={CATEGORY_NAMES} 
-            onAdd={addLeave} 
-            onDel={delLeave}
-            onApprove={handleApproveLeave}
-            currentUser={null}
-            isAdmin={isAdminMode}
-            onPinValidation={handlePinValidation}
-            onUpdateShift={updateShift}
-            excludeFromOnDuty={excludeFromOnDuty}
-          />
+              
+              <Calendar 
+                members={members} 
+                leaves={leaves} 
+                shifts={shifts} 
+                month={month} 
+                categories={CATEGORIES} 
+                categoryNames={CATEGORY_NAMES} 
+                onAdd={addLeave} 
+                onDel={delLeave}
+                onApprove={handleApproveLeave}
+                currentUser={null}
+                isAdmin={isAdminMode}
+                onPinValidation={handlePinValidation}
+                onUpdateShift={updateShift}
+                excludeFromOnDuty={excludeFromOnDuty}
+              />
+            </>
+          ) : (
+            <Dashboard members={members} leaves={leaves} />
+          )}
         </div>
       </main>
         <footer className="footer">

@@ -21,6 +21,35 @@ const DATA_FILE = IS_AZURE
 const dataDir = path.dirname(DATA_FILE);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
+// Teams webhook - store URL in env var on Azure, fallback for local dev
+const TEAMS_WEBHOOK_URL = process.env.TEAMS_WEBHOOK_URL || 'https://0ebdeab91946e92886560ac135508e.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/00/workflows/a47997e636a84d28b574a6f4aaaf9cf6/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Pleu8Hk49c-HCPsKQXycfKR8Fwr_K3yygQuyLCZ2uiM';
+
+const CATEGORY_NAMES = {
+  SL: 'Sick Leave', PL: 'Planned Leave', CGL: 'Caregiver Leave',
+  PH: 'Public Holiday', TFL: 'Time For Learning', CO: 'Comp Off',
+  WCO: 'Weekend Comp Off', WS: 'Weekend Shift'
+};
+
+function triggerTeamsNotification(member, dates, category) {
+  if (!TEAMS_WEBHOOK_URL) return;
+  const sortedDates = [...dates].sort();
+  const payload = {
+    employeeName: member,
+    leaveType: `${category} - ${CATEGORY_NAMES[category] || category}`,
+    startDate: sortedDates[0],
+    endDate: sortedDates[sortedDates.length - 1],
+    reason: `${CATEGORY_NAMES[category] || category} recorded via Vacation Tracker`,
+    totalDays: sortedDates.length
+  };
+  fetch(TEAMS_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => console.log(`Teams notification sent for ${member} (${sortedDates.length} day(s)): ${r.status}`))
+  .catch(err => console.error('Teams notification failed:', err.message));
+}
+
 // PINs stored in app code - never in data.json
 const USER_PINS = {
   "Sunil Tanuku": "2711",
@@ -151,10 +180,55 @@ app.post('/api/leaves',(req,res)=>{
     const createdAt = new Date().toISOString(); 
     const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 
-    writeData(d); 
+    writeData(d);
+    triggerTeamsNotification(member, [date], category);
     res.json(rec); 
   } catch(err) {
     console.error('Error in POST /api/leaves:', err.message);
+    res.status(500).json({error:'Internal server error'});
+  }
+});
+
+app.post('/api/leaves/batch',(req,res)=>{
+  try {
+    const {member, dates, category, isAdmin} = req.body;
+    if (!member || !dates || !Array.isArray(dates) || !category) {
+      return res.status(400).json({error:'member, dates (array), category required'});
+    }
+    const d = readData();
+    const autoApprovedCategories = ['SL', 'WS', 'WCO'];
+    const status = (isAdmin || autoApprovedCategories.includes(category)) ? 'approved' : 'pending';
+    const added = [];
+    const skipped = [];
+
+    for (const date of dates) {
+      // Skip if leave already exists
+      if (d.leaves.find(l => l.member === member && l.date === date)) {
+        skipped.push(date);
+        continue;
+      }
+      // WCO only on Mondays for non-admins
+      if (category === 'WCO' && !isAdmin) {
+        const dayOfWeek = new Date(date).getDay();
+        if (dayOfWeek !== 1) { skipped.push(date); continue; }
+      }
+      const id = d.leaves.reduce((m,x) => Math.max(m, x.id||0), 0) + 1;
+      const rec = { id, member, date, category, status, createdAt: new Date().toISOString() };
+      d.leaves.push(rec);
+      added.push(rec);
+    }
+
+    writeData(d);
+
+    // Single notification for the whole batch
+    if (added.length > 0) {
+      const sortedDates = added.map(r => r.date).sort();
+      triggerTeamsNotification(member, sortedDates, category);
+    }
+
+    res.json({ added, skipped });
+  } catch(err) {
+    console.error('Error in POST /api/leaves/batch:', err.message);
     res.status(500).json({error:'Internal server error'});
   }
 });

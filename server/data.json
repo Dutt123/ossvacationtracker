@@ -3628,6 +3628,110 @@
       "category": "TFL",
       "status": "approved",
       "createdAt": "2026-06-29T19:30:24.839Z"
+    },
+    {
+      "id": 452,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-23",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T04:47:41.707Z"
+    },
+    {
+      "id": 453,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-24",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T05:03:54.112Z"
+    },
+    {
+      "id": 454,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-25",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T05:07:54.302Z"
+    },
+    {
+      "id": 455,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-26",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T05:38:27.724Z"
+    },
+    {
+      "id": 456,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-29",
+      "category": "CGL",
+      "status": "pending",
+      "createdAt": "2026-06-30T05:43:06.583Z"
+    },
+    {
+      "id": 457,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-15",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2026-06-30T05:44:53.785Z"
+    },
+    {
+      "id": 458,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-17",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-06-30T06:12:50.131Z"
+    },
+    {
+      "id": 459,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-16",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T06:13:40.886Z"
+    },
+    {
+      "id": 460,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-18",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T06:50:53.054Z"
+    },
+    {
+      "id": 461,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-12",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T06:58:33.366Z"
+    },
+    {
+      "id": 462,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-10",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-06-30T06:59:37.273Z"
+    },
+    {
+      "id": 463,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-11",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-06-30T07:04:08.442Z"
+    },
+    {
+      "id": 464,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-09",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-06-30T07:07:03.959Z"
     }
   ],
   "shifts": {

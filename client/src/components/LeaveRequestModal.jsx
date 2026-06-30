@@ -25,12 +25,10 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
     console.log('All fields valid, proceeding with submission');
     setIsSubmitting(true);
     try {
-      // Generate dates by calculating day difference to avoid any date object issues
       const dates = [];
       const startMs = new Date(startDate).getTime();
       const endMs = new Date(endDate).getTime();
       const dayMs = 24 * 60 * 60 * 1000;
-      
       for (let ms = startMs; ms <= endMs; ms += dayMs) {
         const date = new Date(ms);
         const year = date.getFullYear();
@@ -39,24 +37,37 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
         dates.push(`${year}-${month}-${day}`);
       }
       console.log('Dates to submit:', dates);
-      
-      // Submit each date with error handling
-      for (const date of dates) {
-        try {
-          await onSubmit(selectedMember, date, selectedCategory);
-        } catch (error) {
-          console.error(`Failed to submit leave for ${date}:`, error);
-          // Continue with other dates even if one fails
+
+      if (dates.length === 1) {
+        // Single day — use existing per-day endpoint
+        await onSubmit(selectedMember, dates[0], selectedCategory);
+      } else {
+        // Multi day — use batch endpoint (single notification)
+        const res = await fetch('/api/leaves/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            member: selectedMember,
+            dates,
+            category: selectedCategory,
+            isAdmin: false
+          })
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Batch submit failed');
         }
+        // Refresh data via parent
+        await onSubmit(null, null, null, true);
       }
-      
+
       setSelectedMember('');
       setSelectedCategory('');
       setStartDate('');
       setEndDate('');
       onClose();
     } catch (err) {
-      alert('Error submitting request');
+      alert('Error submitting request: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
