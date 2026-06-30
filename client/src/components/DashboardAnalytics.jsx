@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -570,65 +570,78 @@ const stackedBarLabelPlugin = {
 };
 
 function LeaveByDayOfWeekChart({ leaveByDow, dowDayTotals }) {
-  const [viewMode, setViewMode] = useState('count');
-  const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const cats = Object.keys(CATEGORIES);
+  const DAY_LABELS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  const DAY_LABELS_FULL  = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-  const datasets = cats.map(c => {
-    const rawData = leaveByDow[c] || [0, 0, 0, 0, 0];
-    const chartData = viewMode === 'percent'
-      ? rawData.map((v, i) => dowDayTotals[i] ? Math.round((v / dowDayTotals[i]) * 100) : 0)
-      : rawData;
-    return {
-      label: `${c} – ${CATEGORY_NAMES[c]}`,
-      data: chartData,
-      rawData,
-      backgroundColor: hexToRgba(CATEGORIES[c], 0.82),
-      borderColor: CATEGORIES[c],
-      borderWidth: 1,
-      borderRadius: 4,
-      borderSkipped: false,
-    };
-  });
+  // Find the busiest and quietest day
+  const maxIdx = dowDayTotals.indexOf(Math.max(...dowDayTotals));
+  const minIdx = dowDayTotals.indexOf(Math.min(...dowDayTotals.filter(v => v > 0)));
+  const grandTotal = dowDayTotals.reduce((a, b) => a + b, 0);
 
-  const data = { labels: DAY_LABELS, datasets };
+  // Top-3 categories by total volume
+  const catTotals = Object.keys(CATEGORIES).map(c => ({
+    c,
+    total: (leaveByDow[c] || []).reduce((a, b) => a + b, 0),
+  })).sort((a, b) => b.total - a.total);
+  const topCats = catTotals.filter(x => x.total > 0).slice(0, 3);
+
+  const data = {
+    labels: DAY_LABELS_SHORT,
+    datasets: Object.keys(CATEGORIES)
+      .filter(c => (leaveByDow[c] || []).some(v => v > 0))
+      .map(c => ({
+        label: `${c}`,
+        data: leaveByDow[c] || [0, 0, 0, 0, 0],
+        backgroundColor: hexToRgba(CATEGORIES[c], 0.80),
+        borderColor: CATEGORIES[c],
+        borderWidth: 1.5,
+        borderRadius: 5,
+        borderSkipped: false,
+      })),
+  };
 
   const options = {
     ...CHART_DEFAULTS,
     plugins: {
       ...CHART_DEFAULTS.plugins,
       legend: {
-        ...CHART_DEFAULTS.plugins.legend,
+        display: true,
         position: 'bottom',
         labels: {
           color: '#94a3b8',
           font: { size: 11, family: 'Inter, sans-serif' },
-          boxWidth: 12,
-          padding: 12,
+          boxWidth: 10,
+          padding: 14,
           usePointStyle: true,
           pointStyle: 'rectRounded',
+          generateLabels: chart =>
+            chart.data.datasets.map((ds, i) => ({
+              text: `${ds.label} – ${CATEGORY_NAMES[ds.label]}`,
+              fillStyle: ds.backgroundColor,
+              strokeStyle: ds.borderColor,
+              fontColor: '#94a3b8',
+              lineWidth: 1,
+              hidden: false,
+              index: i,
+            })),
         },
       },
       tooltip: {
         ...CHART_DEFAULTS.plugins.tooltip,
         mode: 'index',
         callbacks: {
-          title: items => items[0]?.label || '',
+          title: items => DAY_LABELS_FULL[items[0]?.dataIndex] || '',
           label: ctx => {
-            const raw = ctx.dataset.rawData?.[ctx.dataIndex] ?? ctx.raw;
-            const dayTotal = dowDayTotals[ctx.dataIndex] || 0;
-            const pct = dayTotal ? Math.round((raw / dayTotal) * 100) : 0;
-            if (!raw) return null;
-            return ` ${ctx.dataset.label}: ${raw} days (${pct}%)`;
+            if (!ctx.raw) return null;
+            const dayTotal = dowDayTotals[ctx.dataIndex] || 1;
+            const pct = Math.round((ctx.raw / dayTotal) * 100);
+            return `  ${ctx.dataset.label}: ${ctx.raw} days (${pct}%)`;
           },
-          filter: item => {
-            const raw = item.dataset.rawData?.[item.dataIndex] ?? item.raw;
-            return raw > 0;
-          },
+          filter: item => item.raw > 0,
           afterBody: items => {
             const i = items[0]?.dataIndex;
-            if (i === undefined) return [];
-            return ['─────────────────', `Day total: ${dowDayTotals[i]} days`];
+            if (i === undefined || !dowDayTotals[i]) return [];
+            return ['', `  Total: ${dowDayTotals[i]} days`];
           },
         },
       },
@@ -636,42 +649,63 @@ function LeaveByDayOfWeekChart({ leaveByDow, dowDayTotals }) {
     scales: {
       x: {
         stacked: true,
-        ticks: { color: '#94a3b8', font: { size: 12, weight: '700' } },
-        grid: { color: 'rgba(51,65,85,0.35)', drawBorder: false },
+        ticks: { color: '#cbd5e1', font: { size: 12, weight: '700' } },
+        grid: { color: 'rgba(51,65,85,0.25)', drawBorder: false },
       },
       y: {
         stacked: true,
-        ticks: {
-          color: '#64748b',
-          font: { size: 11 },
-          callback: v => viewMode === 'percent' ? `${v}%` : v,
-        },
-        grid: { color: 'rgba(51,65,85,0.35)', drawBorder: false },
         beginAtZero: true,
-        ...(viewMode === 'percent' ? { max: 100 } : {}),
+        ticks: { color: '#64748b', font: { size: 11 }, stepSize: 1 },
+        grid: { color: 'rgba(51,65,85,0.25)', drawBorder: false },
       },
     },
   };
 
   return (
     <div>
-      <div className="an-dow-toggle">
-        <button
-          className={`an-dow-btn${viewMode === 'count' ? ' active' : ''}`}
-          onClick={() => setViewMode('count')}
-        >
-          # Count
-        </button>
-        <button
-          className={`an-dow-btn${viewMode === 'percent' ? ' active' : ''}`}
-          onClick={() => setViewMode('percent')}
-        >
-          % Share
-        </button>
+      {/* Summary stat pills */}
+      <div className="an-dow-stats">
+        {grandTotal > 0 && (
+          <>
+            <div className="an-dow-stat">
+              <span className="an-dow-stat-label">Busiest</span>
+              <span className="an-dow-stat-val" style={{ color: '#ef4444' }}>
+                {DAY_LABELS_FULL[maxIdx]}
+                <span className="an-dow-stat-sub"> · {dowDayTotals[maxIdx]} days</span>
+              </span>
+            </div>
+            {minIdx >= 0 && minIdx !== maxIdx && (
+              <div className="an-dow-stat">
+                <span className="an-dow-stat-label">Quietest</span>
+                <span className="an-dow-stat-val" style={{ color: '#22c55e' }}>
+                  {DAY_LABELS_FULL[minIdx]}
+                  <span className="an-dow-stat-sub"> · {dowDayTotals[minIdx]} days</span>
+                </span>
+              </div>
+            )}
+            {topCats.length > 0 && (
+              <div className="an-dow-stat">
+                <span className="an-dow-stat-label">Top types</span>
+                <span className="an-dow-stat-val">
+                  {topCats.map(({ c }) => (
+                    <span key={c} className="an-dow-cat-pill" style={{ background: hexToRgba(CATEGORIES[c], 0.18), color: CATEGORIES[c], borderColor: hexToRgba(CATEGORIES[c], 0.5) }}>
+                      {c}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            )}
+          </>
+        )}
       </div>
-      <div style={{ height: 300, position: 'relative' }}>
-        <Bar data={data} options={options} plugins={[stackedBarLabelPlugin]} />
-      </div>
+
+      {grandTotal === 0 ? (
+        <div className="an-no-data">No weekday leave data for this period</div>
+      ) : (
+        <div style={{ height: 260, position: 'relative' }}>
+          <Bar data={data} options={options} />
+        </div>
+      )}
     </div>
   );
 }

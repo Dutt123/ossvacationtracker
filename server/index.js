@@ -3,8 +3,52 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
+// Load .env only in non-production (Azure supplies env vars natively)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.join(__dirname, '.env') });
+}
+
 const app = express();
-app.use(cors());
+
+// Secure HTTP headers
+app.use(helmet({
+  contentSecurityPolicy: false // disabled so the React SPA loads fine
+}));
+
+// CORS — tighten origin in production via env var
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
+app.use(cors({
+  origin: (origin, cb) => {
+    // Allow server-to-server (no origin) and the configured origin
+    if (!origin || origin === ALLOWED_ORIGIN) return cb(null, true);
+    cb(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
+
+// Global rate limiter — 200 req / 15 min per IP
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' }
+});
+app.use(globalLimiter);
+
+// Stricter limiter for the leave-request notification endpoint
+const leaveRequestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many leave requests, please slow down.' }
+});
+
 app.use(bodyParser.json());
 
 // Serve static files from client build
@@ -21,8 +65,17 @@ const DATA_FILE = IS_AZURE
 const dataDir = path.dirname(DATA_FILE);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
-// Teams webhook - store URL in env var on Azure, fallback for local dev
-const TEAMS_WEBHOOK_URL = process.env.TEAMS_WEBHOOK_URL || 'https://0ebdeab91946e92886560ac135508e.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/00/workflows/a47997e636a84d28b574a6f4aaaf9cf6/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Pleu8Hk49c-HCPsKQXycfKR8Fwr_K3yygQuyLCZ2uiM';
+// Power Automate webhook URL — must be set as an env var.
+// Local dev: add to server/.env  (gitignored)
+// Azure:     set in App Service > Configuration > Application Settings
+const POWER_AUTOMATE_WEBHOOK = process.env.POWER_AUTOMATE_WEBHOOK || '';
+const POWER_AUTOMATE_API_KEY = process.env.POWER_AUTOMATE_API_KEY || '';
+if (!POWER_AUTOMATE_WEBHOOK) {
+  console.warn('[WARN] POWER_AUTOMATE_WEBHOOK is not set — Teams notifications will be skipped.');
+}
+if (!POWER_AUTOMATE_API_KEY) {
+  console.warn('[WARN] POWER_AUTOMATE_API_KEY is not set — Teams notifications will be skipped.');
+}
 
 const CATEGORY_NAMES = {
   SL: 'Sick Leave', PL: 'Planned Leave', CGL: 'Caregiver Leave',
@@ -30,10 +83,16 @@ const CATEGORY_NAMES = {
   WCO: 'Weekend Comp Off', WS: 'Weekend Shift'
 };
 
-function triggerTeamsNotification(member, dates, category) {
-  if (!TEAMS_WEBHOOK_URL) return;
+const VALID_CATEGORIES = Object.keys(CATEGORY_NAMES);
+
+async function triggerTeamsNotification(member, dates, category) {
+  if (!POWER_AUTOMATE_WEBHOOK || !POWER_AUTOMATE_API_KEY) {
+    console.log('[INFO] Skipping Teams notification — POWER_AUTOMATE_WEBHOOK or POWER_AUTOMATE_API_KEY not configured.');
+    return;
+  }
   const sortedDates = [...dates].sort();
   const payload = {
+    apiKey: POWER_AUTOMATE_API_KEY,
     employeeName: member,
     leaveType: `${category} - ${CATEGORY_NAMES[category] || category}`,
     startDate: sortedDates[0],
@@ -41,13 +100,28 @@ function triggerTeamsNotification(member, dates, category) {
     reason: `${CATEGORY_NAMES[category] || category} recorded via Vacation Tracker`,
     totalDays: sortedDates.length
   };
-  fetch(TEAMS_WEBHOOK_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  .then(r => console.log(`Teams notification sent for ${member} (${sortedDates.length} day(s)): ${r.status}`))
-  .catch(err => console.error('Teams notification failed:', err.message));
+
+  // 10-second timeout so a slow webhook never hangs the server
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 10_000);
+
+  try {
+    const r = await fetch(POWER_AUTOMATE_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    console.log(`[INFO] Teams notification sent for ${member} (${sortedDates.length} day(s)): HTTP ${r.status}`);
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      console.error('[ERROR] Teams notification timed out for', member);
+    } else {
+      console.error('[ERROR] Teams notification failed:', err.message);
+    }
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 // PINs stored in app code - never in data.json
@@ -319,6 +393,85 @@ app.delete('/api/members/:name',(req,res)=>{
   } catch(err) {
     console.error('Error in DELETE /api/members:', err.message);
     res.status(500).json({error:'Internal server error'});
+  }
+});
+
+// ── POST /api/leave-request ──────────────────────────────────────────────────
+// Dedicated endpoint that validates the payload then forwards to Power Automate.
+// The webhook URL never leaves the server.
+app.post('/api/leave-request', leaveRequestLimiter, async (req, res) => {
+  try {
+    const { member, dates, category } = req.body;
+
+    // ── Validation ────────────────────────────────────────────────────────────
+    if (!member || typeof member !== 'string' || !member.trim()) {
+      return res.status(400).json({ error: 'member is required and must be a non-empty string.' });
+    }
+    if (!category || !VALID_CATEGORIES.includes(category)) {
+      return res.status(400).json({ error: `category must be one of: ${VALID_CATEGORIES.join(', ')}.` });
+    }
+    if (!dates || !Array.isArray(dates) || dates.length === 0) {
+      return res.status(400).json({ error: 'dates must be a non-empty array.' });
+    }
+    const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+    const invalidDate = dates.find(d => !ISO_DATE.test(d) || isNaN(Date.parse(d)));
+    if (invalidDate) {
+      return res.status(400).json({ error: `Invalid date format: "${invalidDate}". Use YYYY-MM-DD.` });
+    }
+    if (dates.length > 90) {
+      return res.status(400).json({ error: 'Cannot submit more than 90 days in a single request.' });
+    }
+
+    // Verify member exists in current data
+    const d = readData();
+    if (!d.members.includes(member.trim())) {
+      return res.status(400).json({ error: 'Member not found.' });
+    }
+
+    if (!POWER_AUTOMATE_WEBHOOK || !POWER_AUTOMATE_API_KEY) {
+      console.warn('[WARN] /api/leave-request called but POWER_AUTOMATE_WEBHOOK or POWER_AUTOMATE_API_KEY is not configured.');
+      return res.status(503).json({ error: 'Notification service is not configured on this server.' });
+    }
+
+    // ── Forward to Power Automate ─────────────────────────────────────────────
+    const sortedDates = [...dates].sort();
+    const payload = {
+      apiKey: POWER_AUTOMATE_API_KEY,
+      employeeName: member.trim(),
+      leaveType: `${category} - ${CATEGORY_NAMES[category]}`,
+      startDate: sortedDates[0],
+      endDate: sortedDates[sortedDates.length - 1],
+      reason: `${CATEGORY_NAMES[category]} recorded via Vacation Tracker`,
+      totalDays: sortedDates.length
+    };
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10_000);
+
+    let webhookStatus;
+    try {
+      const r = await fetch(POWER_AUTOMATE_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      webhookStatus = r.status;
+      console.log(`[INFO] /api/leave-request — Teams notified for ${member} (${sortedDates.length} day(s)): HTTP ${r.status}`);
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        console.error('[ERROR] /api/leave-request — Teams webhook timed out for', member);
+        return res.status(504).json({ error: 'Notification service timed out. Please try again.' });
+      }
+      throw err;
+    } finally {
+      clearTimeout(timer);
+    }
+
+    res.json({ success: true, webhookStatus });
+  } catch (err) {
+    console.error('[ERROR] /api/leave-request:', err.message);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 });
 
