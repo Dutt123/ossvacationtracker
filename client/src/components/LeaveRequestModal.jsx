@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, User, CalendarDays } from 'lucide-react';
+import { X, Calendar, CalendarDays } from 'lucide-react';
 
 export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, categories, categoryNames, selectedDate, selectedMember: preSelectedMember }) {
   const [selectedMember, setSelectedMember] = useState('');
@@ -20,9 +20,7 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
-    console.log('Submitting leave request');
     if (!selectedMember || !selectedCategory || !startDate || !endDate) return;
-    console.log('All fields valid, proceeding with submission');
     setIsSubmitting(true);
     try {
       const dates = [];
@@ -36,7 +34,6 @@ export default function LeaveRequestModal({ isOpen, onClose, onSubmit, members, 
         const day = String(date.getDate()).padStart(2, '0');
         dates.push(`${year}-${month}-${day}`);
       }
-      console.log('Dates to submit:', dates);
 
       if (dates.length === 1) {
         // Single day — use existing per-day endpoint

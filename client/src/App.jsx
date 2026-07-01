@@ -85,7 +85,6 @@ export default function App() {
   async function handleAddMember(name) { await axios.post('/api/members', { name }); fetchData(); }
   async function handleRemoveMember(name) { await axios.delete('/api/members/' + encodeURIComponent(name)); fetchData(); }
   async function handleEditMember(oldName, newName) { await axios.put('/api/members/' + encodeURIComponent(oldName), { newName }); fetchData(); }
-  async function handleAddAdmin(name) { await axios.post('/api/admins', { name }); fetchData(); }
   async function handleApproveLeave(leaveId) { await axios.put('/api/leaves/' + leaveId + '/approve'); fetchData(); }
 
   function updateShift(member, startDate, endDate, shift) {

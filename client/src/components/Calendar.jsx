@@ -40,10 +40,6 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
     return leaves.filter(l => l.member === member && l.date === day.format('YYYY-MM-DD'));
   }
   
-  function canAddLeave(member) {
-    return true;
-  }
-  
   function canDeleteLeave(leave) {
     if (!leave) return false;
     if (isAdmin) return true; // Admins can delete any leave
