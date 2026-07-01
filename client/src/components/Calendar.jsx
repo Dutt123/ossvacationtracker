@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import LeaveModal from './LeaveModal'
 import LeaveRequestModal from './LeaveRequestModal'
 import LeaveDetailsModal from './LeaveDetailsModal'
-import ShiftUpdateModal from './ShiftUpdateModal';
+import ShiftModal from './ShiftModal';
 
 function rangeDays(month){
   const start = month.startOf('month');
@@ -291,14 +291,11 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
         canApprove={isAdmin && selectedLeave?.status === 'pending'}
       />
 
-      <ShiftUpdateModal
+      <ShiftModal
         isOpen={shiftModalOpen}
         onClose={() => setShiftModalOpen(false)}
         selectedMember={selectedMemberForShift}
-        onSubmit={(startDate, endDate, shift) => {
-          onUpdateShift(selectedCell?.member, startDate, endDate, shift);
-          setShiftModalOpen(false);
-        }}
+        onSubmit={({ member, startDate, endDate, shift }) => onUpdateShift(member, startDate, endDate, shift)}
       />
     </div>
   );

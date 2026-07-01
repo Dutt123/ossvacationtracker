@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import dayjs from 'dayjs';
-import DashboardAnalytics from './DashboardAnalytics';
 
 const CATEGORIES = {
   SL: '#ef4444',
@@ -145,12 +144,9 @@ export default function Dashboard({ members, leaves }) {
       </div>
 
       {/* Analytics Section */}
-      <DashboardAnalytics
-        members={members}
-        leaves={approvedLeaves}
-        excludeFromOnDuty={[]}
-        selectedFY={selectedFY}
-      />
+      <div className="dashboard-section">
+        <div className="dashboard-section-title">📈 Analytics coming soon</div>
+      </div>
 
       {/* Year Summary Table */}
       <div className="dashboard-section">

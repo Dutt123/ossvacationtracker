@@ -3764,6 +3764,14 @@
       "category": "SL",
       "status": "approved",
       "createdAt": "2026-06-30T12:36:47.974Z"
+    },
+    {
+      "id": 469,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-03",
+      "category": "CGL",
+      "status": "pending",
+      "createdAt": "2026-07-01T18:49:57.366Z"
     }
   ],
   "shifts": {
