@@ -85,7 +85,7 @@ const CATEGORY_NAMES = {
 
 const VALID_CATEGORIES = Object.keys(CATEGORY_NAMES);
 
-async function triggerTeamsNotification(member, dates, category) {
+async function triggerTeamsNotification(member, dates, category, reason) {
   if (!POWER_AUTOMATE_WEBHOOK || !POWER_AUTOMATE_API_KEY) {
     console.log('[INFO] Skipping Teams notification — POWER_AUTOMATE_WEBHOOK or POWER_AUTOMATE_API_KEY not configured.');
     return;
@@ -97,7 +97,7 @@ async function triggerTeamsNotification(member, dates, category) {
     leaveType: `${category} - ${CATEGORY_NAMES[category] || category}`,
     startDate: sortedDates[0],
     endDate: sortedDates[sortedDates.length - 1],
-    reason: `${CATEGORY_NAMES[category] || category} recorded via Vacation Tracker`,
+    reason: reason || `${CATEGORY_NAMES[category] || category} recorded via Vacation Tracker`,
     totalDays: sortedDates.length
   };
 
@@ -229,7 +229,7 @@ app.get('/api/leaves',(req,res)=>{
 
 app.post('/api/leaves',(req,res)=>{ 
   try {
-    const {member,date,category,isAdmin}=req.body; 
+    const {member,date,category,isAdmin,reason}=req.body; 
     if(!member||!date||!category) return res.status(400).json({error:'member,date,category required'}); 
     
     const d = readData(); 
@@ -255,7 +255,7 @@ app.post('/api/leaves',(req,res)=>{
     const rec = { id, member, date, category, status, createdAt }; 
     d.leaves.push(rec); 
     writeData(d);
-    triggerTeamsNotification(member, [date], category);
+    triggerTeamsNotification(member, [date], category, reason);
     res.json(rec); 
   } catch(err) {
     console.error('Error in POST /api/leaves:', err.message);
@@ -265,7 +265,7 @@ app.post('/api/leaves',(req,res)=>{
 
 app.post('/api/leaves/batch',(req,res)=>{
   try {
-    const {member, dates, category, isAdmin} = req.body;
+    const {member, dates, category, isAdmin, reason} = req.body;
     if (!member || !dates || !Array.isArray(dates) || !category) {
       return res.status(400).json({error:'member, dates (array), category required'});
     }
@@ -297,7 +297,7 @@ app.post('/api/leaves/batch',(req,res)=>{
     // Single notification for the whole batch
     if (added.length > 0) {
       const sortedDates = added.map(r => r.date).sort();
-      triggerTeamsNotification(member, sortedDates, category);
+      triggerTeamsNotification(member, sortedDates, category, reason);
     }
 
     res.json({ added, skipped });

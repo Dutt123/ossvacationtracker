@@ -1,14 +1,19 @@
 import React, { useState, useRef, useCallback } from 'react';
 
 const CATEGORIES = {
-  SL: '#ef4444', PL: '#22c55e', CGL: '#f59e0b', PH: '#8b5cf6',
-  TFL: '#06b6d4', CO: '#ec4899', WCO: '#f97316', WS: '#6366f1',
+  SL: '#a8403a', // muted rose-red
+  PL: '#2d7a4f', // muted forest green
+  CGL: '#a06820', // muted amber-brown
+  PH: '#5e3f9e', // muted indigo-purple
+  TFL: '#1a7a8a', // muted teal
+  CO: '#8f3d6b', // muted mauve-pink
+  WCO: '#a04f1a', // muted burnt orange
 };
 
 const CATEGORY_NAMES = {
   SL: 'Sick Leave', PL: 'Planned Leave', CGL: 'Caregiver Leave',
   PH: 'Public Holiday', TFL: 'Time For Learning', CO: 'Comp Off',
-  WCO: 'Weekend Comp Off', WS: 'Weekend Shift',
+  WCO: 'Weekend Comp Off',
 };
 
 const FY_MONTH_ORDER = [6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5];
@@ -70,6 +75,17 @@ function AnnualOverviewChart({ members, yearSummary, hoveredMember, setHoveredMe
 
   return (
     <div className="lat-body">
+      <div className="lat-chart-header">
+        <span className="lat-chart-member-label">Member</span>
+        <div className="lat-chart-legend">
+          {Object.entries(CATEGORIES).map(([code, color]) => (
+            <span key={code} className="lat-legend-item">
+              <span className="lat-legend-dot" style={{ background: color }} />
+              {code}
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="lat-chart-wrap" ref={chartRef}>
         {rows.map(({ member, segments, total }) => {
           const pct = (total / maxTotal) * 100;
@@ -87,15 +103,22 @@ function AnnualOverviewChart({ members, yearSummary, hoveredMember, setHoveredMe
               />
               <div className="lat-bar-track">
                 <div className="lat-bar-fill" style={{ width: `${pct}%` }}>
-                  {segments.map(({ key, count, color }) => (
-                    <div
-                      key={key}
-                      className="lat-bar-seg"
-                      style={{ width: `${(count / total) * 100}%`, background: color }}
-                      onMouseEnter={e => handleSegmentEnter(e, member, key, count, total, color)}
-                      onMouseLeave={handleSegmentLeave}
-                    />
-                  ))}
+                  {segments.map(({ key, count, color }) => {
+                    const segPct = (count / total) * 100;
+                    return (
+                      <div
+                        key={key}
+                        className="lat-bar-seg"
+                        style={{ width: `${segPct}%`, background: color }}
+                        onMouseEnter={e => handleSegmentEnter(e, member, key, count, total, color)}
+                        onMouseLeave={handleSegmentLeave}
+                      >
+                        {segPct >= 8 && (
+                          <span className="lat-bar-seg-label">{count}</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
                 {total > 0 && <span className="lat-bar-total">{total}</span>}
               </div>
@@ -122,14 +145,6 @@ function AnnualOverviewChart({ members, yearSummary, hoveredMember, setHoveredMe
         )}
       </div>
 
-      <div className="lat-chart-legend">
-        {Object.entries(CATEGORIES).map(([code, color]) => (
-          <span key={code} className="lat-legend-item">
-            <span className="lat-legend-dot" style={{ background: color }} />
-            {code}
-          </span>
-        ))}
-      </div>
     </div>
   );
 }

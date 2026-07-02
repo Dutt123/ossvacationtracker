@@ -4,7 +4,6 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import Calendar from './components/Calendar'
 import Dashboard from './components/Dashboard'
-import OndutyBar from './components/OndutyBar'
 import TeamModal from './components/TeamModal'
 import PinModal from './components/PinModal'
 import PublicHolidaysModal from './components/PublicHolidaysModal'
@@ -51,18 +50,14 @@ const PUBLIC_HOLIDAYS = [
   { date: '5 Nov 2025', description: 'Guru Nanak Jayanti (Optional)' },
   { date: '25 Dec 2025', description: 'Christmas (Fixed)' },
   // 2026 Holidays
-  { date: '1 Jan 2026', description: 'New Year\'s Day (Fixed)' },
-  { date: '15 Jan 2026', description: 'Pongal/Sankranti (Optional)' },
-  { date: '26 Jan 2026', description: 'Republic Day (Fixed)' },
-  { date: '4 Mar 2026', description: 'Holi (Fixed)' },
-  { date: '19 Mar 2026', description: 'Ugadi/Gudi Padwa (Optional)' },
-  { date: '26 Mar 2026', description: 'Ram Navami (Optional)' },
-  { date: '31 Mar 2026', description: 'Mahavir Jayanti (Optional)' },
-  { date: '3 Apr 2026', description: 'Good Friday (Optional)' },
-  { date: '14 Apr 2026', description: 'Tamil New Year\'s Day/Ambedkar Jayanti (Optional)' },
-  { date: '1 May 2026', description: 'May Day(Labour Day) (Fixed)' },
-  { date: '28 May 2026', description: 'Bakri-Id (Fixed)' },
-  { date: '2 Jun 2026', description: 'Telangana State Formation Day (Fixed)' },
+  { date: '26 Aug 2026', description: 'Id-E-Milad/Onam (Optional)' },
+  { date: '28 Aug 2026', description: 'Raksha Bandhan (Optional)' },
+  { date: '14 Sep 2026', description: 'Ganesh Chaturthi (Optional)' },
+  { date: '2 Oct 2026', description: 'Gandhi Jayanti (Fixed)' },
+  { date: '21 Oct 2026', description: 'Dussehra (Fixed)' },
+  { date: '10 Nov 2026', description: 'Bali Padyami (Optional)' },
+  { date: '24 Nov 2026', description: 'Guru Nanak Jayani (Optional)' },
+  { date: '25 Dec 2026', description: 'Christmas (Fixed)' },
 ];
 
 export default function App(){
@@ -92,9 +87,9 @@ export default function App(){
     axios.get('/api/admins').then(r=>setAdmins(r.data.admins));
     axios.get('/api/shifts').then(r=>setShifts(r.data.shifts));
   }
-  function addLeave(member, date, category, refreshOnly = false){
+  function addLeave(member, date, category, refreshOnly = false, reason = null){
     if (refreshOnly) { fetchData(); return; }
-    axios.post('/api/leaves',{member,date,category,isAdmin:isAdminMode}).then(()=>fetchData());
+    axios.post('/api/leaves',{member,date,category,isAdmin:isAdminMode,reason}).then(()=>fetchData());
   }
   function delLeave(id){ axios.delete('/api/leaves/'+id).then(()=>fetchData()); }
   
@@ -307,7 +302,6 @@ export default function App(){
                 onAdd={addLeave} 
                 onDel={delLeave}
                 onApprove={handleApproveLeave}
-                currentUser={null}
                 isAdmin={isAdminMode}
                 onPinValidation={handlePinValidation}
                 onUpdateShift={updateShift}

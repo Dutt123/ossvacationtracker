@@ -17,7 +17,7 @@ const shiftColors = {
   "EMEA": "#60a5fa"   // vibrant blue
 };
 
-export default function Calendar({members,leaves,shifts, month,categories,categoryNames,onAdd,onDel,onApprove,currentUser,isAdmin, onUpdateShift, excludeFromOnDuty = [], onPinValidation}) {
+export default function Calendar({members,leaves,shifts,month,categories,categoryNames,onAdd,onDel,onApprove,isAdmin,onUpdateShift,excludeFromOnDuty=[],onPinValidation}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -40,14 +40,10 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
     return leaves.filter(l => l.member === member && l.date === day.format('YYYY-MM-DD'));
   }
   
-  function canAddLeave(member) {
-    return true;
-  }
-  
   function canDeleteLeave(leave) {
     if (!leave) return false;
-    if (isAdmin) return true; // Admins can delete any leave
-    return leave.status === 'pending'; // Regular users can only delete pending leaves
+    if (isAdmin) return true;
+    return leave.status === 'pending';
   }
   
   function getOnDutyPercentage(day) {
@@ -238,13 +234,11 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
                     onClick={() => {
                       const dateStr = d.format('YYYY-MM-DD');
                       setSelectedCell({ member: m, date: dateStr });
-                      onPinValidation(m, () => {
-                        if (isAdmin) {
-                          setModalOpen(true);
-                        } else {
-                          setRequestModalOpen(true);
-                        }
-                      });
+                      if (isAdmin) {
+                        setModalOpen(true);
+                      } else {
+                        onPinValidation(m, () => setRequestModalOpen(true));
+                      }
                     }}
                   >
                         {shift && <span style={{ zIndex: 1 }}>{shift}</span>}
@@ -266,6 +260,8 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
         categories={categories}
         categoryNames={categoryNames}
         selectedDate={selectedCell?.date}
+        selectedMember={selectedCell?.member}
+        leaves={leaves}
         isAdmin={isAdmin}
       />
       
@@ -278,6 +274,7 @@ export default function Calendar({members,leaves,shifts, month,categories,catego
         categoryNames={categoryNames}
         selectedDate={selectedCell?.date}
         selectedMember={selectedCell?.member}
+        leaves={leaves}
       />
       
       <LeaveDetailsModal 

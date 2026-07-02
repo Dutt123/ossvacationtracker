@@ -3764,6 +3764,78 @@
       "category": "SL",
       "status": "approved",
       "createdAt": "2026-06-30T12:36:47.974Z"
+    },
+    {
+      "id": 469,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-03",
+      "category": "SL",
+      "status": "approved",
+      "createdAt": "2026-07-02T13:18:44.238Z"
+    },
+    {
+      "id": 470,
+      "member": "Sunil Tanuku",
+      "date": "2026-06-02",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2026-07-02T13:19:39.155Z"
+    },
+    {
+      "id": 471,
+      "member": "Sunil Tanuku",
+      "date": "2026-07-13",
+      "category": "PL",
+      "status": "approved",
+      "createdAt": "2026-07-02T14:07:44.142Z"
+    },
+    {
+      "id": 472,
+      "member": "Sunil Tanuku",
+      "date": "2026-07-06",
+      "category": "PL",
+      "status": "pending",
+      "createdAt": "2026-07-02T14:15:59.547Z"
+    },
+    {
+      "id": 473,
+      "member": "Sunil Tanuku",
+      "date": "2026-08-26",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-07-02T16:21:36.795Z"
+    },
+    {
+      "id": 474,
+      "member": "Sunil Tanuku",
+      "date": "2026-10-07",
+      "category": "CO",
+      "status": "pending",
+      "createdAt": "2026-07-02T16:25:01.244Z"
+    },
+    {
+      "id": 475,
+      "member": "Sunil Tanuku",
+      "date": "2026-10-21",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-07-02T16:31:17.056Z"
+    },
+    {
+      "id": 476,
+      "member": "Sunil Tanuku",
+      "date": "2026-11-10",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-07-02T16:41:30.979Z"
+    },
+    {
+      "id": 477,
+      "member": "Rachit Tandon",
+      "date": "2026-11-10",
+      "category": "PH",
+      "status": "approved",
+      "createdAt": "2026-07-02T16:43:27.569Z"
     }
   ],
   "shifts": {

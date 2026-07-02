@@ -37,13 +37,12 @@ const CATEGORIES = {
   TFL: '#06b6d4',
   CO:  '#ec4899',
   WCO: '#f97316',
-  WS:  '#6366f1',
 };
 
 const CATEGORY_NAMES = {
   SL: 'Sick Leave', PL: 'Planned Leave', CGL: 'Caregiver Leave',
   PH: 'Public Holiday', TFL: 'Time For Learning', CO: 'Comp Off',
-  WCO: 'Weekend Comp Off', WS: 'Weekend Shift',
+  WCO: 'Weekend Comp Off',
 };
 
 const FY_MONTH_ORDER = [6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5];
