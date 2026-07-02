@@ -270,28 +270,45 @@ export default function App(){
         <div className="main">
           {view === 'calendar' ? (
             <>
-              <div className="monthselector">
-                <button onClick={()=>setMonth(month.subtract(1,'month'))}>&lt;</button>
-                <div>{month.format('MMMM YYYY')}</div>
-                <button onClick={()=>setMonth(month.add(1,'month'))}>&gt;</button>
-              </div>
-              
-              {/* Leave Categories Legend */}
-              <div className="leave-legend">
-                {Object.entries(CATEGORIES).map(([code, color]) => (
-                  <div key={code} className="legend-item">
-                    <div className="legend-color" style={{ backgroundColor: color }}></div>
-                    <span className="legend-text">{code} - {CATEGORY_NAMES[code]}</span>
+              <div className="cal-toolbar">
+                <div className="cal-toolbar-nav">
+                  <button className="cal-nav-btn" onClick={()=>setMonth(month.subtract(1,'month'))}>&#8249;</button>
+                  <span className="cal-month-title">{month.format('MMMM YYYY')}</span>
+                  <button className="cal-nav-btn" onClick={()=>setMonth(month.add(1,'month'))}>&#8250;</button>
+                </div>
+                <div className="cal-toolbar-legends">
+                  <div className="cal-legend-group">
+                    <span className="cal-legend-label">Leave Types</span>
+                    <div className="cal-legend-pills">
+                      {Object.entries(CATEGORIES).map(([code, color]) => (
+                        <span key={code} className="cal-pill" style={{
+                          border: `1px solid ${color}55`,
+                          background: `${color}1a`
+                        }}>
+                          <span className="cal-pill-dot" style={{ backgroundColor: color }} />
+                          {code}
+                          <span className="cal-pill-name">{CATEGORY_NAMES[code]}</span>
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                ))}
-                {Object.entries(SHIFT_COLORS).map(([shiftName, color]) => (
-                  <div key={shiftName} className="legend-item">
-                    <div className="legend-color" style={{ backgroundColor: color }}></div>
-                    <span className="legend-text">{shiftName}</span>
+                  <div className="cal-legend-group">
+                    <span className="cal-legend-label">Regions</span>
+                    <div className="cal-legend-pills">
+                      {Object.entries(SHIFT_COLORS).map(([name, color]) => (
+                        <span key={name} className="cal-pill" style={{
+                          border: `1px solid ${color}55`,
+                          background: `${color}1a`
+                        }}>
+                          <span className="cal-pill-dot" style={{ backgroundColor: color }} />
+                          {name}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                </div>
               </div>
-              
+
               <Calendar 
                 members={members} 
                 leaves={leaves} 

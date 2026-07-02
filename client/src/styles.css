@@ -73,10 +73,12 @@ input, select, textarea, button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 10px 20px;
+  margin: 10px 12px 0 12px;
   background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(25px);
-  border-bottom: 1px solid rgba(0, 212, 255, 0.4);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
@@ -88,7 +90,7 @@ input, select, textarea, button {
 
 .topbar h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: var(--fw-kpi);
   color: var(--heading);
   letter-spacing: var(--ls-heading);
@@ -128,49 +130,134 @@ input, select, textarea, button {
   box-shadow: 0 1px 4px rgba(76,175,80,0.18);
 }
 
-.monthselector {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  margin-bottom: 8px;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid rgba(0, 212, 255, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
 
-.monthselector button {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 212, 255, 0.4);
-  background: rgba(0, 212, 255, 0.1);
-  color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.21);
-  transition: all 0.3s ease;
-}
 
-.monthselector button:hover {
-  background: var(--accent);
-  color: #0f172a;
-  transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.42);
-}
 
-.monthselector > div {
-  font-size: 1.4rem;
-  font-weight: var(--fw-kpi);
-  letter-spacing: var(--ls-heading);
-  color: var(--heading);
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-}
 
 /* Container */
+
+/* Calendar Toolbar */
+.cal-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.cal-toolbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cal-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  background: rgba(0, 212, 255, 0.08);
+  color: var(--accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.15);
+}
+
+.cal-nav-btn:hover {
+  background: var(--accent);
+  color: #0f172a;
+  transform: scale(1.1);
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.4);
+}
+
+.cal-month-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--heading);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+  min-width: 160px;
+  text-align: center;
+}
+
+.cal-toolbar-legends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: flex-start;
+  justify-content: center;
+  border-top: 1px solid rgba(100, 116, 139, 0.2);
+  padding-top: 10px;
+}
+
+.cal-legend-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cal-legend-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cal-legend-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cal-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 6px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--heading);
+  cursor: default;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.cal-pill:hover {
+  background: rgba(255,255,255,0.13);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.cal-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cal-pill-name {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 1px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -263,42 +350,9 @@ input, select, textarea, button {
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.3) !important;
 }
 
-/* Leave Legend Styles */
-.leave-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  border: 1px solid rgba(0, 212, 255, 0.3);
-  margin-bottom: 12px;
-}
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 12px;
-  border: 1px solid rgba(100, 116, 139, 0.3);
-}
 
-.legend-color {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
 
-.legend-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--heading);
-}
 
 /* Modal Styles */
 .modal-overlay {
@@ -1070,7 +1124,7 @@ input, select, textarea, button {
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
 }
 
 .user-info {
@@ -1923,19 +1977,24 @@ input, select, textarea, button {
 }
 
 .view-toggle-btn {
-  padding: 7px 20px;
+  padding: 5px 13px;
   border-radius: 24px;
   border: none;
   background: transparent;
   color: #94a3b8;
-  font-size: 0.88rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   white-space: nowrap;
+}
+
+.view-toggle-btn span:first-child,
+.view-toggle-btn > *:first-child {
+  font-size: 0.8rem;
 }
 
 .view-toggle-btn.active {
