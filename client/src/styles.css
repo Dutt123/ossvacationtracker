@@ -2034,15 +2034,16 @@ input, select, textarea, button {
 
 .dashboard-table-wrap {
   overflow-x: auto;
-  padding: 12px;
+  padding: 0;
+  flex: 1;
 }
 
 /* Table */
 .dashboard-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 3px;
-  min-width: 700px;
+  border-spacing: 2px;
+  min-width: 500px;
 }
 
 .dash-th {
@@ -2060,8 +2061,9 @@ input, select, textarea, button {
 
 .dash-th.name-col {
   text-align: left;
-  padding-left: 14px;
-  min-width: 160px;
+  padding: 10px 10px 10px 0;
+  width: 190px;
+  min-width: 190px;
 }
 
 .cat-dot {
@@ -2098,14 +2100,12 @@ input, select, textarea, button {
 }
 
 .dash-td.name-col {
-  text-align: left;
-  font-weight: 600;
-  color: #e2e8f0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  width: 190px;
+  min-width: 190px;
+  padding: 4px 0;
   background: rgba(15, 23, 42, 0.6);
   border-color: rgba(0, 212, 255, 0.15);
+  border-radius: 8px;
 }
 
 .dash-avatar {
@@ -2130,8 +2130,9 @@ input, select, textarea, button {
 
 .dash-td.month-cell {
   font-weight: 600;
-  font-size: 12px;
-  min-width: 42px;
+  font-size: 11px;
+  min-width: 36px;
+  padding: 6px 4px;
 }
 
 .dash-th.month-col {
@@ -2626,6 +2627,13 @@ input, select, textarea, button {
   line-height: var(--lh-heading);
 }
 
+.lat-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 /* Segmented control track */
 .lat-toggle {
   position: relative;
@@ -2702,4 +2710,189 @@ input, select, textarea, button {
   pointer-events: none;
   height: 0;
   overflow: hidden;
+}
+
+/* â”€â”€ LeaveAnalyticsTable: sub-headers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.lat-sub-header {
+  padding: 10px 20px;
+  font-size: 0.78rem;
+  font-weight: var(--fw-heading);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: #475569;
+  background: rgba(15, 23, 42, 0.5);
+  border-top: 1px solid rgba(0, 212, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+/* ── Shared layout: name column + content area ────────────────────────────── */
+
+.lat-body {
+  padding: 12px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lat-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 190px;
+  min-width: 190px;
+  max-width: 190px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.lat-name-cell-hovered {
+  color: #00d4ff;
+}
+
+/* ── Stacked horizontal bar chart ─────────────────────────────────────────── */
+
+.lat-chart-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0;
+}
+
+.lat-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.lat-bar-row:hover,
+.lat-bar-row-hovered {
+  background: rgba(0, 212, 255, 0.06);
+}
+
+.lat-bar-track {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+.lat-bar-fill {
+  display: flex;
+  height: 22px;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 2px;
+}
+
+.lat-bar-seg {
+  height: 100%;
+  transition: filter 0.15s ease;
+}
+
+.lat-bar-seg:hover {
+  filter: brightness(1.25);
+}
+
+.lat-bar-total {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: right;
+}
+
+
+/* Tooltip */
+.lat-tooltip {
+  position: absolute;
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.97);
+  border: 1px solid rgba(0, 212, 255, 0.28);
+  border-radius: 10px;
+  padding: 10px 14px;
+  pointer-events: none;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.lat-tooltip-member {
+  font-size: 12px;
+  font-weight: var(--fw-heading);
+  color: #f1f5f9;
+  margin-bottom: 6px;
+}
+
+.lat-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+.lat-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.lat-tooltip-label {
+  flex: 1;
+  color: #64748b;
+}
+
+.lat-tooltip-val {
+  font-weight: var(--fw-heading);
+  color: #e2e8f0;
+}
+
+/* Chart legend */
+.lat-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.lat-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  color: #64748b;
+}
+
+.lat-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Table row highlight (cross-linked with chart) */
+.lat-row-highlighted td {
+  background-color: rgba(0, 212, 255, 0.08) !important;
+  border-color: rgba(0, 212, 255, 0.25) !important;
 }

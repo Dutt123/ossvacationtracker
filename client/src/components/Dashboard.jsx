@@ -32,7 +32,8 @@ function fyLabel(startYear) {
   return `FY${startYear}-${String(startYear + 1).slice(2)}`;
 }
 
-export default function Dashboard({ members, leaves }) {
+export default function Dashboard({ members: rawMembers, leaves }) {
+  const members = useMemo(() => [...rawMembers].sort((a, b) => a.localeCompare(b)), [rawMembers]);
   const currentFY = getFYStart(dayjs());
   const [selectedFY, setSelectedFY] = useState(currentFY);
 
@@ -139,15 +140,6 @@ export default function Dashboard({ members, leaves }) {
         selectedFY={selectedFY}
       />
 
-      {/* Category Legend */}
-      <div className="dashboard-legend">
-        {Object.entries(CATEGORIES).map(([code, color]) => (
-          <div key={code} className="dash-legend-item">
-            <div className="dash-legend-dot" style={{ background: color }} />
-            <span>{code}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
