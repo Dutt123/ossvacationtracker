@@ -52,20 +52,24 @@ const FY_MONTH_LABELS = FY_MONTH_ORDER.map(m => MONTH_LABELS[m]);
 
 // ─── Shared chart defaults ────────────────────────────────────────────────────
 
+const FONT = 'Manrope, sans-serif';
+
 const CHART_DEFAULTS = {
   responsive: true,
   maintainAspectRatio: false,
   animation: { duration: 800, easing: 'easeInOutQuart' },
   plugins: {
     legend: {
-      labels: { color: '#94a3b8', font: { size: 12, family: 'Inter, sans-serif' }, boxWidth: 14, padding: 16 },
+      labels: { color: '#94a3b8', font: { size: 12, family: FONT, weight: '600' }, boxWidth: 14, padding: 16 },
     },
     tooltip: {
       backgroundColor: 'rgba(15,23,42,0.95)',
       borderColor: 'rgba(0,212,255,0.4)',
       borderWidth: 1,
       titleColor: '#f1f5f9',
+      titleFont: { family: FONT, weight: '700', size: 12 },
       bodyColor: '#94a3b8',
+      bodyFont: { family: FONT, weight: '500', size: 12 },
       padding: 12,
       cornerRadius: 10,
     },
@@ -78,9 +82,6 @@ function hexToRgba(hex, alpha) {
   const b = parseInt(hex.slice(5,7),16);
   return `rgba(${r},${g},${b},${alpha})`;
 }
-
-const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const WORKDAY_INDICES = [1, 2, 3, 4, 5]; // Mon–Fri
 
 // ─── Helper calculations ──────────────────────────────────────────────────────
 
@@ -151,21 +152,6 @@ function useAnalytics(members, leaves, excludeFromOnDuty, selectedFY) {
       ).length;
     });
 
-    // --- Per-member totals ---------------------------------------------------
-    const memberTotals = {};
-    const memberCatBreakdown = {};
-    members.forEach(m => {
-      memberTotals[m] = 0;
-      memberCatBreakdown[m] = {};
-      Object.keys(CATEGORIES).forEach(c => { memberCatBreakdown[m][c] = 0; });
-    });
-    fyLeaves.forEach(l => {
-      if (!memberTotals.hasOwnProperty(l.member)) return;
-      memberTotals[l.member]++;
-      if (memberCatBreakdown[l.member][l.category] !== undefined)
-        memberCatBreakdown[l.member][l.category]++;
-    });
-
     // --- Monthly utilisation cards ------------------------------------------
     const monthlyCards = FY_MONTH_ORDER.map(mi => {
       const year = mi >= 6 ? selectedFY : selectedFY + 1;
@@ -203,7 +189,6 @@ function useAnalytics(members, leaves, excludeFromOnDuty, selectedFY) {
       categoryTotals,
       monthlyLeaveTrend,
       monthlyStaffingPct,
-      memberTotals, memberCatBreakdown,
       monthlyCards,
       leaveByDow, dowDayTotals,
     };
@@ -275,12 +260,12 @@ const doughnutLabelPlugin = {
       ctx.save();
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.font = 'bold 11px Manrope, sans-serif';
       ctx.fillStyle = '#f1f5f9';
       ctx.shadowColor = 'rgba(0,0,0,0.8)';
       ctx.shadowBlur = 4;
       ctx.fillText(`${val}`, x, y - 7);
-      ctx.font = '10px Inter, sans-serif';
+      ctx.font = '10px Manrope, sans-serif';
       ctx.fillStyle = '#cbd5e1';
       ctx.fillText(`${pct}%`, x, y + 7);
       ctx.restore();
@@ -313,7 +298,7 @@ function LeaveDistributionChart({ categoryTotals }) {
         position: 'right',
         labels: {
           color: '#cbd5e1',
-          font: { size: 12, family: 'Inter, sans-serif' },
+          font: { size: 12, family: FONT, weight: '600' },
           padding: 14,
           boxWidth: 12,
           usePointStyle: true,
@@ -353,221 +338,117 @@ function LeaveDistributionChart({ categoryTotals }) {
   );
 }
 
-function MonthlyLeaveTrendChart({ monthlyLeaveTrend }) {
-  const data = {
-    labels: FY_MONTH_LABELS,
-    datasets: [{
-      label: 'Total Leave Days',
-      data: monthlyLeaveTrend,
-      borderColor: '#00d4ff',
-      backgroundColor: hexToRgba('#00d4ff', 0.12),
-      pointBackgroundColor: '#00d4ff',
-      pointBorderColor: '#0f172a',
-      pointBorderWidth: 2,
-      pointRadius: 5,
-      pointHoverRadius: 8,
-      fill: true,
-      tension: 0.45,
-      borderWidth: 2.5,
-    }],
-  };
-
-  const options = {
-    ...CHART_DEFAULTS,
-    plugins: {
-      ...CHART_DEFAULTS.plugins,
-      legend: { display: false },
-    },
-    scales: {
-      x: {
-        ticks: { color: '#64748b', font: { size: 11 } },
-        grid: { color: 'rgba(51,65,85,0.5)', drawBorder: false },
-      },
-      y: {
-        ticks: { color: '#64748b', font: { size: 11 }, stepSize: 1 },
-        grid: { color: 'rgba(51,65,85,0.5)', drawBorder: false },
-        beginAtZero: true,
-      },
-    },
-  };
-
-  return (
-    <div style={{ height: 220, position: 'relative' }}>
-      <Line data={data} options={options} />
-    </div>
-  );
-}
-
-function MonthlyStaffingTrendChart({ monthlyStaffingPct }) {
-  const colors = monthlyStaffingPct.map(p =>
-    p >= 75 ? '#22c55e' : '#ef4444'
-  );
+function MonthlyTrendChart({ monthlyLeaveTrend, monthlyStaffingPct }) {
+  const staffingColors = monthlyStaffingPct.map(p => p >= 75 ? '#22c55e' : '#ef4444');
 
   const data = {
     labels: FY_MONTH_LABELS,
     datasets: [
       {
+        label: 'Leave Days',
+        data: monthlyLeaveTrend,
+        borderColor: '#00d4ff',
+        backgroundColor: hexToRgba('#00d4ff', 0.1),
+        pointBackgroundColor: '#00d4ff',
+        pointBorderColor: '#0f172a',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        fill: true,
+        tension: 0.45,
+        borderWidth: 2,
+        yAxisID: 'yLeave',
+      },
+      {
         label: 'Staffing %',
         data: monthlyStaffingPct,
         borderColor: '#22c55e',
-        backgroundColor: hexToRgba('#22c55e', 0.1),
-        pointBackgroundColor: colors,
+        backgroundColor: hexToRgba('#22c55e', 0.06),
+        pointBackgroundColor: staffingColors,
         pointBorderColor: '#0f172a',
         pointBorderWidth: 2,
-        pointRadius: 6,
-        pointHoverRadius: 9,
+        pointRadius: 4,
+        pointHoverRadius: 7,
         fill: true,
         tension: 0.4,
-        borderWidth: 2.5,
+        borderWidth: 2,
+        yAxisID: 'yStaffing',
       },
       {
         label: '75% threshold',
         data: Array(12).fill(75),
-        borderColor: hexToRgba('#f59e0b', 0.6),
-        borderDash: [6, 4],
+        borderColor: hexToRgba('#f59e0b', 0.5),
+        borderDash: [5, 4],
         borderWidth: 1.5,
         pointRadius: 0,
         fill: false,
         tension: 0,
+        yAxisID: 'yStaffing',
       },
     ],
   };
 
   const options = {
     ...CHART_DEFAULTS,
+    interaction: { mode: 'index', intersect: false },
     plugins: {
       ...CHART_DEFAULTS.plugins,
       legend: {
-        ...CHART_DEFAULTS.plugins.legend,
+        display: true,
+        position: 'top',
+        align: 'end',
         labels: {
-          ...CHART_DEFAULTS.plugins.legend.labels,
+          color: '#94a3b8',
+          font: { size: 11, family: FONT, weight: '600' },
+          boxWidth: 10,
+          padding: 12,
+          usePointStyle: true,
           filter: item => item.text !== '75% threshold',
         },
       },
       tooltip: {
         ...CHART_DEFAULTS.plugins.tooltip,
+        mode: 'index',
         callbacks: {
-          label: ctx => ctx.dataset.label === '75% threshold'
-            ? null
-            : ` ${ctx.raw}% staffing`,
+          label: ctx => {
+            if (ctx.dataset.label === '75% threshold') return null;
+            return ctx.dataset.label === 'Staffing %'
+              ? ` Staffing: ${ctx.raw}%`
+              : ` Leave Days: ${ctx.raw}`;
+          },
+          filter: item => item.dataset.label !== '75% threshold',
         },
-        filter: item => item.dataset.label !== '75% threshold',
       },
-      annotation: undefined,
     },
     scales: {
       x: {
         ticks: { color: '#64748b', font: { size: 11 } },
-        grid: { color: 'rgba(51,65,85,0.5)', drawBorder: false },
+        grid: { color: 'rgba(51,65,85,0.4)', drawBorder: false },
       },
-      y: {
-        ticks: {
-          color: '#64748b',
-          font: { size: 11 },
-          callback: v => `${v}%`,
-        },
-        grid: { color: 'rgba(51,65,85,0.5)', drawBorder: false },
+      yLeave: {
+        position: 'left',
+        beginAtZero: true,
+        ticks: { color: '#00d4ff', font: { size: 10 }, stepSize: 1 },
+        grid: { color: 'rgba(51,65,85,0.4)', drawBorder: false },
+        title: { display: true, text: 'Leave Days', color: '#00d4ff', font: { size: 10 } },
+      },
+      yStaffing: {
+        position: 'right',
         min: 0,
         max: 100,
+        ticks: { color: '#22c55e', font: { size: 10 }, callback: v => `${v}%` },
+        grid: { display: false },
+        title: { display: true, text: 'Staffing %', color: '#22c55e', font: { size: 10 } },
       },
     },
   };
 
   return (
-    <div style={{ height: 220, position: 'relative' }}>
+    <div style={{ height: 225, position: 'relative' }}>
       <Line data={data} options={options} />
     </div>
   );
 }
-
-function LeaveBreakdownChart({ members, memberCatBreakdown }) {
-  const sorted = [...members].sort((a, b) =>
-    Object.values(memberCatBreakdown[b] || {}).reduce((s,v)=>s+v,0) -
-    Object.values(memberCatBreakdown[a] || {}).reduce((s,v)=>s+v,0)
-  );
-
-  const labels = sorted.map(m => m.split(' ')[0]);
-  const cats   = Object.keys(CATEGORIES);
-
-  const datasets = cats.map(c => ({
-    label: c,
-    data: sorted.map(m => memberCatBreakdown[m]?.[c] || 0),
-    backgroundColor: hexToRgba(CATEGORIES[c], 0.8),
-    borderColor: CATEGORIES[c],
-    borderWidth: 1,
-    borderRadius: 3,
-    borderSkipped: false,
-  }));
-
-  const data = { labels, datasets };
-
-  const options = {
-    ...CHART_DEFAULTS,
-    indexAxis: 'y',
-    plugins: {
-      ...CHART_DEFAULTS.plugins,
-      legend: {
-        ...CHART_DEFAULTS.plugins.legend,
-        position: 'bottom',
-      },
-      tooltip: {
-        ...CHART_DEFAULTS.plugins.tooltip,
-        mode: 'index',
-        callbacks: {
-          label: ctx => ctx.raw > 0 ? ` ${ctx.dataset.label}: ${ctx.raw}` : null,
-          filter: item => item.raw > 0,
-        },
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        ticks: { color: '#64748b', font: { size: 11 } },
-        grid: { color: 'rgba(51,65,85,0.4)', drawBorder: false },
-        beginAtZero: true,
-      },
-      y: {
-        stacked: true,
-        ticks: { color: '#e2e8f0', font: { size: 12, weight: '600' } },
-        grid: { display: false },
-      },
-    },
-  };
-
-  return (
-    <div style={{ height: Math.max(260, sorted.length * 38 + 60), position: 'relative' }}>
-      <Bar data={data} options={options} />
-    </div>
-  );
-}
-
-// Inline value labels drawn on each stacked segment
-const stackedBarLabelPlugin = {
-  id: 'stackedBarLabels',
-  afterDatasetsDraw(chart) {
-    const { ctx } = chart;
-    chart.data.datasets.forEach((dataset, di) => {
-      const meta = chart.getDatasetMeta(di);
-      if (meta.hidden) return;
-      meta.data.forEach((bar, i) => {
-        const val = dataset.data[i];
-        if (!val) return;
-        const { height } = bar;
-        if (Math.abs(height) < 14) return;
-        const { x, y } = bar.tooltipPosition();
-        ctx.save();
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.fillStyle = 'rgba(255,255,255,0.92)';
-        ctx.shadowColor = 'rgba(0,0,0,0.7)';
-        ctx.shadowBlur = 3;
-        ctx.fillText(String(val), x, y);
-        ctx.restore();
-      });
-    });
-  },
-};
 
 function LeaveByDayOfWeekChart({ leaveByDow, dowDayTotals }) {
   const DAY_LABELS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -609,7 +490,7 @@ function LeaveByDayOfWeekChart({ leaveByDow, dowDayTotals }) {
         position: 'bottom',
         labels: {
           color: '#94a3b8',
-          font: { size: 11, family: 'Inter, sans-serif' },
+          font: { size: 11, family: FONT, weight: '600' },
           boxWidth: 10,
           padding: 14,
           usePointStyle: true,
@@ -771,30 +652,23 @@ export default function DashboardAnalytics({ members, leaves, excludeFromOnDuty 
         avgStaffing={stats.avgStaffing}
       />
 
-      {/* 2+3. Leave Distribution & Monthly Trend – side by side */}
+      {/* 2+3. Leave Distribution & Leave Patterns – side by side */}
       <div className="an-row-2col">
         <AnalyticsSection title="🍩 Leave Type Distribution">
           <LeaveDistributionChart categoryTotals={stats.categoryTotals} />
         </AnalyticsSection>
-        <AnalyticsSection title="📈 Monthly Leave Trend">
-          <MonthlyLeaveTrendChart monthlyLeaveTrend={stats.monthlyLeaveTrend} />
-        </AnalyticsSection>
-      </div>
-
-      {/* 4. Monthly Staffing Trend – full width */}
-      <AnalyticsSection title="🟢 Monthly Staffing Trend">
-        <MonthlyStaffingTrendChart monthlyStaffingPct={stats.monthlyStaffingPct} />
-      </AnalyticsSection>
-
-      {/* 5. Leave by Day of Week + Leave Breakdown – side by side */}
-      <div className="an-row-2col">
         <AnalyticsSection title="📅 Leave Patterns by Day of Week">
           <LeaveByDayOfWeekChart leaveByDow={stats.leaveByDow} dowDayTotals={stats.dowDayTotals} />
         </AnalyticsSection>
-        <AnalyticsSection title="📊 Leave Breakdown by Employee">
-          <LeaveBreakdownChart members={members} memberCatBreakdown={stats.memberCatBreakdown} />
-        </AnalyticsSection>
       </div>
+
+      {/* 4. Monthly Leave & Staffing Trend – combined, full width */}
+      <AnalyticsSection title="📈 Monthly Leave & Staffing Trend">
+        <MonthlyTrendChart
+          monthlyLeaveTrend={stats.monthlyLeaveTrend}
+          monthlyStaffingPct={stats.monthlyStaffingPct}
+        />
+      </AnalyticsSection>
 
       {/* 6. Monthly Utilisation Cards */}
       <AnalyticsSection title="📆 Monthly Calendar Utilisation">
